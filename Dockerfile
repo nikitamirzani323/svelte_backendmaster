@@ -7,7 +7,7 @@ RUN go build -o binary
 # ---- Svelte Base ----
 FROM node:lts-alpine AS totosveltebaseagen
 WORKDIR /svelteapp
-COPY [ "frontend/package.json" , "frontend/yarn.lock" , "frontend/rollup.config.js" , "./"]
+COPY [ "frontend/package.json" , "frontend/yarn.lock" , "./"]
 
 # ---- Svelte Dependencies ----
 FROM totosveltebaseagen AS totosveltedepagen
@@ -24,10 +24,10 @@ RUN yarn build
 FROM alpine:latest as masterclientrelease
 WORKDIR /app
 RUN apk add tzdata
-COPY --from=totosveltebuilderagen /svelteapp/public ./frontend/public
+COPY --from=totosveltebuilderagen /svelteapp/dist ./frontend/dist
 COPY --from=masterclientbuilds /appbuilds/binary .
 COPY --from=masterclientbuilds /appbuilds/.env /app/.env
-ENV PORT=6062
+ENV PORT=5052
 ENV PATH_API="http://128.199.241.112:7073/"
 ENV TZ=Asia/Jakarta
 

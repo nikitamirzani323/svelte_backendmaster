@@ -10,6 +10,7 @@
     export let input_attr = "";
     export let input_id = "";
     export let input_placeholder = "";
+    export let input_maxlength_text = 550;
     export let input_maxlenght = 11;
     export let input_precision = 0;
     export let input_text_class = "";
@@ -56,6 +57,7 @@
             bind:value
             invalid={input_invalid}
             type="text" 
+            maxlength="{input_maxlength_text}"
             id="{input_id}"
             name="{input_id}"
             placeholder="{input_placeholder}"
@@ -68,6 +70,7 @@
                     bind:value
                     invalid={input_invalid}
                     type="text" 
+                    maxlength="{input_maxlength_text}"
                     id="{input_id}"
                     name="{input_id}"
                     placeholder="{input_placeholder}"
@@ -79,6 +82,7 @@
                     bind:value
                     invalid={input_invalid}
                     type="text" 
+                    maxlength="{input_maxlength_text}"
                     id="{input_id}"
                     name="{input_id}"
                     placeholder="{input_placeholder}"

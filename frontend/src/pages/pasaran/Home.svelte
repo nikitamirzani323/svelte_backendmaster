@@ -1294,6 +1294,7 @@
                         input_enabled={true}
                         input_tipe="text"
                         input_text_class="uppercase"
+                        input_maxlength_text="6"
                         input_invalid={$errors.form_pasaran_id_field.length > 0}
                         bind:value={$form.form_pasaran_id_field}
                         input_id="form_pasaran_id_field"
@@ -1323,6 +1324,7 @@
                         input_required={false}
                         input_enabled={true}
                         input_tipe="text"
+                        input_maxlength_text="70"
                         input_text_class="uppercase"
                         input_invalid={$errors.form_pasaran_name_field.length > 0}
                         bind:value={$form.form_pasaran_name_field}

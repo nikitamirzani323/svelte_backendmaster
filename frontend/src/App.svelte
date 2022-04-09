@@ -10,6 +10,7 @@
 	import Log from '../src/pages/log/Log.svelte'
 	import Pasaran from '../src/pages/pasaran/Pasaran.svelte'
 	import Domain from '../src/pages/domain/Domain.svelte'
+	import Company from '../src/pages/company/Company.svelte'
 	import Periode from '../src/pages/periode/Periode.svelte'
 	import Prediksi from '../src/pages/prediksi/Prediksi.svelte'
 	import Report from '../src/pages/report/Report.svelte'
@@ -68,6 +69,12 @@
 						path_api: path_api,
 					},
 					component: Domain,
+				}),
+			"/company": wrap({
+					props: {
+						path_api: path_api,
+					},
+					component: Company,
 				}),
 			"/periode": wrap({
 					props: {
