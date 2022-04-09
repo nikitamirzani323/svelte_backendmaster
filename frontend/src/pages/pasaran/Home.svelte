@@ -398,7 +398,9 @@
                 RefreshHalaman();
             }
         } else {
-            alert(msg_error);
+            if(msg_error != ""){
+                isModalNotif = true
+            }
         }
     }
     const NewData = () => {
@@ -1231,7 +1233,7 @@
                 <tr>
                     <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
                     <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">ID</th>
+                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">ID</th>
                     <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">TIPE</th>
                     <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
                     <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">HARI DIUNDI</th>

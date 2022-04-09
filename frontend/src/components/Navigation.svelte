@@ -47,13 +47,11 @@
             <li><a class="text-sm" href="/">DASBOARD</a></li>
             <li tabindex="0">
               <a class="text-sm">
-                TOGEL
+                COMPANY
                 <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
               </a>
               <ul class="p-2 bg-white">
-                <li><a use:link href="/periode" class="text-sm">PERIODE</a></li>
-                <li><a use:link href="/prediksi" class="text-sm">PREDIKSI</a></li>
-                <li><a use:link href="/report" class="text-sm">REPORT WINLOSE</a></li>
+                <li><a use:link href="/company" class="text-sm">COMPANY</a></li>
               </ul>
             </li>
             <li tabindex="0">
@@ -63,7 +61,7 @@
                 </a>
                 <ul class="p-2 bg-white">
                   <li><a use:link href="/pasaran"  class="text-sm">PASARAN</a></li>
-                  <li><a use:link href="/pasaran"  class="text-sm">DOMAIN</a></li>
+                  <li><a use:link href="/domain"  class="text-sm">DOMAIN</a></li>
                   <li><a use:link href="/log"  class="text-sm">LOG MANAGEMENT</a></li>
                   <li><a use:link href="/admin"  class="text-sm">ADMIN MANAGEMENT</a></li>
                   <li><a use:link href="/adminrule"  class="text-sm">ADMIN RULE</a></li>
