@@ -1,11 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-    export let pasaran_tipe = "";
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_5050special_field = 0;
     export let pasaran_maxbet_5050special_field = 0;
     export let pasaran_keiasganjil_5050special_field = 0;
@@ -195,116 +194,51 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconf5050special", {
+            const res = await fetch(path_api+"api/savepasaran5050special", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_5050special: parseInt(pasaran_minbet_5050special_field),
                     pasaran_maxbet_5050special: parseInt(pasaran_maxbet_5050special_field),
                     pasaran_limitglobal_5050special: parseInt(pasaran_limitglobal_5050special_field),
                     pasaran_limittotal_5050special: parseInt(pasaran_limittotal_5050special_field),
-                    pasaran_keiasganjil_5050special: parseFloat(
-                        pasaran_keiasganjil_5050special_field / 100
-                    ),
-                    pasaran_keiasgenap_5050special: parseFloat(
-                        pasaran_keiasgenap_5050special_field / 100
-                    ),
-                    pasaran_keiasbesar_5050special: parseFloat(
-                        pasaran_keiasbesar_5050special_field / 100
-                    ),
-                    pasaran_keiaskecil_5050special: parseFloat(
-                        pasaran_keiaskecil_5050special_field / 100
-                    ),
-                    pasaran_keikopganjil_5050special: parseFloat(
-                        pasaran_keikopganjil_5050special_field / 100
-                    ),
-                    pasaran_keikopgenap_5050special: parseFloat(
-                        pasaran_keikopgenap_5050special_field / 100
-                    ),
-                    pasaran_keikopbesar_5050special: parseFloat(
-                        pasaran_keikopbesar_5050special_field / 100
-                    ),
-                    pasaran_keikopkecil_5050special: parseFloat(
-                        pasaran_keikopkecil_5050special_field / 100
-                    ),
-                    pasaran_keikepalaganjil_5050special: parseFloat(
-                        pasaran_keikepalaganjil_5050special_field / 100
-                    ),
-                    pasaran_keikepalagenap_5050special: parseFloat(
-                        pasaran_keikepalagenap_5050special_field / 100
-                    ),
-                    pasaran_keikepalabesar_5050special: parseFloat(
-                        pasaran_keikepalabesar_5050special_field / 100
-                    ),
-                    pasaran_keikepalakecil_5050special: parseFloat(
-                        pasaran_keikepalakecil_5050special_field / 100
-                    ),
-                    pasaran_keiekorganjil_5050special: parseFloat(
-                        pasaran_keiekorganjil_5050special_field / 100
-                    ),
-                    pasaran_keiekorgenap_5050special: parseFloat(
-                        pasaran_keiekorgenap_5050special_field / 100
-                    ),
-                    pasaran_keiekorbesar_5050special: parseFloat(
-                        pasaran_keiekorbesar_5050special_field / 100
-                    ),
-                    pasaran_keiekorkecil_5050special: parseFloat(
-                        pasaran_keiekorkecil_5050special_field / 100
-                    ),
-                    pasaran_discasganjil_5050special: parseFloat(
-                        pasaran_discasganjil_5050special_field / 100
-                    ),
-                    pasaran_discasgenap_5050special: parseFloat(
-                        pasaran_discasgenap_5050special_field / 100
-                    ),
-                    pasaran_discasbesar_5050special: parseFloat(
-                        pasaran_discasbesar_5050special_field / 100
-                    ),
-                    pasaran_discaskecil_5050special: parseFloat(
-                        pasaran_discaskecil_5050special_field / 100
-                    ),
-                    pasaran_disckopganjil_5050special: parseFloat(
-                        pasaran_disckopganjil_5050special_field / 100
-                    ),
-                    pasaran_disckopgenap_5050special: parseFloat(
-                        pasaran_disckopgenap_5050special_field / 100
-                    ),
-                    pasaran_disckopbesar_5050special: parseFloat(
-                        pasaran_disckopbesar_5050special_field / 100
-                    ),
-                    pasaran_disckopkecil_5050special: parseFloat(
-                        pasaran_disckopkecil_5050special_field / 100
-                    ),
-                    pasaran_disckepalaganjil_5050special: parseFloat(
-                        pasaran_disckepalaganjil_5050special_field / 100
-                    ),
-                    pasaran_disckepalagenap_5050special: parseFloat(
-                        pasaran_disckepalagenap_5050special_field / 100
-                    ),
-                    pasaran_disckepalabesar_5050special: parseFloat(
-                        pasaran_disckepalabesar_5050special_field / 100
-                    ),
-                    pasaran_disckepalakecil_5050special: parseFloat(
-                        pasaran_disckepalakecil_5050special_field / 100
-                    ),
-                    pasaran_discekorganjil_5050special: parseFloat(
-                        pasaran_discekorganjil_5050special_field / 100
-                    ),
-                    pasaran_discekorgenap_5050special: parseFloat(
-                        pasaran_discekorgenap_5050special_field / 100
-                    ),
-                    pasaran_discekorbesar_5050special: parseFloat(
-                        pasaran_discekorbesar_5050special_field / 100
-                    ),
-                    pasaran_discekorkecil_5050special: parseFloat(
-                        pasaran_discekorkecil_5050special_field / 100
-                    ),
+                    pasaran_keiasganjil_5050special: parseFloat(pasaran_keiasganjil_5050special_field / 100),
+                    pasaran_keiasgenap_5050special: parseFloat(pasaran_keiasgenap_5050special_field / 100),
+                    pasaran_keiasbesar_5050special: parseFloat(pasaran_keiasbesar_5050special_field / 100),
+                    pasaran_keiaskecil_5050special: parseFloat(pasaran_keiaskecil_5050special_field / 100),
+                    pasaran_keikopganjil_5050special: parseFloat(pasaran_keikopganjil_5050special_field / 100),
+                    pasaran_keikopgenap_5050special: parseFloat(pasaran_keikopgenap_5050special_field / 100),
+                    pasaran_keikopbesar_5050special: parseFloat(pasaran_keikopbesar_5050special_field / 100),
+                    pasaran_keikopkecil_5050special: parseFloat(pasaran_keikopkecil_5050special_field / 100),
+                    pasaran_keikepalaganjil_5050special: parseFloat(pasaran_keikepalaganjil_5050special_field / 100),
+                    pasaran_keikepalagenap_5050special: parseFloat(pasaran_keikepalagenap_5050special_field / 100),
+                    pasaran_keikepalabesar_5050special: parseFloat(pasaran_keikepalabesar_5050special_field / 100),
+                    pasaran_keikepalakecil_5050special: parseFloat(pasaran_keikepalakecil_5050special_field / 100),
+                    pasaran_keiekorganjil_5050special: parseFloat(pasaran_keiekorganjil_5050special_field / 100),
+                    pasaran_keiekorgenap_5050special: parseFloat(pasaran_keiekorgenap_5050special_field / 100),
+                    pasaran_keiekorbesar_5050special: parseFloat(pasaran_keiekorbesar_5050special_field / 100),
+                    pasaran_keiekorkecil_5050special: parseFloat(pasaran_keiekorkecil_5050special_field / 100),
+                    pasaran_discasganjil_5050special: parseFloat(pasaran_discasganjil_5050special_field / 100),
+                    pasaran_discasgenap_5050special: parseFloat(pasaran_discasgenap_5050special_field / 100),
+                    pasaran_discasbesar_5050special: parseFloat(pasaran_discasbesar_5050special_field / 100),
+                    pasaran_discaskecil_5050special: parseFloat(pasaran_discaskecil_5050special_field / 100),
+                    pasaran_disckopganjil_5050special: parseFloat(pasaran_disckopganjil_5050special_field / 100),
+                    pasaran_disckopgenap_5050special: parseFloat(pasaran_disckopgenap_5050special_field / 100),
+                    pasaran_disckopbesar_5050special: parseFloat(pasaran_disckopbesar_5050special_field / 100),
+                    pasaran_disckopkecil_5050special: parseFloat(pasaran_disckopkecil_5050special_field / 100),
+                    pasaran_disckepalaganjil_5050special: parseFloat(pasaran_disckepalaganjil_5050special_field / 100),
+                    pasaran_disckepalagenap_5050special: parseFloat(pasaran_disckepalagenap_5050special_field / 100),
+                    pasaran_disckepalabesar_5050special: parseFloat(pasaran_disckepalabesar_5050special_field / 100),
+                    pasaran_disckepalakecil_5050special: parseFloat(pasaran_disckepalakecil_5050special_field / 100),
+                    pasaran_discekorganjil_5050special: parseFloat(pasaran_discekorganjil_5050special_field / 100),
+                    pasaran_discekorgenap_5050special: parseFloat(pasaran_discekorgenap_5050special_field / 100),
+                    pasaran_discekorbesar_5050special: parseFloat(pasaran_discekorbesar_5050special_field / 100),
+                    pasaran_discekorkecil_5050special: parseFloat(pasaran_discekorkecil_5050special_field / 100),
                 }),
             });
             const json = await res.json();
@@ -336,12 +270,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_minbet_5050special_field}
         input_id="pasaran_minbet_5050special_field"
         input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limittotal_5050special_field}
         input_id="pasaran_limittotal_5050special_field"
         input_placeholder="Limit Total"/>
@@ -350,12 +286,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_maxbet_5050special_field}
         input_id="pasaran_maxbet_5050special_field"
         input_placeholder="Max Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitglobal_5050special_field}
         input_id="pasaran_limitglobal_5050special_field"
         input_placeholder="Limit Global"/>
@@ -614,8 +552,6 @@
         input_id="pasaran_discekorkecil_5050special_field"
         input_placeholder="DISC EKOR KECIL(%)"/>
 </div>
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
-{/if}

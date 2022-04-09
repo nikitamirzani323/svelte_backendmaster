@@ -1,11 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-    export let pasaran_tipe = "";
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_cnaga_field = 0;
     export let pasaran_maxbet_cnaga_field = 0;
     export let pasaran_win3_cnaga_field = 0;
@@ -50,16 +49,15 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconfcoloknaga", {
+            const res = await fetch(path_api+"api/savepasarancnaga", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_cnaga: parseInt(pasaran_minbet_cnaga_field),
                     pasaran_maxbet_cnaga: parseInt(pasaran_maxbet_cnaga_field),
                     pasaran_limittotal_cnaga: parseInt(pasaran_limittotal_cnaga_field),
@@ -98,12 +96,14 @@
     <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_minbet_cnaga_field}
             input_id="pasaran_minbet_cnaga_field"
             input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limittotal_cnaga_field}
         input_id="pasaran_limittotal_cnaga_field"
         input_placeholder="Limit Total"/>
@@ -124,12 +124,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_maxbet_cnaga_field}
         input_id="pasaran_maxbet_cnaga_field"
         input_placeholder="Max Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitglobal_cnaga_field}
         input_id="pasaran_limitglobal_cnaga_field"
         input_placeholder="Limit Global"/>
@@ -141,8 +143,6 @@
         input_id="pasaran_win4_cnaga_field"
         input_placeholder="WIN 4 Digit(x)"/>
 </div>
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
-{/if}

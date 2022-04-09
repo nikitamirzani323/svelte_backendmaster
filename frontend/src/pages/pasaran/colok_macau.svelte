@@ -1,11 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-    export let pasaran_tipe = "";
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_cmacau_field = 0;
     export let pasaran_maxbet_cmacau_field = 0;
     export let pasaran_limitotal_cmacau_field = 0;
@@ -55,16 +54,15 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconfcolokmacau", {
+            const res = await fetch(path_api+"api/savepasarancmacau", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_cmacau: parseInt(pasaran_minbet_cmacau_field),
                     pasaran_maxbet_cmacau: parseInt(pasaran_maxbet_cmacau_field),
                     pasaran_limitotal_cmacau: parseInt(pasaran_limitotal_cmacau_field),
@@ -104,12 +102,14 @@
     <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_minbet_cmacau_field}
             input_id="pasaran_minbet_cmacau_field"
             input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitotal_cmacau_field}
         input_id="pasaran_limitotal_cmacau_field"
         input_placeholder="Limit Total"/>
@@ -130,12 +130,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_maxbet_cmacau_field}
         input_id="pasaran_maxbet_cmacau_field"
         input_placeholder="Max Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitglobal_cmacau_field}
         input_id="pasaran_limitglobal_cmacau_field"
         input_placeholder="Limit Global"/>
@@ -156,8 +158,6 @@
         input_id="pasaran_win4_cmacau_field"
         input_placeholder="WIN 4 Digit(x)"/>
 </div>
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
-{/if}

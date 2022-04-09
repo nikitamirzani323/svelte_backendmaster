@@ -1,11 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-    export let pasaran_tipe = "";
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_dasar_field = 0;
     export let pasaran_maxbet_dasar_field = 0;
     export let pasaran_keibesar_dasar_field = 0;
@@ -75,16 +74,15 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconfdasar", {
+            const res = await fetch(path_api+"api/savepasarandasar", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_dasar: parseInt(pasaran_minbet_dasar_field),
                     pasaran_maxbet_dasar: parseInt(pasaran_maxbet_dasar_field),
                     pasaran_limittotal_dasar: parseInt(pasaran_limittotal_dasar_field),
@@ -128,12 +126,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_minbet_dasar_field}
         input_id="pasaran_minbet_dasar_field"
         input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limittotal_dasar_field}
         input_id="pasaran_limittotal_dasar_field"
         input_placeholder="Limit Total"/>
@@ -156,12 +156,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_maxbet_dasar_field}
         input_id="pasaran_maxbet_dasar_field"
         input_placeholder="Max Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitglobal_dasar_field}
         input_id="pasaran_limitglobal_dasar_field"
         input_placeholder="Limit Global"/>
@@ -212,8 +214,6 @@
         input_id="pasaran_discganjil_dasar_field"
         input_placeholder="DISC GANJIL(%)"/>
 </div>
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
-{/if}

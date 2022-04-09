@@ -1736,7 +1736,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cmacau_field}
                     {pasaran_maxbet_cmacau_field}
                     {pasaran_limitotal_cmacau_field}
@@ -1755,7 +1754,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cnaga_field}
                     {pasaran_maxbet_cnaga_field}
                     {pasaran_win3_cnaga_field}
@@ -1773,7 +1771,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_cjitu_field}
                     {pasaran_maxbet_cjitu_field}
                     {pasaran_winas_cjitu_field}
@@ -1867,7 +1864,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050kombinasi_field}
                     {pasaran_maxbet_5050kombinasi_field}
                     {pasaran_belakangkeimono_5050kombinasi_field}
@@ -1912,7 +1908,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_kombinasi_field}
                     {pasaran_maxbet_kombinasi_field}
                     {pasaran_win_kombinasi_field}
@@ -1929,7 +1924,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_dasar_field}
                     {pasaran_maxbet_dasar_field}
                     {pasaran_keibesar_dasar_field}
@@ -1952,7 +1946,6 @@
                     {master}
                     {token}
                     {idpasarantogel}
-                    {pasaran_idpasarantogel_field}
                     {pasaran_minbet_shio_field}
                     {pasaran_maxbet_shio_field}
                     {pasaran_win_shio_field}

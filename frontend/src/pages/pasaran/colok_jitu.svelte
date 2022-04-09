@@ -1,11 +1,10 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
-    export let pasaran_tipe = "";
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_cjitu_field = 0;
     export let pasaran_maxbet_cjitu_field = 0;
     export let pasaran_winas_cjitu_field = 0;
@@ -23,53 +22,52 @@
         msg_error = "";
         if (pasaran_minbet_cjitu_field == "") {
             flag = true;
-            msg_error += "The Min Bet is required\n";
+            msg_error += "The Min Bet is required<br>";
         }
         if (pasaran_maxbet_cjitu_field == "") {
             flag = true;
-            msg_error += "The Max Bet is required\n";
+            msg_error += "The Max Bet is required<br>";
         }
         if (pasaran_limittotal_cjitu_field == "") {
             flag = true;
-            msg_error += "The Limit Total is required\n";
+            msg_error += "The Limit Total is required<br>";
         }
         if (pasaran_limitglobal_cjitu_field == "") {
             flag = true;
-            msg_error += "The Limit Global is required\n";
+            msg_error += "The Limit Global is required<br>";
         }
         if (pasaran_winas_cjitu_field == "") {
             flag = true;
-            msg_error += "The Win AS is required\n";
+            msg_error += "The Win AS is required<br>";
         }
         if (pasaran_winkop_cjitu_field == "") {
             flag = true;
-            msg_error += "The Win KOP is required\n";
+            msg_error += "The Win KOP is required<br>";
         }
         if (pasaran_winkepala_cjitu_field == "") {
             flag = true;
-            msg_error += "The Win KEPALA is required\n";
+            msg_error += "The Win KEPALA is required<br>";
         }
         if (pasaran_winekor_cjitu_field == "") {
             flag = true;
-            msg_error += "The Win EKOR is required\n";
+            msg_error += "The Win EKOR is required<br>";
         }
         if (pasaran_desc_cjitu_field == "") {
             flag = true;
-            msg_error += "The Diskon is required\n";
+            msg_error += "The Diskon is required<br>";
         }
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconfcolokjitu", {
+            const res = await fetch(path_api+"api/savepasarancjitu", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_cjitu: parseInt(pasaran_minbet_cjitu_field),
                     pasaran_maxbet_cjitu: parseInt(pasaran_maxbet_cjitu_field),
                     pasaran_limittotal_cjitu: parseInt(pasaran_limittotal_cjitu_field),
@@ -78,7 +76,7 @@
                     pasaran_winkop_cjitu: parseFloat(pasaran_winkop_cjitu_field),
                     pasaran_winkepala_cjitu: parseFloat(pasaran_winkepala_cjitu_field),
                     pasaran_winekor_cjitu: parseFloat(pasaran_winekor_cjitu_field),
-                    pasaran_desc_cjitu: parseFloat(pasaran_desc_cjitu_field / 100 ),
+                    pasaran_desc_cjitu: parseFloat(pasaran_desc_cjitu_field / 100),
                 }),
             });
             const json = await res.json();
@@ -110,12 +108,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_minbet_cjitu_field}
         input_id="pasaran_minbet_cjitu_field"
         input_placeholder="Minimal Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limittotal_cjitu_field}
         input_id="pasaran_limittotal_cjitu_field"
         input_placeholder="Limit Total"/>
@@ -136,12 +136,14 @@
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_maxbet_cjitu_field}
         input_id="pasaran_maxbet_cjitu_field"
         input_placeholder="Max Bet"/>
     <Input_custom
         input_enabled={true}
         input_tipe="number"
+        input_maxlenght="12"
         bind:value={pasaran_limitglobal_cjitu_field}
         input_id="pasaran_limitglobal_cjitu_field"
         input_placeholder="Limit Global"/>
@@ -171,8 +173,6 @@
         input_id="pasaran_winekor_cjitu_field"
         input_placeholder="WIN EKOR(%)"/>
 </div>
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block">Submit</button>
-{/if}
