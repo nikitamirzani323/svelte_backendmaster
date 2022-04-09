@@ -1,34 +1,44 @@
 <script>
     import Home from "../pasaran/Home.svelte";
+    import Modal_alert from '../../components/Modal_alert.svelte' 
+    import Loader from '../../components/Loader.svelte' 
     export let path_api = ""
     let listHome = [];
     let record = "";
     let totalrecord = 0;
     let token = localStorage.getItem("token");
+    let master = localStorage.getItem("master");
     let akses_page = false;
+    let isModalNotif = false;
+    let msg_error = ""
     async function initapp() {
-        const res = await fetch(path_api+"api/home", {
+        const res = await fetch(path_api+"api/init", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                page: "PASARAN-VIEW",
+                master: master,
+                page: "PASARAN_HOME",
             }),
         });
         const json = await res.json();
         if (json.status === 400) {
             logout();
         } else if (json.status == 403) {
-            alert(json.message);
+            msg_error = json.message;
             akses_page = false;
         } else {
+            initHome();
             akses_page = true;
-            initPasaran();
+        }
+        if(msg_error != ""){
+            isModalNotif = true;
         }
     }
-    async function initPasaran() {
+    async function initHome() {
+        msg_error = "";
         const res = await fetch(path_api+"api/allpasaran", {
             method: "POST",
             headers: {
@@ -36,48 +46,57 @@
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
+                master: master,
             }),
         });
         const json = await res.json();
-        if (json.status == 200) {
-            record = json.record;
-            totalrecord = record.length;
-            if (record != null) {
-                let status_class = "";
-                let active_class = "";
-                for (var i = 0; i < record.length; i++) {
-                    if(record[i]["statuspasaran"] == "ONLINE"){
-                        status_class = "bg-[#FFEB3B] text-black"
-                    }else{
-                        status_class = "bg-[#E91E63] text-white"
+        if (!res.ok) {
+			isModalNotif = true;
+            msg_error = "Maaf Saat Ini Anda Tidak Bisa Mengakses Halaman Ini"
+		}else{
+            if (json.status == 200) {
+                record = json.record;
+                totalrecord = record.length;
+                if (record != null) {
+                    let status_class = "";
+                    let active_class = "";
+                    let no = 0;
+                    for (var i = 0; i < record.length; i++) {
+                        no = ++no;
+                        if(record[i]["statuspasaran"] == "ONLINE"){
+                            status_class = "bg-[#FFEB3B] text-black"
+                        }else{
+                            status_class = "bg-[#E91E63] text-white"
+                        }
+                        if(record[i]["statuspasaranactive"] == "ACTIVE"){
+                            active_class = "bg-[#8BC34A] text-black"
+                        }else{
+                            active_class = "bg-[#E91E63] text-white"
+                        }
+                        listHome = [
+                            ...listHome,
+                            {
+                                home_no: no,
+                                home_id: record[i]["pasaran_idpasarantogel"],
+                                home_nama: record[i]["pasaran_nmpasarantogel"],
+                                home_tipe: record[i]["pasaran_tipepasaran"],
+                                home_url: record[i]["pasaran_urlpasaran"],
+                                home_diundi: record[i]["pasaran_pasarandiundi"],
+                                home_jamtutup: record[i]["pasaran_jamtutup"],
+                                home_jamjadwal: record[i]["pasaran_jamjadwal"],
+                                home_jamopen: record[i]["pasaran_jamopen"],
+                            },
+                        ];
                     }
-                    if(record[i]["statuspasaranactive"] == "ACTIVE"){
-                        active_class = "bg-[#8BC34A] text-black"
-                    }else{
-                        active_class = "bg-[#E91E63] text-white"
-                    }
-                    listHome = [
-                        ...listHome,
-                        {
-                            home_id: record[i]["idcomppasaran"],
-                            home_nama: record[i]["nmpasarantogel"],
-                            home_tipe: record[i]["tipepasaran"],
-                            home_diundi: record[i]["pasarandiundi"],
-                            home_jamtutup: record[i]["jamtutup"],
-                            home_jamjadwal: record[i]["jamjadwal"],
-                            home_jamopen: record[i]["jamopen"],
-                            home_display: record[i]["displaypasaran"],
-                            home_status: record[i]["statuspasaran"],
-                            home_status_class: status_class,
-                            home_active: record[i]["statuspasaranactive"],
-                            home_active_class: active_class,
-                        },
-                    ];
                 }
+            } else {
+                isModalNotif = true;
+                msg_error = "Maaf Sistem Sedang Mengalami Masalah"
             }
-        } else {
-            logout();
         }
+        setTimeout(function () {
+            isModalNotif = false;
+        }, 1000);
     }
     async function logout() {
         localStorage.clear();
@@ -87,7 +106,7 @@
         listHome = [];
         totalrecord = 0;
         setTimeout(function () {
-            initPasaran();
+            initHome();
         }, 1000);
     };
     const handleLogout = (e) => {
@@ -101,6 +120,12 @@
         on:handleLogout={handleLogout}
         {path_api}
         {token}
+        {master}
         {listHome}
         {totalrecord}/>
 {/if}
+<input type="checkbox" id="my-modal-notiffirst" class="modal-toggle" bind:checked={isModalNotif}>
+<Modal_alert 
+    modal_tipe="notifikasi" modal_id="my-modal-notiffirst" 
+    modal_title="Information" modal_message="{msg_error}"  />
+ 

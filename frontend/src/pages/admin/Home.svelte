@@ -42,7 +42,7 @@
             .string()
             .required("Username is Required")
             .matches(
-                /^[a-zA-z0-9]+$/,
+                /^[a-zA-Z0-9]+$/,
                 "Username must Character A-Z or a-z or 1-9"
             )
             .min(4, "Username must be at least 4 Character")

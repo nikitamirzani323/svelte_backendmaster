@@ -2,11 +2,11 @@
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
 
-    export let pasaran_tipe = "";
+  
     export let path_api = "";
+    export let master = "";
     export let token = "";
-    export let idcomppasaran = "";
-    export let pasaran_idpasarantogel_field = "";
+    export let idpasarantogel = "";
     export let pasaran_minbet_432d_field = 0;
     export let pasaran_maxbet4d_432d_field = 0;
     export let pasaran_maxbet3d_432d_field = 0;
@@ -38,12 +38,12 @@
     export let pasaran_win2d_432d_field = 0;
     export let pasaran_win2dd_432d_field = 0;
     export let pasaran_win2dt_432d_field = 0;
-    export let pasaran_win4dnodisc_432d_field = 0;
-    export let pasaran_win3dnodisc_432d_field = 0;
-    export let pasaran_win3ddnodisc_432d_field = 0;
-    export let pasaran_win2dnodisc_432d_field = 0;
-    export let pasaran_win2ddnodisc_432d_field = 0;
-    export let pasaran_win2dtnodisc_432d_field = 0;
+    export let pasaran_win4d_nodisc_432d_field = 0;
+    export let pasaran_win3d_nodisc_432d_field = 0;
+    export let pasaran_win3dd_nodisc_432d_field = 0;
+    export let pasaran_win2d_nodisc_432d_field = 0;
+    export let pasaran_win2dd_nodisc_432d_field = 0;
+    export let pasaran_win2dt_nodisc_432d_field = 0;
     export let pasaran_win4d_bb_kena_432d_field = 0;
     export let pasaran_win3d_bb_kena_432d_field = 0;
     export let pasaran_win3dd_bb_kena_432d_field = 0;
@@ -66,7 +66,7 @@
     async function save432d() {
         let flag = false;
         msg_error = "";
-        if (isNaN(pasaran_minbet_432d_field)) {
+        if (pasaran_minbet_432d_field == "") {
             flag = true;
             msg_error += "The Min Bet is required<br>";
         }
@@ -166,6 +166,30 @@
             flag = true;
             msg_error += "The Win 2DT is required<br>";
         }
+        if (pasaran_win4d_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 4D FULL is required<br>";
+        }
+        if (pasaran_win3d_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 3D FULL is required<br>";
+        }
+        if (pasaran_win3dd_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 3DD FULL is required<br>";
+        }
+        if (pasaran_win2d_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 2D FULL is required<br>";
+        }
+        if (pasaran_win2dd_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 2DD FULL is required<br>";
+        }
+        if (pasaran_win2dt_nodisc_432d_field == "") {
+            flag = true;
+            msg_error += "The Win 2DT FULL is required<br>";
+        }
         if (pasaran_win4d_bb_kena_432d_field == "") {
             flag = true;
             msg_error += "The Win 4D BB KENA is required<br>";
@@ -241,16 +265,15 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaranconf432", {
+            const res = await fetch(path_api+"api/savepasaran432", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
-                    idpasaran: idcomppasaran,
-                    page: "PASARAN-SAVE",
-                    idpasarantogel: pasaran_idpasarantogel_field,
+                    master: master,
+                    idrecord: idpasarantogel,
                     pasaran_minbet_432d: parseInt(pasaran_minbet_432d_field),
                     pasaran_maxbet4d_432d: parseInt(pasaran_maxbet4d_432d_field),
                     pasaran_maxbet3d_432d: parseInt(pasaran_maxbet3d_432d_field),
@@ -276,12 +299,12 @@
                     pasaran_win2d_432d: parseInt(pasaran_win2d_432d_field),
                     pasaran_win2dd_432d: parseInt(pasaran_win2dd_432d_field),
                     pasaran_win2dt_432d: parseInt(pasaran_win2dt_432d_field),
-                    pasaran_win4dnodisc_432d: parseInt(pasaran_win4dnodisc_432d_field),
-                    pasaran_win3dnodisc_432d: parseInt(pasaran_win3dnodisc_432d_field),
-                    pasaran_win3ddnodisc_432d: parseInt(pasaran_win3ddnodisc_432d_field),
-                    pasaran_win2dnodisc_432d: parseInt(pasaran_win2dnodisc_432d_field),
-                    pasaran_win2ddnodisc_432d: parseInt(pasaran_win2ddnodisc_432d_field),
-                    pasaran_win2dtnodisc_432d: parseInt(pasaran_win2dtnodisc_432d_field),
+                    pasaran_win4dnodisc_432d: parseInt(pasaran_win4d_nodisc_432d_field),
+                    pasaran_win3dnodisc_432d: parseInt(pasaran_win3d_nodisc_432d_field),
+                    pasaran_win3ddnodisc_432d: parseInt(pasaran_win3dd_nodisc_432d_field),
+                    pasaran_win2dnodisc_432d: parseInt(pasaran_win2d_nodisc_432d_field),
+                    pasaran_win2ddnodisc_432d: parseInt(pasaran_win2dd_nodisc_432d_field),
+                    pasaran_win2dtnodisc_432d: parseInt(pasaran_win2dt_nodisc_432d_field),
                     pasaran_win4d_bb_kena_432d: parseInt(pasaran_win4d_bb_kena_432d_field),
                     pasaran_win3d_bb_kena_432d: parseInt(pasaran_win3d_bb_kena_432d_field),
                     pasaran_win3dd_bb_kena_432d: parseInt(pasaran_win3dd_bb_kena_432d_field),
@@ -299,7 +322,7 @@
                     pasaran_disc3dd_432d: parseFloat(pasaran_disc3dd_432d_field / 100),
                     pasaran_disc2d_432d: parseFloat(pasaran_disc2d_432d_field / 100),
                     pasaran_disc2dd_432d: parseFloat(pasaran_disc2dd_432d_field / 100),
-                    pasaran_disc2dt_432d: parseFloat( pasaran_disc2dt_432d_field / 100),
+                    pasaran_disc2dt_432d: parseFloat(pasaran_disc2dt_432d_field / 100),
                 }),
             });
             const json = await res.json();
@@ -357,6 +380,7 @@
         <Input_custom
                 input_enabled={true}
                 input_tipe="number"
+                input_maxlenght="12"
                 bind:value={pasaran_minbet_432d_field}
                 input_id="pasaran_minbet_432d_field"
                 input_placeholder="Minimal Bet"/>
@@ -364,18 +388,21 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet4d_432d_field}
             input_id="pasaran_maxbet4d_432d_field"
             input_placeholder="Max Bet 4D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal4d_432d_field}
             input_id="pasaran_limitotal4d_432d_field"
             input_placeholder="Limit Total 4D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal4d_432d_field}
             input_id="pasaran_limitotal4d_432d_field"
             input_placeholder="Limit Global 4D"/>
@@ -383,18 +410,21 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet3d_432d_field}
             input_id="pasaran_maxbet3d_432d_field"
             input_placeholder="Max Bet 3D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal3d_432d_field}
             input_id="pasaran_limitotal3d_432d_field"
             input_placeholder="Limit Total 3D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal3d_432d_field}
             input_id="pasaran_limitglobal3d_432d_field"
             input_placeholder="Limit Global 3D"/>
@@ -402,18 +432,21 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet3dd_432d_field}
             input_id="pasaran_maxbet3dd_432d_field"
             input_placeholder="Max Bet 3DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal3dd_432d_field}
             input_id="pasaran_limitotal3dd_432d_field"
             input_placeholder="Limit Total 3DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal3dd_432d_field}
             input_id="pasaran_limitglobal3dd_432d_field"
             input_placeholder="Limit Global 3DD"/>
@@ -421,18 +454,21 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet2d_432d_field}
             input_id="pasaran_maxbet2d_432d_field"
             input_placeholder="Max Bet 2D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal2d_432d_field}
             input_id="pasaran_limitotal2d_432d_field"
             input_placeholder="Limit Total 2D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal2d_432d_field}
             input_id="pasaran_limitglobal2d_432d_field"
             input_placeholder="Limit Global 2D"/>
@@ -441,42 +477,46 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet2dd_432d_field}
             input_id="pasaran_maxbet2dd_432d_field"
             input_placeholder="Max Bet 2DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal2dd_432d_field}
             input_id="pasaran_limitotal2dd_432d_field"
             input_placeholder="Limit Total 2DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal2dd_432d_field}
-            input_id="pasaran_limitotal2dd_432d_field"
+            input_id="pasaran_limitglobal2dd_432d_field"
             input_placeholder="Limit Global 2DD"/>
         
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_maxbet2dt_432d_field}
             input_id="pasaran_maxbet2dt_432d_field"
             input_placeholder="Max Bet 2DT"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitotal2dt_432d_field}
             input_id="pasaran_limitotal2dt_432d_field"
             input_placeholder="Limit Total 2DT"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="12"
             bind:value={pasaran_limitglobal2dt_432d_field}
             input_id="pasaran_limitglobal2dt_432d_field"
             input_placeholder="Limit Global 2DT"/>
-        
-        
     </div>
 {/if}
 {#if panel_conf_2}
@@ -484,26 +524,30 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win4d_432d_field}
             input_id="pasaran_win4d_432d_field"
             input_placeholder="WIN 4D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win4dnodisc_432d_field}
-            input_id="pasaran_win4dnodisc_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win4d_nodisc_432d_field}
+            input_id="pasaran_win4d_nodisc_432d_field"
             input_placeholder="WIN 4D FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win4d_bb_kena_432d_field}
             input_id="pasaran_win4d_bb_kena_432d_field"
             input_placeholder="WIN 4D BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win4d_bb_432d_field}
-            input_id="pasaran_win4d_bb_kena_432d_field"
+            input_id="pasaran_win4d_bb_432d_field"
             input_placeholder="WIN 4D BB(x)"/>
         <Input_custom
             input_enabled={true}
@@ -517,24 +561,28 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3d_432d_field}
             input_id="pasaran_win3d_432d_field"
             input_placeholder="WIN 3D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win3dnodisc_432d_field}
-            input_id="pasaran_win3d_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win3d_nodisc_432d_field}
+            input_id="pasaran_win3d_nodisc_432d_field"
             input_placeholder="WIN 3D FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3d_bb_kena_432d_field}
             input_id="pasaran_win3d_bb_kena_432d_field"
             input_placeholder="WIN 3D BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3d_bb_432d_field}
             input_id="pasaran_win3d_bb_432d_field"
             input_placeholder="WIN 3D BB(x)"/>
@@ -550,24 +598,28 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3dd_432d_field}
             input_id="pasaran_win3dd_432d_field"
             input_placeholder="WIN 3DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win3ddnodisc_432d_field}
-            input_id="pasaran_win3ddnodisc_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win3dd_nodisc_432d_field}
+            input_id="pasaran_win3dd_nodisc_432d_field"
             input_placeholder="WIN 3DD FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3dd_bb_kena_432d_field}
             input_id="pasaran_win3dd_bb_kena_432d_field"
             input_placeholder="WIN 3DD BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win3dd_bb_432d_field}
             input_id="pasaran_win3dd_bb_432d_field"
             input_placeholder="WIN 3DD BB(x)"/>
@@ -583,24 +635,28 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2d_432d_field}
             input_id="pasaran_win2d_432d_field"
             input_placeholder="WIN 2D"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win2dnodisc_432d_field}
-            input_id="pasaran_win2dnodisc_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win2d_nodisc_432d_field}
+            input_id="pasaran_win2d_nodisc_432d_field"
             input_placeholder="WIN 2D FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2d_bb_kena_432d_field}
             input_id="pasaran_win2d_bb_kena_432d_field"
             input_placeholder="WIN 2D BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2d_bb_432d_field}
             input_id="pasaran_win2d_bb_432d_field"
             input_placeholder="WIN 2D BB(x)"/>
@@ -616,24 +672,28 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dd_432d_field}
             input_id="pasaran_win2dd_432d_field"
             input_placeholder="WIN 2DD"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win2ddnodisc_432d_field}
-            input_id="pasaran_win2dd_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win2dd_nodisc_432d_field}
+            input_id="pasaran_win2dd_nodisc_432d_field"
             input_placeholder="WIN 2DD FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dd_bb_kena_432d_field}
             input_id="pasaran_win2dd_bb_kena_432d_field"
             input_placeholder="WIN 2DD BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dd_bb_432d_field}
             input_id="pasaran_win2dd_bb_432d_field"
             input_placeholder="WIN 2DD BB(x)"/>
@@ -649,24 +709,28 @@
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dt_432d_field}
             input_id="pasaran_win2dt_432d_field"
             input_placeholder="WIN 2DT"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
-            bind:value={pasaran_win2dtnodisc_432d_field}
-            input_id="pasaran_win2dtnodisc_432d_field"
+            input_maxlenght="4"
+            bind:value={pasaran_win2dt_nodisc_432d_field}
+            input_id="pasaran_win2dt_nodisc_432d_field"
             input_placeholder="WIN 2DT FULL(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dt_bb_kena_432d_field}
             input_id="pasaran_win2dt_bb_kena_432d_field"
             input_placeholder="WIN 2DT BB - KENA(x)"/>
         <Input_custom
             input_enabled={true}
             input_tipe="number"
+            input_maxlenght="4"
             bind:value={pasaran_win2dt_bb_432d_field}
             input_id="pasaran_win2dt_bb_432d_field"
             input_placeholder="WIN 2DT BB(x)"/>
@@ -679,8 +743,6 @@
             input_placeholder="DISC 2DT(%)"/>
     </div>
 {/if}
-{#if pasaran_tipe != "WAJIB"}
 <button on:click={() => {
     save432d();
 }} class="{buttonLoading_class} btn-block ">Submit</button>
-{/if}

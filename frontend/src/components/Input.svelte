@@ -12,7 +12,8 @@
     export let input_placeholder = "";
     export let input_maxlenght = 11;
     export let input_precision = 0;
-    let input_class = "peer w-full rounded px-3 text-sm lg:text-lg  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
+    export let input_text_class = "";
+    let input_class = "peer "+input_text_class+" w-full rounded px-3 text-sm lg:text-lg  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
     let input_datetime_class = "peer w-full text-sm lg:text-lg text-center rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
     let input_number_class = "peer w-full text-sm lg:text-lg text-right rounded px-3  border border-gray-300  focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none placeholder-transparent";
     let show_eye = true;
@@ -331,6 +332,7 @@
                 type="text" 
                 id="{input_id}"
                 name="{input_id}"
+                maxlength="{input_maxlenght}"
                 placeholder="{input_placeholder}"
                 autocomplete="off"
                 class="{input_number_class}"> 
