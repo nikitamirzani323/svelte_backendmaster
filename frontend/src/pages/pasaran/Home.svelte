@@ -1197,6 +1197,9 @@
                 (item) =>
                     item.home_nama
                         .toLowerCase()
+                        .includes(searchHome.toLowerCase()) ||
+                    item.home_tipe
+                        .toLowerCase()
                         .includes(searchHome.toLowerCase())
             );
         } else {
@@ -1220,7 +1223,7 @@
         </div>
         <input 
             bind:value={searchHome}
-            type="text" placeholder="Search by Pasaran" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
+            type="text" placeholder="Search by Pasaran, Tipe" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
     </slot:template>
     <slot:template slot="panel_body">
         <table class="table table-compact w-full">
