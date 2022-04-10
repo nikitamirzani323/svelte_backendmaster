@@ -16,24 +16,31 @@
 
     let page = "Company";
     let sData = "New";
+    let sDataAdmin = "New";
     let isModal_Form_New = false
+    let isModal_Form_admin = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
+    let modal_listadmin_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
-    let buttonLoading2_class = "btn btn-primary"
     let msg_error = "";
     let home_status_field = "";
     let home_create_field = "";
     let home_update_field = "";
+    let idcompany = "";
+    let listAdmin = [];
+    let totalrecordadmin = 0;
     let tab_listadmin = "bg-sky-600 text-white"
     let tab_listpasaran = ""
     let panel_listadmin = true
     let panel_listpasaran = false
     let searchHome = "";
+    let searchListAdmin = "";
     let filterHome = [];
+    let filterListAdmin = [];
 
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
@@ -72,6 +79,7 @@
             SaveTransaksi(values.home_id_field,values.home_name_field,values.home_url_field);
         },
     });
+    
     async function SaveTransaksi(idcomp,namecomp,urlcomp) {
         let flag = true;
         msg_error = "";
@@ -122,52 +130,13 @@
             alert(msg_error);
         }
     }
-    async function Updateconfig() {
-        let flag = false;
-        msg_error = "";
-        if (adminrule_rule_field == "") {
-            flag = true;
-            msg_error += "The List is required\n";
-        }
-        if (flag == false) {
-            buttonLoading2_class = "btn loading"
-            loader_class = "inline-block"
-            loader_msg = "Sending..."
-            const res = await fetch(path_api+"api/saveadminruleconf", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + token,
-                },
-                body: JSON.stringify({
-                    sdata: sData,
-                    page: "ADMINRULE-SAVE",
-                    idrule: adminrule_id,
-                    rule: adminrule_rule_field.toString(),
-                }),
-            });
-            const json = await res.json();
-            if (json.status == 200) {
-                loader_msg = json.message;
-            } else if (json.status == 403) {
-                loader_msg = json.message;;
-            } else {
-                loader_msg = json.message;
-            }
-            buttonLoading2_class = "btn btn-primary"
-            setTimeout(function () {
-                loader_class = "hidden";
-            }, 1000);
-        } else {
-            alert(msg_error);
-        }
-    }
     async function EditData(e) {
         if(e != ""){
             isModalLoading = true;
-            modal_width = "max-w-4xl";
+            modal_width = "max-w-5xl";
             sData = "Edit";
             clearField();
+            idcompany = e;
             $form.home_id_field = e;
             const res = await fetch(path_api+"api/companydetail", {
                 method: "POST",
@@ -197,12 +166,57 @@
                     home_create_field = record[i]["company_create"];
                     home_update_field = record[i]["company_update"];
                 }
+                call_listadmin();
             }else{
                 isModalLoading = false;
                 isModalNotif = true;
                 msg_error = "Silahkan Hubungi Administrator"
             }
         }
+    }
+    async function call_listadmin() {
+        const res = await fetch(path_api+"api/companylistadmin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                sData: "New",
+                page: "COMPANY_HOME",
+                company: idcompany,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                totalrecordadmin = record.length;
+                let company_admin_status_class = "";
+                for (var i = 0; i < record.length; i++) {
+                    if(record[i]["company_admin_status"] == "ACTIVE"){
+                        company_admin_status_class = "bg-[#8BC34A] text-black"
+                    }else{
+                        company_admin_status_class = "bg-red-600 text-white"
+                    }
+                    listAdmin = [
+                        ...listAdmin,
+                        {
+                            company_admin_username:record[i]["company_admin_username"],
+                            company_admin_typeadmin:record[i]["company_admin_typeadmin"],
+                            company_admin_nama: record[i]["company_admin_nama"],
+                            company_admin_status:record[i]["company_admin_status"],
+                            company_admin_status_class:company_admin_status_class,
+                            company_admin_lastlogin:record[i]["company_admin_lastlogin"],
+                            company_admin_lastipaddres:record[i]["company_admin_lastipaddres"],
+                            company_admin_create:record[i]["company_admin_create"],
+                            company_admin_update:record[i]["company_admin_update"],
+                        },
+                    ];
+                }
+            }
+        } 
     }
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
@@ -212,6 +226,12 @@
         clearField()
         modal_width = "max-w-xl"
         isModal_Form_New = true;
+    };
+    const NewDataAdmin = () => {
+        sDataAdmin = "New";
+        clearField()
+        modal_listadmin_width = "max-w-xl"
+        isModal_Form_admin = true;
     };
     const ChangeTabMenu = (e) => {
         switch(e){
@@ -231,6 +251,7 @@
     }
    
     function clearField(){
+        idcompany = "";
         $form.home_id_field = "";
         $form.home_name_field = "";
         $form.home_url_field = "";
@@ -241,6 +262,7 @@
         tab_listpasaran = ""
         panel_listadmin = true
         panel_listpasaran = false
+        listAdmin = [];
     }
     
     $: {
@@ -253,6 +275,17 @@
             );
         } else {
             filterHome = [...listHome];
+        }
+
+        if (searchListAdmin) {
+            filterListAdmin = listAdmin.filter(
+                (item) =>
+                    item.company_admin_username
+                        .toLowerCase()
+                        .includes(searchListAdmin.toLowerCase())
+            );
+        } else {
+            filterListAdmin = [...listAdmin];
         }
     }
 </script>
@@ -394,8 +427,8 @@
             </div>
         {/if}
         {#if sData=="Edit"}
-            <div class="flex justify-between  gap-2">
-                <div class="w-full">
+            <div class="flex justify-between w-full gap-2">
+                <div class="w-1/2">
                     <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
                         <div class="mt-2">
                             <Input_custom
@@ -463,13 +496,74 @@
                             }}
                             class="items-center {tab_listpasaran} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Pasaran</li>
                     </ul>
-                    
+                    {#if panel_listadmin}
+                        <h2 class="text-lg font-bold">List Admin</h2>
+                        <div class="flex justify-between items-center w-full gap-1">
+                            <input 
+                                bind:value={searchListAdmin}
+                                type="text" placeholder="Search by Username" class="input input-bordered w-full  rounded-md  focus:ring-0 focus:outline-none">
+                            <button on:click={() => {
+                                NewDataAdmin();
+                                }}  class="btn bg-primary hover:bg-primary  rounded-md shadow-lg shadow-[#6eb5d8] border-none  ">New</button>
+                        </div>
+                        <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
+                            <table class="table table-compact w-full">
+                                <thead class="sticky top-0">
+                                    <tr>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">TYPE</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTLOGIN</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTIPADDRESS</th>
+                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {#if filterListAdmin != ""}
+                                        {#each filterListAdmin as rec}
+                                            <tr>
+                                                <td class="text-xs text-center align-top">
+                                                    <span class="{rec.company_admin_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_admin_status}</span>
+                                                </td>
+                                                <td class="text-xs text-left align-top">{rec.company_admin_typeadmin}</td>
+                                                <td class="text-xs text-center align-top">{rec.company_admin_lastlogin}</td>
+                                                <td class="text-xs text-center align-top">{rec.company_admin_lastipaddres}</td>
+                                                <td class="text-xs text-left align-top">{rec.company_admin_username}</td>
+                                            </tr>
+                                        {/each}
+                                    {:else}
+                                        <tr>
+                                            <td colspan="5" class="text-xs">No Records</td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-[#F7F7F7] rounded-sm h-10 p-2">
+                            <table class=" w-full">
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL RECORD</td>
+                                    <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(totalrecordadmin)}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    {/if}
                 </div>
             </div>
         {/if}
     </slot:template>
 </Modal_popup>
 
+<input type="checkbox" id="my-modal-formpasaran" class="modal-toggle" bind:checked={isModal_Form_admin}>
+<Modal_popup
+    modal_popup_id="my-modal-formpasaran"
+    modal_popup_title="Admin Entry/{sDataAdmin}"
+    modal_popup_class="select-none w-11/12 {modal_listadmin_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    <slot:template slot="modalpopup_body">
+        <div class="flex flex-col">
+            
+        </div>
+    </slot:template>
+</Modal_popup>
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 
