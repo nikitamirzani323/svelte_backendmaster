@@ -32,7 +32,10 @@
     let home_update_field = "";
     let idcompany = "";
     let listAdmin = [];
+    let listPasaran = [];
     let totalrecordadmin = 0;
+    let totalpasaran = 0;
+    let totalpasaran_class = "";
     let tab_listadmin = "bg-sky-600 text-white"
     let tab_listpasaran = ""
     let panel_listadmin = true
@@ -229,6 +232,71 @@
             }
         } 
     }
+    async function call_listpasaran() {
+        listPasaran = [];
+        const res = await fetch(path_api+"api/companylistpasaran", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                sData: "New",
+                page: "COMPANY_HOME",
+                company: idcompany,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                totalrecordadmin = record.length;
+                totalpasaran = 0;
+                for (var i = 0; i < record.length; i++) {
+                    let selisihwinlose_class = ""
+                    let status_class = ""
+                    let statusactive_class = ""
+                    if (record[i]["company_pasaran_winlose"] > 0) {
+                        selisihwinlose_class = "text-blue-700";
+                    } else {
+                        selisihwinlose_class = "text-red-500";
+                    }
+                    if(record[i]["company_pasaran_status"] == "ONLINE"){
+                        status_class = "bg-[#8BC34A] text-black"
+                    }else{
+                        status_class = "bg-red-600 text-white"
+                    }
+                    if(record[i]["company_pasaran_statuspasaranactive"] == "Y"){
+                        statusactive_class = "bg-[#8BC34A] text-black"
+                    }else{
+                        statusactive_class = "bg-red-600 text-white"
+                    }
+                    totalpasaran = totalpasaran + parseInt(record[i]["company_pasaran_winlose"])
+                    listPasaran = [
+                        ...listPasaran,
+                        {
+                            company_pasaran_idcomppasaran:record[i]["company_pasaran_idcomppasaran"],
+                            company_pasaran_idpasarantogel:record[i]["company_pasaran_idpasarantogel"],
+                            company_pasaran_nmpasarantogel:record[i]["company_pasaran_nmpasarantogel"],
+                            company_pasaran_periode:record[i]["company_pasaran_periode"],
+                            company_pasaran_winlose:record[i]["company_pasaran_winlose"],
+                            company_pasaran_csswinlose:selisihwinlose_class,
+                            company_pasaran_displaypasaran:record[i]["company_pasaran_displaypasaran"],
+                            company_pasaran_status:record[i]["company_pasaran_status"],
+                            company_pasaran_statuscss:status_class,
+                            company_pasaran_statuspasaranactive:record[i]["company_pasaran_statuspasaranactive"],
+                            company_pasaran_statuspasaranactivecss:statusactive_class,
+                        },
+                    ];
+                }
+                totalpasaran_class = "text-red-600 font-semibold"
+                if(totalpasaran > 0){
+                    totalpasaran_class = "text-blue-700 font-semibold"
+                }
+            }
+        }
+    }
     async function handleSaveAdmin() {
         let flag = false;
         msg_error = "";
@@ -359,6 +427,7 @@
                 panel_listpasaran = false
                 break;
             case "menu_listpasaran":
+                call_listpasaran();
                 tab_listadmin = ""
                 tab_listpasaran = "bg-sky-600 text-white"
                 panel_listadmin = false
@@ -675,6 +744,58 @@
                                 <tr>
                                     <td class="text-xs font-semibold text-left align-top">TOTAL RECORD</td>
                                     <td class="text-xs font-semibold text-right align-top text-blue-700">{new Intl.NumberFormat().format(totalrecordadmin)}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    {/if}
+                    {#if panel_listpasaran}
+                        <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
+                            <table class="table table-compact w-full">
+                                <thead class="sticky top-0">
+                                    <tr>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                        <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PASARAN</th>
+                                        <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERIODE</th>
+                                        <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WINLOSE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {#if listPasaran != ""}
+                                        {#each listPasaran as rec}
+                                            <tr>
+                                                <td class="cursor-pointer" on:click={() => {
+                                                        NewDataAdmin("Edit",rec.company_admin_username,rec.company_admin_nama,rec.company_admin_status);
+                                                    }}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </td>
+                                                <td class="text-xs text-center align-top">
+                                                    <span class="{rec.company_pasaran_statuscss} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_pasaran_status}</span>
+                                                </td>
+                                                <td class="text-xs text-center align-top">
+                                                    <span class="{rec.company_pasaran_statuspasaranactivecss} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_pasaran_statuspasaranactive}</span>
+                                                </td>
+                                                <td class="text-xs text-left align-top">{rec.company_pasaran_nmpasarantogel}</td>
+                                                <td class="text-xs text-left align-top">{rec.company_pasaran_periode}</td>
+                                                <td class="text-xs text-right align-top {rec.company_pasaran_csswinlose} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_winlose)}</td>
+                                            </tr>
+                                        {/each}
+                                    {:else}
+                                        <tr>
+                                            <td colspan="6" class="text-xs">No Records</td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-[#F7F7F7] rounded-sm h-10 p-2">
+                            <table class=" w-full">
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL WINLOSE</td>
+                                    <td class="text-xs font-semibold text-right align-top {totalpasaran_class}">{new Intl.NumberFormat().format(totalpasaran)}</td>
                                 </tr>
                             </table>
                         </div>
