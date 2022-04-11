@@ -26,9 +26,11 @@
     let modal_width = "max-w-xl"
     let modal_listadmin_width = "max-w-xl"
     let modal_listpasaran_width = "max-w-xl"
+    let modalpasaran_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
+    let buttonLoading2_class  = "btn btn-primary"
     let msg_error = "";
     let home_status_field = "";
     let home_create_field = "";
@@ -51,8 +53,6 @@
     let panel_listpasaran_limit = true
     let panel_listpasaran_online = false
     let panel_listpasaran_configure = false
-    
-
 
     let searchHome = "";
     let searchListAdmin = "";
@@ -78,6 +78,7 @@
     let pasaran_jamjadwal_field = "";
     let pasaran_jamopen_field = "";
     let pasaran_status_field = "";
+    let select_pasaranonline = "";
 
     let pasaran_limitline4d_field = 0;
     let pasaran_limitline3d_field = 0;
@@ -277,6 +278,17 @@
     let pasaran_limitglobal_shio_field = 0;
     let pasaran_limittotal_shio_field = 0;
 
+    let panel_432D = false
+    let panel_cbebas = false
+    let panel_cmacau = false
+    let panel_cnaga = false
+    let panel_cjitu = false
+    let panel_5050umum = false
+    let panel_5050special = false
+    let panel_5050kombinasi = false
+    let panel_macaukombinasi = false
+    let panel_dasar = false
+    let panel_shio = false
 
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
@@ -749,6 +761,7 @@
         }
     }
     async function call_listpasaranonline() {
+        listPasaranonline = [];
         const res = await fetch(path_api+"api/companypasaranonline", {
             method: "POST",
             headers: {
@@ -1079,6 +1092,74 @@
             }
         }
     }
+    async function savePasaranOnline() {
+        let flag = false;
+        msg_error = "";
+        if (select_pasaranonline == "" || select_pasaranonline == null) {
+            flag = true;
+            msg_error += "The Pasaran Online is required";
+        }
+        if (flag == false) {
+            buttonLoading2_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/savecompanypasaranonline", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    master: master,
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_hari: select_pasaranonline,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading2_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listpasaranconf()
+                call_listpasaranonline()
+            }
+        } else {
+            alert(msg);
+        }
+    }
+    async function removeharionline(e) {
+        const res = await fetch(path_api+"api/deletecompanypasaranonline", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                company: idcompany,
+                companypasaran_id: parseInt(companypasaran_id),
+                companypasaran_idoffline: parseInt(e),
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            call_listpasaranonline();
+        }
+    }
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
     };
@@ -1155,6 +1236,195 @@
                 panel_listpasaran_online = true
                 panel_listpasaran_configure = false
                 break;
+            case "menu_listpasaran_configure":
+                tab_listpasaran_limit = ""
+                tab_listpasaran_online = ""
+                tab_listpasaran_configure = "bg-sky-600 text-white"
+                panel_listpasaran_limit = false
+                panel_listpasaran_online = false
+                panel_listpasaran_configure = true
+                break;
+        }
+    }
+    const call_configure = (e) => {
+        let permainan = ""; 
+        switch(e){
+            case "4-3-2":
+                modalpasaran_width = "max-w-5xl ";
+                permainan = "4D/3D/2D"
+                isModal_Form_pasaran = true;
+                panel_432D = true;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "colok_bebas":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Bebas";
+                isModal_Form_pasaran = true;
+                panel_cbebas = true;
+                panel_432D = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "colok_macau":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Macau";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = true
+                panel_cnaga = false
+                panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "colok_naga":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Macau";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = true
+                panel_cjitu = false
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "colok_jitu":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Colok Jitu";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = true;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_umum":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "5050 Umum";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = true
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_special":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "5050 Special";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = true
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "5050_kombinasi":
+                modalpasaran_width = "max-w-6xl ";
+                permainan = "5050 Kombinasi";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = true
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "macau_kombinasi":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Macau / Kombinasi";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = true
+                panel_dasar = false
+                panel_shio = false
+                break;
+            case "dasar":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Dasar";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = true
+                panel_shio = false
+                break;
+            case "shio":
+                modalpasaran_width = "max-w-3xl ";
+                permainan = "Shio";
+                isModal_Form_pasaran = true;
+                panel_432D = false;
+                panel_cbebas = false;
+                panel_cmacau = false
+                panel_cnaga = false
+                panel_cjitu = false;
+                panel_5050umum = false
+                panel_5050special = false
+                panel_5050kombinasi = false
+                panel_macaukombinasi = false
+                panel_dasar = false
+                panel_shio = true
+                break;
         }
     }
     function clearField(){
@@ -1175,6 +1445,7 @@
         listAdmin = [];
     }
     function clearFieldPasaran(){
+        select_pasaranonline = "";
         companypasaran_id = "";
         pasaran_id_field = "";
         pasaran_nmpasarantogel_field = "";
@@ -1943,6 +2214,87 @@
                         <button on:click={() => {
                             saveupdatepasaranline();
                         }} class="{buttonLoading_class} btn-block">Submit</button>
+                    </div>
+                {/if}
+                {#if panel_listpasaran_online}
+                    <div class="form-control mt-3">
+                        <div class="input-group">
+                        <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
+                            <option disabled selected value="">--Pilih Hari--</option>
+                            <option value="senin">Senin</option>
+                            <option value="selasa">Selasa</option>
+                            <option value="rabu">Rabu</option>
+                            <option value="kamis">Kamis</option>
+                            <option value="jumat">Jumat</option>
+                            <option value="sabtu">Sabtu</option>
+                            <option value="minggu">Minggu</option>
+                        </select>
+                        <button on:click={() => {
+                                savePasaranOnline();
+                            }} class="{buttonLoading2_class} btn-primary">Save</button>
+                        </div>
+                    </div>
+                    <table class="table table-compact w-full mt-2">
+                        <thead>
+                            <tr>
+                                <th width="1%"></th>
+                                <th width="*">HARI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each listPasaranonline as rec}
+                                <tr>
+                                    <td on:click={() => {
+                                        removeharionline(
+                                            rec.company_pasaranonline_id
+                                        );
+                                    }} class="cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </td>
+                                    <td>{rec.company_pasaranonline_hari}</td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                {/if}
+                {#if panel_listpasaran_configure}
+                    <div class="grid grid-cols-3 gap-2">
+                        <h2 class="text-lg font-bold col-span-3">Configure</h2>
+                        <button on:click={() => {
+                            call_configure("4-3-2");
+                        }} class="btn btn-warning">4D/3D/2D</button>
+                        <button on:click={() => {
+                            call_configure("colok_bebas");
+                        }} class="btn btn-warning">COLOK BEBAS</button>
+                        <button on:click={() => {
+                            call_configure("colok_macau");
+                        }} class="btn btn-warning">COLOK MACAU</button>
+                        <button on:click={() => {
+                            call_configure("colok_naga");
+                        }} class="btn btn-warning">COLOK NAGA</button>
+                        <button on:click={() => {
+                            call_configure("colok_jitu");
+                        }} class="btn btn-warning">COLOK JITU</button>
+                        <button on:click={() => {
+                            call_configure("5050_umum");
+                        }} class="btn btn-warning">5050 UMUM</button>
+                        <button on:click={() => {
+                            call_configure("5050_special");
+                        }} class="btn btn-warning">5050 SPECIAL</button>
+                        <button on:click={() => {
+                            call_configure("5050_kombinasi");
+                        }} class="btn btn-warning">5050 KOMBINASI</button>
+                        <button on:click={() => {
+                            call_configure("macau_kombinasi");
+                        }} class="btn btn-warning">MACAU / KOMBINASI</button>
+                        <button on:click={() => {
+                            call_configure("dasar");
+                        }} class="btn btn-warning">DASAR</button>
+                        <button on:click={() => {
+                            call_configure("shio");
+                        }} class="btn btn-warning">SHIO</button>
                     </div>
                 {/if}
             </div>
