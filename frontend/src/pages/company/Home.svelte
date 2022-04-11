@@ -7,6 +7,7 @@
     import Modal_popup from '../../components/Modal_popup.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Pasaran_basic from './pasaran_basic.svelte'
 
     export let path_api = "";
     export let token = "";
@@ -19,10 +20,12 @@
     let sDataAdmin = "New";
     let isModal_Form_New = false
     let isModal_Form_admin = false
+    let isModal_Form_pasaran = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
     let modal_listadmin_width = "max-w-xl"
+    let modal_listpasaran_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
     let buttonLoading_class = "btn btn-primary"
@@ -33,6 +36,7 @@
     let idcompany = "";
     let listAdmin = [];
     let listPasaran = [];
+    let listPasaranonline = [];
     let totalrecordadmin = 0;
     let totalpasaran = 0;
     let totalpasaran_class = "";
@@ -40,6 +44,16 @@
     let tab_listpasaran = ""
     let panel_listadmin = true
     let panel_listpasaran = false
+
+    let tab_listpasaran_limit = "bg-sky-600 text-white"
+    let tab_listpasaran_online = ""
+    let tab_listpasaran_configure = ""
+    let panel_listpasaran_limit = true
+    let panel_listpasaran_online = false
+    let panel_listpasaran_configure = false
+    
+
+
     let searchHome = "";
     let searchListAdmin = "";
     let filterHome = [];
@@ -54,6 +68,215 @@
     let admin_password_field_error = "";
     let admin_name_field_error = "";
     let admin_status_field_error = "";
+
+    let companypasaran_id = "";
+    let pasaran_id_field = "";
+    let pasaran_nmpasarantogel_field = "";
+    let pasaran_urlpasaran_field = "";
+    let pasaran_pasarandiundi_field = "";
+    let pasaran_jamtutup_field = "";
+    let pasaran_jamjadwal_field = "";
+    let pasaran_jamopen_field = "";
+    let pasaran_status_field = "";
+
+    let pasaran_limitline4d_field = 0;
+    let pasaran_limitline3d_field = 0;
+    let pasaran_limitline3dd_field = 0;
+    let pasaran_limitline2d_field = 0;
+    let pasaran_limitline2dd_field = 0;
+    let pasaran_limitline2dt_field = 0;
+    let pasaran_bbfs_field = 0;
+    let pasaran_minbet_432d_field = 0;
+    let pasaran_maxbet4d_432d_field = 0;
+    let pasaran_maxbet3d_432d_field = 0;
+    let pasaran_maxbet3dd_432d_field = 0;
+    let pasaran_maxbet2d_432d_field = 0;
+    let pasaran_maxbet2dd_432d_field = 0;
+    let pasaran_maxbet2dt_432d_field = 0;
+    let pasaran_limitotal4d_432d_field = 0;
+    let pasaran_limitotal3d_432d_field = 0;
+    let pasaran_limitotal3dd_432d_field = 0;
+    let pasaran_limitotal2d_432d_field = 0;
+    let pasaran_limitotal2dd_432d_field = 0;
+    let pasaran_limitotal2dt_432d_field = 0;
+    let pasaran_limitglobal4d_432d_field = 0;
+    let pasaran_limitglobal3d_432d_field = 0;
+    let pasaran_limitglobal3dd_432d_field = 0;
+    let pasaran_limitglobal2d_432d_field = 0;
+    let pasaran_limitglobal2dd_432d_field = 0;
+    let pasaran_limitglobal2dt_432d_field = 0;
+    let pasaran_disc4d_432d_field = 0;
+    let pasaran_disc3d_432d_field = 0;
+    let pasaran_disc3dd_432d_field = 0;
+    let pasaran_disc2d_432d_field = 0;
+    let pasaran_disc2dd_432d_field = 0;
+    let pasaran_disc2dt_432d_field = 0;
+    let pasaran_win4d_432d_field = 0;
+    let pasaran_win3d_432d_field = 0;
+    let pasaran_win3dd_432d_field = 0;
+    let pasaran_win2d_432d_field = 0;
+    let pasaran_win2dd_432d_field = 0;
+    let pasaran_win2dt_432d_field = 0;
+    let pasaran_win4d_nodisc_432d_field = 0;
+    let pasaran_win3d_nodisc_432d_field = 0;
+    let pasaran_win3dd_nodisc_432d_field = 0;
+    let pasaran_win2d_nodisc_432d_field = 0;
+    let pasaran_win2dd_nodisc_432d_field = 0;
+    let pasaran_win2dt_nodisc_432d_field = 0;
+    let pasaran_win4d_bb_kena_432d_field = 0;
+    let pasaran_win3d_bb_kena_432d_field = 0;
+    let pasaran_win3dd_bb_kena_432d_field = 0;
+    let pasaran_win2d_bb_kena_432d_field = 0;
+    let pasaran_win2dd_bb_kena_432d_field = 0;
+    let pasaran_win2dt_bb_kena_432d_field = 0;
+    let pasaran_win4d_bb_432d_field = 0;
+    let pasaran_win3d_bb_432d_field = 0;
+    let pasaran_win3dd_bb_432d_field = 0;
+    let pasaran_win2d_bb_432d_field = 0;
+    let pasaran_win2dd_bb_432d_field = 0;
+    let pasaran_win2dt_bb_432d_field = 0;
+    let pasaran_minbet_cbebas_field = 0;
+    let pasaran_maxbet_cbebas_field = 0;
+    let pasaran_limitotal_cbebas_field = 0;
+    let pasaran_limitglobal_cbebas_field = 0;
+    let pasaran_win_cbebas_field = 0;
+    let pasaran_disc_cbebas_field = 0;
+    let pasaran_minbet_cmacau_field = 0;
+    let pasaran_maxbet_cmacau_field = 0;
+    let pasaran_limitotal_cmacau_field = 0;
+    let pasaran_limitglobal_cmacau_field = 0;
+    let pasaran_win2_cmacau_field = 0;
+    let pasaran_win3_cmacau_field = 0;
+    let pasaran_win4_cmacau_field = 0;
+    let pasaran_disc_cmacau_field = 0;
+    let pasaran_minbet_cnaga_field = 0;
+    let pasaran_maxbet_cnaga_field = 0;
+    let pasaran_win3_cnaga_field = 0;
+    let pasaran_win4_cnaga_field = 0;
+    let pasaran_disc_cnaga_field = 0;
+    let pasaran_limitglobal_cnaga_field = 0;
+    let pasaran_limittotal_cnaga_field = 0;
+    let pasaran_minbet_cjitu_field = 0;
+    let pasaran_maxbet_cjitu_field = 0;
+    let pasaran_winas_cjitu_field = 0;
+    let pasaran_winkop_cjitu_field = 0;
+    let pasaran_winkepala_cjitu_field = 0;
+    let pasaran_winekor_cjitu_field = 0;
+    let pasaran_desc_cjitu_field = 0;
+    let pasaran_limitglobal_cjitu_field = 0;
+    let pasaran_limittotal_cjitu_field = 0;
+    let pasaran_minbet_5050umum_field = 0;
+    let pasaran_maxbet_5050umum_field = 0;
+    let pasaran_keibesar_5050umum_field = 0;
+    let pasaran_keikecil_5050umum_field = 0;
+    let pasaran_keigenap_5050umum_field = 0;
+    let pasaran_keiganjil_5050umum_field = 0;
+    let pasaran_keitengah_5050umum_field = 0;
+    let pasaran_keitepi_5050umum_field = 0;
+    let pasaran_discbesar_5050umum_field = 0;
+    let pasaran_disckecil_5050umum_field = 0;
+    let pasaran_discgenap_5050umum_field = 0;
+    let pasaran_discganjil_5050umum_field = 0;
+    let pasaran_disctengah_5050umum_field = 0;
+    let pasaran_disctepi_5050umum_field = 0;
+    let pasaran_limitglobal_5050umum_field = 0;
+    let pasaran_limittotal_5050umum_field = 0;
+    let pasaran_minbet_5050special_field = 0;
+    let pasaran_maxbet_5050special_field = 0;
+    let pasaran_keiasganjil_5050special_field = 0;
+    let pasaran_keiasgenap_5050special_field = 0;
+    let pasaran_keiasbesar_5050special_field = 0;
+    let pasaran_keiaskecil_5050special_field = 0;
+    let pasaran_keikopganjil_5050special_field = 0;
+    let pasaran_keikopgenap_5050special_field = 0;
+    let pasaran_keikopbesar_5050special_field = 0;
+    let pasaran_keikopkecil_5050special_field = 0;
+    let pasaran_keikepalaganjil_5050special_field = 0;
+    let pasaran_keikepalagenap_5050special_field = 0;
+    let pasaran_keikepalabesar_5050special_field = 0;
+    let pasaran_keikepalakecil_5050special_field = 0;
+    let pasaran_keiekorganjil_5050special_field = 0;
+    let pasaran_keiekorgenap_5050special_field = 0;
+    let pasaran_keiekorbesar_5050special_field = 0;
+    let pasaran_keiekorkecil_5050special_field = 0;
+    let pasaran_discasganjil_5050special_field = 0;
+    let pasaran_discasgenap_5050special_field = 0;
+    let pasaran_discasbesar_5050special_field = 0;
+    let pasaran_discaskecil_5050special_field = 0;
+    let pasaran_disckopganjil_5050special_field = 0;
+    let pasaran_disckopgenap_5050special_field = 0;
+    let pasaran_disckopbesar_5050special_field = 0;
+    let pasaran_disckopkecil_5050special_field = 0;
+    let pasaran_disckepalaganjil_5050special_field = 0;
+    let pasaran_disckepalagenap_5050special_field = 0;
+    let pasaran_disckepalabesar_5050special_field = 0;
+    let pasaran_disckepalakecil_5050special_field = 0;
+    let pasaran_discekorganjil_5050special_field = 0;
+    let pasaran_discekorgenap_5050special_field = 0;
+    let pasaran_discekorbesar_5050special_field = 0;
+    let pasaran_discekorkecil_5050special_field = 0;
+    let pasaran_limitglobal_5050special_field = 0;
+    let pasaran_limittotal_5050special_field = 0;
+    let pasaran_minbet_5050kombinasi_field = 0;
+    let pasaran_maxbet_5050kombinasi_field = 0;
+    let pasaran_belakangkeimono_5050kombinasi_field = 0;
+    let pasaran_belakangkeistereo_5050kombinasi_field = 0;
+    let pasaran_belakangkeikembang_5050kombinasi_field = 0;
+    let pasaran_belakangkeikempis_5050kombinasi_field = 0;
+    let pasaran_belakangkeikembar_5050kombinasi_field = 0;
+    let pasaran_tengahkeimono_5050kombinasi_field = 0;
+    let pasaran_tengahkeistereo_5050kombinasi_field = 0;
+    let pasaran_tengahkeikembang_5050kombinasi_field = 0;
+    let pasaran_tengahkeikempis_5050kombinasi_field = 0;
+    let pasaran_tengahkeikembar_5050kombinasi_field = 0;
+    let pasaran_depankeimono_5050kombinasi_field = 0;
+    let pasaran_depankeistereo_5050kombinasi_field = 0;
+    let pasaran_depankeikembang_5050kombinasi_field = 0;
+    let pasaran_depankeikempis_5050kombinasi_field = 0;
+    let pasaran_depankeikembar_5050kombinasi_field = 0;
+    let pasaran_belakangdiscmono_5050kombinasi_field = 0;
+    let pasaran_belakangdiscstereo_5050kombinasi_field = 0;
+    let pasaran_belakangdisckembang_5050kombinasi_field = 0;
+    let pasaran_belakangdisckempis_5050kombinasi_field = 0;
+    let pasaran_belakangdisckembar_5050kombinasi_field = 0;
+    let pasaran_tengahdiscmono_5050kombinasi_field = 0;
+    let pasaran_tengahdiscstereo_5050kombinasi_field = 0;
+    let pasaran_tengahdisckembang_5050kombinasi_field = 0;
+    let pasaran_tengahdisckempis_5050kombinasi_field = 0;
+    let pasaran_tengahdisckembar_5050kombinasi_field = 0;
+    let pasaran_depandiscmono_5050kombinasi_field = 0;
+    let pasaran_depandiscstereo_5050kombinasi_field = 0;
+    let pasaran_depandisckembang_5050kombinasi_field = 0;
+    let pasaran_depandisckempis_5050kombinasi_field = 0;
+    let pasaran_depandisckembar_5050kombinasi_field = 0;
+    let pasaran_limitglobal_5050kombinasi_field = 0;
+    let pasaran_limittotal_5050kombinasi_field = 0;
+    let pasaran_minbet_kombinasi_field = 0;
+    let pasaran_maxbet_kombinasi_field = 0;
+    let pasaran_win_kombinasi_field = 0;
+    let pasaran_disc_kombinasi_field = 0;
+    let pasaran_limitglobal_kombinasi_field = 0;
+    let pasaran_limittotal_kombinasi_field = 0;
+    let pasaran_minbet_dasar_field = 0;
+    let pasaran_maxbet_dasar_field = 0;
+    let pasaran_keibesar_dasar_field = 0;
+    let pasaran_keikecil_dasar_field = 0;
+    let pasaran_keigenap_dasar_field = 0;
+    let pasaran_keiganjil_dasar_field = 0;
+    let pasaran_discbesar_dasar_field = 0;
+    let pasaran_disckecil_dasar_field = 0;
+    let pasaran_discgenap_dasar_field = 0;
+    let pasaran_discganjil_dasar_field = 0;
+    let pasaran_limitglobal_dasar_field = 0;
+    let pasaran_limittotal_dasar_field = 0;
+    let pasaran_minbet_shio_field = 0;
+    let pasaran_maxbet_shio_field = 0;
+    let pasaran_win_shio_field = 0;
+    let pasaran_disc_shio_field = 0;
+    let pasaran_shioyear_shio_field = "";
+    let pasaran_limitglobal_shio_field = 0;
+    let pasaran_limittotal_shio_field = 0;
+
 
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
@@ -263,7 +486,7 @@
                         selisihwinlose_class = "text-red-500";
                     }
                     if(record[i]["company_pasaran_status"] == "ONLINE"){
-                        status_class = "bg-[#8BC34A] text-black"
+                        status_class = "bg-[#FFEB3B] text-black"
                     }else{
                         status_class = "bg-red-600 text-white"
                     }
@@ -294,6 +517,316 @@
                 if(totalpasaran > 0){
                     totalpasaran_class = "text-blue-700 font-semibold"
                 }
+            }
+        }
+    }
+    async function call_listpasaranconf() {
+        const res = await fetch(path_api+"api/companypasaranconf", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                sData: "New",
+                page: "COMPANY_HOME",
+                company: idcompany,
+                companypasaran_id: companypasaran_id,
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        if (json.status === 400) {
+        } else {
+            for (let i = 0; i < record.length; i++) {
+                pasaran_urlpasaran_field = record[i]["pasaran_url"];
+                pasaran_pasarandiundi_field = record[i]["pasaran_diundi"];
+                pasaran_jamtutup_field = record[i]["pasaran_jamtutup"];
+                pasaran_jamjadwal_field = record[i]["pasaran_jamjadwal"];
+                pasaran_jamopen_field = record[i]["pasaran_jamopen"];
+                pasaran_status_field = record[i]["pasaran_statusactive"];
+                pasaran_bbfs_field = record[i]["bbfs"];
+                pasaran_limitline4d_field = record[i]["limitline_4d"];
+                pasaran_limitline3d_field = record[i]["limitline_3d"];
+                pasaran_limitline3dd_field = record[i]["limitline_3dd"];
+                pasaran_limitline2d_field = record[i]["limitline_2d"];
+                pasaran_limitline2dd_field = record[i]["limitline_2dd"];
+                pasaran_limitline2dt_field = record[i]["limitline_2dt"];
+                pasaran_minbet_432d_field = record[i]["minbet_432d"];
+                pasaran_maxbet4d_432d_field = record[i]["maxbet4d_432d"];
+                pasaran_maxbet3d_432d_field = record[i]["maxbet3d_432d"];
+                pasaran_maxbet3dd_432d_field = record[i]["maxbet3dd_432d"];
+                pasaran_maxbet2d_432d_field = record[i]["maxbet2d_432d"];
+                pasaran_maxbet2dd_432d_field = record[i]["maxbet2dd_432d"];
+                pasaran_maxbet2dt_432d_field = record[i]["maxbet2dt_432d"];
+                pasaran_limitotal4d_432d_field = record[i]["limitotal4d_432d"];
+                pasaran_limitotal3d_432d_field = record[i]["limitotal3d_432d"];
+                pasaran_limitotal3dd_432d_field = record[i]["limitotal3dd_432d"];
+                pasaran_limitotal2d_432d_field = record[i]["limitotal2d_432d"];
+                pasaran_limitotal2dd_432d_field = record[i]["limitotal2dd_432d"];
+                pasaran_limitotal2dt_432d_field = record[i]["limitotal2dt_432d"];
+                pasaran_limitglobal4d_432d_field = record[i]["limitglobal4d_432d"];
+                pasaran_limitglobal3d_432d_field = record[i]["limitglobal3d_432d"];
+                pasaran_limitglobal3dd_432d_field = record[i]["limitglobal3dd_432d"];
+                pasaran_limitglobal2d_432d_field = record[i]["limitglobal2d_432d"];
+                pasaran_limitglobal2dd_432d_field = record[i]["limitglobal2dd_432d"];
+                pasaran_limitglobal2dt_432d_field = record[i]["limitglobal2dt_432d"];
+                pasaran_disc4d_432d_field = (record[i]["disc4d_432d"] * 100).toFixed(2);
+                pasaran_disc3d_432d_field = (record[i]["disc3d_432d"] * 100).toFixed(2);
+                pasaran_disc3dd_432d_field = (record[i]["disc3dd_432d"] * 100).toFixed(2);
+                pasaran_disc2d_432d_field = (record[i]["disc2d_432d"] * 100).toFixed(2);
+                pasaran_disc2dd_432d_field = (record[i]["disc2dd_432d"] * 100).toFixed(2);
+                pasaran_disc2dt_432d_field = (record[i]["disc2dt_432d"] * 100).toFixed(2);
+                pasaran_win4d_432d_field = record[i]["win4d_432d"];
+                pasaran_win3d_432d_field = record[i]["win3d_432d"];
+                pasaran_win3dd_432d_field = record[i]["win3dd_432d"];
+                pasaran_win2d_432d_field = record[i]["win2d_432d"];
+                pasaran_win2dd_432d_field = record[i]["win2dd_432d"];
+                pasaran_win2dt_432d_field = record[i]["win2dt_432d"];
+                pasaran_win4d_nodisc_432d_field = record[i]["win4dnodisc_432d"];
+                pasaran_win3d_nodisc_432d_field = record[i]["win3dnodisc_432d"];
+                pasaran_win3dd_nodisc_432d_field = record[i]["win3ddnodisc_432d"];
+                pasaran_win2d_nodisc_432d_field = record[i]["win2dnodisc_432d"];
+                pasaran_win2dd_nodisc_432d_field = record[i]["win2ddnodisc_432d"];
+                pasaran_win2dt_nodisc_432d_field = record[i]["win2dtnodisc_432d"];
+                pasaran_win4d_bb_kena_432d_field = record[i]["win4dbb_kena_432d"];
+                pasaran_win3d_bb_kena_432d_field = record[i]["win3dbb_kena_432d"];
+                pasaran_win3dd_bb_kena_432d_field = record[i]["win3ddbb_kena_432d"];
+                pasaran_win2d_bb_kena_432d_field = record[i]["win2dbb_kena_432d"];
+                pasaran_win2dd_bb_kena_432d_field = record[i]["win2ddbb_kena_432d"];
+                pasaran_win2dt_bb_kena_432d_field = record[i]["win2dtbb_kena_432d"];
+                pasaran_win4d_bb_432d_field = record[i]["win4dbb_432d"];
+                pasaran_win3d_bb_432d_field = record[i]["win3dbb_432d"];
+                pasaran_win3dd_bb_432d_field = record[i]["win3ddbb_432d"];
+                pasaran_win2d_bb_432d_field = record[i]["win2dbb_432d"];
+                pasaran_win2dd_bb_432d_field = record[i]["win2ddbb_432d"];
+                pasaran_win2dt_bb_432d_field = record[i]["win2dtbb_432d"];
+                pasaran_minbet_cbebas_field = record[i]["minbet_cbebas"];
+                pasaran_maxbet_cbebas_field = record[i]["maxbet_cbebas"];
+                pasaran_limitotal_cbebas_field = record[i]["limittotal_cbebas"];
+                pasaran_limitglobal_cbebas_field = record[i]["limitglobal_cbebas"];
+                pasaran_win_cbebas_field = record[i]["win_cbebas"].toFixed(2);
+                pasaran_disc_cbebas_field = (record[i]["disc_cbebas"] * 100).toFixed(2);
+                pasaran_minbet_cmacau_field = record[i]["minbet_cmacau"];
+                pasaran_maxbet_cmacau_field = record[i]["maxbet_cmacau"];
+                pasaran_limitotal_cmacau_field = record[i]["limitotal_cmacau"];
+                pasaran_limitglobal_cmacau_field = record[i]["limitglobal_cmacau"];
+                pasaran_win2_cmacau_field = record[i]["win2d_cmacau"].toFixed(2);
+                pasaran_win3_cmacau_field = record[i]["win3d_cmacau"].toFixed(2);
+                pasaran_win4_cmacau_field = record[i]["win4d_cmacau"].toFixed(2);
+                pasaran_disc_cmacau_field = (record[i]["disc_cmacau"] * 100).toFixed(2);
+                pasaran_minbet_cnaga_field = record[i]["minbet_cnaga"];
+                pasaran_maxbet_cnaga_field = record[i]["maxbet_cnaga"];
+                pasaran_win3_cnaga_field = record[i]["win3_cnaga"].toFixed(2);
+                pasaran_win4_cnaga_field = record[i]["win4_cnaga"].toFixed(2);
+                pasaran_disc_cnaga_field = (record[i]["disc_cnaga"] * 100).toFixed(2);
+                pasaran_limitglobal_cnaga_field = record[i]["limitglobal_cnaga"];
+                pasaran_limittotal_cnaga_field = record[i]["limittotal_cnaga"];
+                pasaran_minbet_cjitu_field = record[i]["minbet_cjitu"];
+                pasaran_maxbet_cjitu_field = record[i]["maxbet_cjitu"];
+                pasaran_winas_cjitu_field = record[i]["winas_cjitu"].toFixed(2);
+                pasaran_winkop_cjitu_field = record[i]["winkop_cjitu"].toFixed(2);
+                pasaran_winkepala_cjitu_field = record[i]["winkepala_cjitu"].toFixed(2);
+                pasaran_winekor_cjitu_field = record[i]["winekor_cjitu"].toFixed(2);
+                pasaran_desc_cjitu_field = (record[i]["desc_cjitu"] * 100).toFixed(2);
+                pasaran_limitglobal_cjitu_field = record[i]["limitglobal_cjitu"];
+                pasaran_limittotal_cjitu_field = record[i]["limittotal_cjitu"];
+                pasaran_minbet_5050umum_field = record[i]["minbet_5050umum"];
+                pasaran_maxbet_5050umum_field = record[i]["maxbet_5050umum"];
+                pasaran_keibesar_5050umum_field = (record[i]["keibesar_5050umum"] * 100).toFixed(2);
+                pasaran_keikecil_5050umum_field = (record[i]["keikecil_5050umum"] * 100).toFixed(2);
+                pasaran_keigenap_5050umum_field = (record[i]["keigenap_5050umum"] * 100).toFixed(2);
+                pasaran_keiganjil_5050umum_field = (record[i]["keiganjil_5050umum"] * 100).toFixed(2);
+                pasaran_keitengah_5050umum_field = (record[i]["keitengah_5050umum"] * 100).toFixed(2);
+                pasaran_keitepi_5050umum_field = (record[i]["keitepi_5050umum"] * 100).toFixed(2);
+                pasaran_discbesar_5050umum_field = (record[i]["discbesar_5050umum"] * 100).toFixed(2);
+                pasaran_disckecil_5050umum_field = (record[i]["disckecil_5050umum"] * 100).toFixed(2);
+                pasaran_discgenap_5050umum_field = (record[i]["discgenap_5050umum"] * 100).toFixed(2);
+                pasaran_discganjil_5050umum_field = (record[i]["discganjil_5050umum"] * 100).toFixed(2);
+                pasaran_disctengah_5050umum_field = (record[i]["disctengah_5050umum"] * 100).toFixed(2);
+                pasaran_disctepi_5050umum_field = (record[i]["disctepi_5050umum"] * 100).toFixed(2);
+                pasaran_limitglobal_5050umum_field = record[i]["limitglobal_5050umum"];
+                pasaran_limittotal_5050umum_field = record[i]["limittotal_5050umum"];
+                
+                pasaran_minbet_5050special_field = record[i]["minbet_5050special"];
+                pasaran_maxbet_5050special_field = record[i]["maxbet_5050special"];
+                pasaran_keiasganjil_5050special_field = (record[i]["keiasganjil_5050special"] * 100).toFixed(2);
+                pasaran_keiasgenap_5050special_field = (record[i]["keiasgenap_5050special"] * 100).toFixed(2);
+                pasaran_keiasbesar_5050special_field = (record[i]["keiasbesar_5050special"] * 100).toFixed(2);
+                pasaran_keiaskecil_5050special_field = (record[i]["keiaskecil_5050special"] * 100).toFixed(2);
+                pasaran_keikopganjil_5050special_field = (record[i]["keikopganjil_5050special"] * 100).toFixed(2);
+                pasaran_keikopgenap_5050special_field = (record[i]["keikopgenap_5050special"] * 100).toFixed(2);
+                pasaran_keikopbesar_5050special_field = (record[i]["keikopbesar_5050special"] * 100).toFixed(2);
+                pasaran_keikopkecil_5050special_field = (record[i]["keikopkecil_5050special"] * 100).toFixed(2);
+                pasaran_keikepalaganjil_5050special_field = (record[i]["keikepalaganjil_5050special"] * 100).toFixed(2);
+                pasaran_keikepalagenap_5050special_field = (record[i]["keikepalagenap_5050special"] * 100).toFixed(2);
+                pasaran_keikepalabesar_5050special_field = (record[i]["keikepalabesar_5050special"] * 100).toFixed(2);
+                pasaran_keikepalakecil_5050special_field = (record[i]["keikepalakecil_5050special"] * 100).toFixed(2);
+                pasaran_keiekorganjil_5050special_field = (record[i]["keiekorganjil_5050special"] * 100).toFixed(2);
+                pasaran_keiekorgenap_5050special_field = (record[i]["keiekorgenap_5050special"] * 100).toFixed(2);
+                pasaran_keiekorbesar_5050special_field = (record[i]["keiekorbesar_5050special"] * 100).toFixed(2);
+                pasaran_keiekorkecil_5050special_field = (record[i]["keiekorkecil_5050special"] * 100).toFixed(2);
+                pasaran_discasganjil_5050special_field = (record[i]["discasganjil_5050special"] * 100).toFixed(2);
+                pasaran_discasgenap_5050special_field = (record[i]["discasgenap_5050special"] * 100).toFixed(2);
+                pasaran_discasbesar_5050special_field = (record[i]["discasbesar_5050special"] * 100).toFixed(2);
+                pasaran_discaskecil_5050special_field = (record[i]["discaskecil_5050special"] * 100).toFixed(2);
+                pasaran_disckopganjil_5050special_field = (record[i]["disckopganjil_5050special"] * 100).toFixed(2);
+                pasaran_disckopgenap_5050special_field = (record[i]["disckopgenap_5050special"] * 100).toFixed(2);
+                pasaran_disckopbesar_5050special_field = (record[i]["disckopbesar_5050special"] * 100).toFixed(2);
+                pasaran_disckopkecil_5050special_field = (record[i]["disckopkecil_5050special"] * 100).toFixed(2);
+                pasaran_disckepalaganjil_5050special_field = (record[i]["disckepalaganjil_5050special"] * 100).toFixed(2);
+                pasaran_disckepalagenap_5050special_field = (record[i]["disckepalagenap_5050special"] * 100).toFixed(2);
+                pasaran_disckepalabesar_5050special_field = (record[i]["disckepalabesar_5050special"] * 100).toFixed(2);
+                pasaran_disckepalakecil_5050special_field = (record[i]["disckepalakecil_5050special"] * 100).toFixed(2);
+                pasaran_discekorganjil_5050special_field = (record[i]["discekorganjil_5050special"] * 100).toFixed(2);
+                pasaran_discekorgenap_5050special_field = (record[i]["discekorgenap_5050special"] * 100).toFixed(2);
+                pasaran_discekorbesar_5050special_field = (record[i]["discekorbesar_5050special"] * 100).toFixed(2);
+                pasaran_discekorkecil_5050special_field = (record[i]["discekorkecil_5050special"] * 100).toFixed(2);
+                pasaran_limitglobal_5050special_field = record[i]["limitglobal_5050special"];
+                pasaran_limittotal_5050special_field = record[i]["limittotal_5050special"];
+                pasaran_minbet_5050kombinasi_field = record[i]["minbet_5050kombinasi"];
+                pasaran_maxbet_5050kombinasi_field = record[i]["maxbet_5050kombinasi"];
+                pasaran_belakangkeimono_5050kombinasi_field = (record[i]["belakangkeimono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangkeistereo_5050kombinasi_field = (record[i]["belakangkeistereo_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangkeikembang_5050kombinasi_field = (record[i]["belakangkeikembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangkeikempis_5050kombinasi_field = (record[i]["belakangkeikempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangkeikembar_5050kombinasi_field = (record[i]["belakangkeikembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahkeimono_5050kombinasi_field = (record[i]["tengahkeimono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahkeistereo_5050kombinasi_field = (record[i]["tengahkeistereo_5050kombinasi"] * 100).toFixed(2)
+                pasaran_tengahkeikembang_5050kombinasi_field = (record[i]["tengahkeikembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahkeikempis_5050kombinasi_field = (record[i]["tengahkeikempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahkeikembar_5050kombinasi_field = (record[i]["tengahkeikembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depankeimono_5050kombinasi_field = (record[i]["depankeimono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depankeistereo_5050kombinasi_field = (record[i]["depankeistereo_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depankeikembang_5050kombinasi_field = (record[i]["depankeikembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depankeikempis_5050kombinasi_field = (record[i]["depankeikempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depankeikembar_5050kombinasi_field = (record[i]["depankeikembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangdiscmono_5050kombinasi_field = (record[i]["belakangdiscmono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangdiscstereo_5050kombinasi_field = (record[i]["belakangdiscstereo_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangdisckembang_5050kombinasi_field = (record[i]["belakangdisckembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangdisckempis_5050kombinasi_field = (record[i]["belakangdisckempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_belakangdisckembar_5050kombinasi_field = (record[i]["belakangdisckembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahdiscmono_5050kombinasi_field = (record[i]["tengahdiscmono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahdiscstereo_5050kombinasi_field = (record[i]["tengahdiscstereo_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahdisckembang_5050kombinasi_field = (record[i]["tengahdisckembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahdisckempis_5050kombinasi_field = (record[i]["tengahdisckempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_tengahdisckembar_5050kombinasi_field = (record[i]["tengahdisckembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depandiscmono_5050kombinasi_field = (record[i]["depandiscmono_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depandiscstereo_5050kombinasi_field = (record[i]["depandiscstereo_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depandisckembang_5050kombinasi_field = (record[i]["depandisckembang_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depandisckempis_5050kombinasi_field = (record[i]["depandisckempis_5050kombinasi"] * 100).toFixed(2);
+                pasaran_depandisckembar_5050kombinasi_field = (record[i]["depandisckembar_5050kombinasi"] * 100).toFixed(2);
+                pasaran_limitglobal_5050kombinasi_field = record[i]["limitglobal_5050kombinasi"];
+                pasaran_limittotal_5050kombinasi_field = record[i]["limittotal_5050kombinasi"];
+                pasaran_minbet_kombinasi_field = record[i]["minbet_kombinasi"];
+                pasaran_maxbet_kombinasi_field = record[i]["maxbet_kombinasi"];
+                pasaran_win_kombinasi_field = record[i]["win_kombinasi"].toFixed(2);
+                pasaran_disc_kombinasi_field = (record[i]["disc_kombinasi"] * 100).toFixed(2);
+                pasaran_limitglobal_kombinasi_field = record[i]["limitglobal_kombinasi"];
+                pasaran_limittotal_kombinasi_field = record[i]["limittotal_kombinasi"];
+                
+                pasaran_minbet_dasar_field = record[i]["minbet_dasar"];
+                pasaran_maxbet_dasar_field = record[i]["maxbet_dasar"];
+                pasaran_keibesar_dasar_field = (record[i]["keibesar_dasar"] * 100).toFixed(2);
+                pasaran_keikecil_dasar_field = (record[i]["keikecil_dasar"] * 100).toFixed(2);
+                pasaran_keigenap_dasar_field = (record[i]["keigenap_dasar"] * 100).toFixed(2);
+                pasaran_keiganjil_dasar_field = (record[i]["keiganjil_dasar"] * 100).toFixed(2);
+                pasaran_discbesar_dasar_field = (record[i]["discbesar_dasar"] * 100).toFixed(2);
+                pasaran_disckecil_dasar_field = (record[i]["disckecil_dasar"] * 100).toFixed(2);
+                pasaran_discgenap_dasar_field = (record[i]["discgenap_dasar"] * 100).toFixed(2);
+                pasaran_discganjil_dasar_field = (record[i]["discganjil_dasar"] * 100).toFixed(2);
+                pasaran_limitglobal_dasar_field = record[i]["limitglobal_dasar"];
+                pasaran_limittotal_dasar_field = record[i]["limittotal_dasar"];
+                pasaran_minbet_shio_field = record[i]["minbet_shio"];
+                pasaran_maxbet_shio_field = record[i]["maxbet_shio"];
+                pasaran_win_shio_field = (record[i]["win_shio"]).toFixed(2);
+                pasaran_disc_shio_field = (record[i]["disc_shio"] * 100).toFixed(2);
+                pasaran_shioyear_shio_field = record[i]["shioyear_shio"];
+                pasaran_limitglobal_shio_field = record[i]["limitglobal_shio"];
+                pasaran_limittotal_shio_field = record[i]["limittotal_shio"];
+            }
+        }
+    }
+    async function call_listpasaranonline() {
+        const res = await fetch(path_api+"api/companypasaranonline", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                sData: "New",
+                page: "COMPANY_HOME",
+                company: idcompany,
+                companypasaran_id: companypasaran_id,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+                    listPasaranonline = [
+                        ...listPasaranonline,
+                        {
+                            company_pasaranonline_id:record[i]["company_pasaranonline_id"],
+                            company_pasaranonline_hari:record[i]["company_pasaranonline_hari"],
+                        },
+                    ];
+                }
+            }
+        } 
+    }
+    async function fetchlimitline() {
+        let flag = false;
+        msg_error = "";
+        if (pasaran_id_field == "") {
+            flag = true;
+            msg_error += "The Pasaran is required<br>";
+        }
+        if (flag == false) {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/fetchpasaranlimitline", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    master: master,
+                    company: idcompany,
+                    pasaran_id: pasaran_id_field,
+                    Companypasaran_id: companypasaran_id,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listpasaranconf();
+            }
+        }else{
+            if(msg_error != ""){
+                isModalNotif = true;
             }
         }
     }
@@ -386,6 +919,166 @@
             }
         }
     };
+    async function saveupdatepasaran() {
+        let flag = false;
+        msg_error = "";
+        if (pasaran_urlpasaran_field == "") {
+            flag = true;
+            msg_error += "The Pasaran URL is required<br>";
+        }
+        if (pasaran_pasarandiundi_field == "") {
+            flag = true;
+            msg_error += "The Pasaran diundi is required<br>";
+        }
+        if (pasaran_jamtutup_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Jam Tutup is required<br>";
+        }
+        if (pasaran_jamjadwal_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Jam Jadwal is required<br>";
+        }
+        if (pasaran_jamopen_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Jam Open is required<br>";
+        }
+        if (pasaran_status_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Status is required<br>";
+        }
+        if (flag == false) {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/savecompanyupdatepasaran", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    master: master,
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_diundi: pasaran_pasarandiundi_field,
+                    pasaran_url: pasaran_urlpasaran_field,
+                    pasaran_jamtutup: pasaran_jamtutup_field,
+                    pasaran_jamjadwal: pasaran_jamjadwal_field,
+                    pasaran_jamopen: pasaran_jamopen_field,
+                    pasaran_statusactive: pasaran_status_field,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listpasaran()
+                call_listpasaranonline()
+            }
+        } else {
+            if(msg_error != ""){
+                isModalNotif = true;
+            }
+        }
+    }
+    async function saveupdatepasaranline() {
+        let flag = false;
+        msg_error = "";
+        if (pasaran_limitline4d_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 4D is required\n";
+        }
+        if (pasaran_limitline3d_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 3D is required\n";
+        }
+        if (pasaran_limitline3dd_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 3DD is required\n";
+        }
+        if (pasaran_limitline2d_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 2D is required\n";
+        }
+        if (pasaran_limitline2dd_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 2DD is required\n";
+        }
+        if (pasaran_limitline2dt_field == "") {
+            flag = true;
+            msg_error += "The Pasaran Limitline 2DT is required\n";
+        }
+        if (pasaran_bbfs_field == "") {
+            flag = true;
+            msg_error += "The Pasaran BBFS is required\n";
+        }
+        if (flag == false) {
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/savecompanyupdatepasaranline", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    master: master,
+                    pasaran_id: pasaran_id_field,
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_limitline_4d: parseInt(pasaran_limitline4d_field),
+                    pasaran_limitline_3d: parseInt(pasaran_limitline3d_field),
+                    pasaran_limitline_3dd: parseInt(pasaran_limitline3dd_field),
+                    pasaran_limitline_2d: parseInt(pasaran_limitline2d_field),
+                    pasaran_limitline_2dd: parseInt(pasaran_limitline2dd_field),
+                    pasaran_limitline_2dt: parseInt(pasaran_limitline2dt_field),
+                    pasaran_bbfs: parseInt(pasaran_bbfs_field),
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listpasaranconf()
+                call_listpasaranonline()
+            }
+        } else {
+            if(msg_error != ""){
+                isModalNotif = true;
+            }
+        }
+    }
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
     };
@@ -417,7 +1110,16 @@
             admin_status_field_error = "";
         }
     };
-    
+    const NewDataPasaran = (e,z,f) => {
+        clearFieldPasaran();
+        companypasaran_id = e
+        pasaran_id_field = z;
+        pasaran_nmpasarantogel_field = f
+        modal_listpasaran_width = "max-w-5xl"
+        call_listpasaranconf()
+        call_listpasaranonline()
+        isModal_Form_pasaran = true;
+    };
     const ChangeTabMenu = (e) => {
         switch(e){
             case "menu_listadmin":
@@ -435,7 +1137,26 @@
                 break;
         }
     }
-   
+    const ChangeTabMenuPasaran = (e) => {
+        switch(e){
+            case "menu_listpasaran_limit":
+                tab_listpasaran_limit = "bg-sky-600 text-white"
+                tab_listpasaran_online = ""
+                tab_listpasaran_configure = ""
+                panel_listpasaran_limit = true
+                panel_listpasaran_online = false
+                panel_listpasaran_configure = false
+                break;
+            case "menu_listpasaran_online":
+                tab_listpasaran_limit = ""
+                tab_listpasaran_online = "bg-sky-600 text-white"
+                tab_listpasaran_configure = ""
+                panel_listpasaran_limit = false
+                panel_listpasaran_online = true
+                panel_listpasaran_configure = false
+                break;
+        }
+    }
     function clearField(){
         idcompany = "";
         $form.home_id_field = "";
@@ -453,7 +1174,215 @@
         panel_listpasaran = false
         listAdmin = [];
     }
-    
+    function clearFieldPasaran(){
+        companypasaran_id = "";
+        pasaran_id_field = "";
+        pasaran_nmpasarantogel_field = "";
+        pasaran_urlpasaran_field = "";
+        pasaran_pasarandiundi_field = "";
+        pasaran_jamtutup_field = "";
+        pasaran_jamjadwal_field = "";
+        pasaran_jamopen_field = "";
+        pasaran_status_field = "";
+
+        pasaran_limitline4d_field = 0;
+        pasaran_limitline3d_field = 0;
+        pasaran_limitline3dd_field = 0;
+        pasaran_limitline2d_field = 0;
+        pasaran_limitline2dd_field = 0;
+        pasaran_limitline2dt_field = 0;
+        pasaran_bbfs_field = 0;
+        pasaran_minbet_432d_field = 0;
+        pasaran_maxbet4d_432d_field = 0;
+        pasaran_maxbet3d_432d_field = 0;
+        pasaran_maxbet3dd_432d_field = 0;
+        pasaran_maxbet2d_432d_field = 0;
+        pasaran_maxbet2dd_432d_field = 0;
+        pasaran_maxbet2dt_432d_field = 0;
+        pasaran_limitotal4d_432d_field = 0;
+        pasaran_limitotal3d_432d_field = 0;
+        pasaran_limitotal3dd_432d_field = 0;
+        pasaran_limitotal2d_432d_field = 0;
+        pasaran_limitotal2dd_432d_field = 0;
+        pasaran_limitotal2dt_432d_field = 0;
+        pasaran_limitglobal4d_432d_field = 0;
+        pasaran_limitglobal3d_432d_field = 0;
+        pasaran_limitglobal3dd_432d_field = 0;
+        pasaran_limitglobal2d_432d_field = 0;
+        pasaran_limitglobal2dd_432d_field = 0;
+        pasaran_limitglobal2dt_432d_field = 0;
+        pasaran_disc4d_432d_field = 0;
+        pasaran_disc3d_432d_field = 0;
+        pasaran_disc3dd_432d_field = 0;
+        pasaran_disc2d_432d_field = 0;
+        pasaran_disc2dd_432d_field = 0;
+        pasaran_disc2dt_432d_field = 0;
+        pasaran_win4d_432d_field = 0;
+        pasaran_win3d_432d_field = 0;
+        pasaran_win3dd_432d_field = 0;
+        pasaran_win2d_432d_field = 0;
+        pasaran_win2dd_432d_field = 0;
+        pasaran_win2dt_432d_field = 0;
+        pasaran_win4d_nodisc_432d_field = 0;
+        pasaran_win3d_nodisc_432d_field = 0;
+        pasaran_win3dd_nodisc_432d_field = 0;
+        pasaran_win2d_nodisc_432d_field = 0;
+        pasaran_win2dd_nodisc_432d_field = 0;
+        pasaran_win2dt_nodisc_432d_field = 0;
+        pasaran_win4d_bb_kena_432d_field = 0;
+        pasaran_win3d_bb_kena_432d_field = 0;
+        pasaran_win3dd_bb_kena_432d_field = 0;
+        pasaran_win2d_bb_kena_432d_field = 0;
+        pasaran_win2dd_bb_kena_432d_field = 0;
+        pasaran_win2dt_bb_kena_432d_field = 0;
+        pasaran_win4d_bb_432d_field = 0;
+        pasaran_win3d_bb_432d_field = 0;
+        pasaran_win3dd_bb_432d_field = 0;
+        pasaran_win2d_bb_432d_field = 0;
+        pasaran_win2dd_bb_432d_field = 0;
+        pasaran_win2dt_bb_432d_field = 0;
+        pasaran_minbet_cbebas_field = 0;
+        pasaran_maxbet_cbebas_field = 0;
+        pasaran_limitotal_cbebas_field = 0;
+        pasaran_limitglobal_cbebas_field = 0;
+        pasaran_win_cbebas_field = 0;
+        pasaran_disc_cbebas_field = 0;
+        pasaran_minbet_cmacau_field = 0;
+        pasaran_maxbet_cmacau_field = 0;
+        pasaran_limitotal_cmacau_field = 0;
+        pasaran_limitglobal_cmacau_field = 0;
+        pasaran_win2_cmacau_field = 0;
+        pasaran_win3_cmacau_field = 0;
+        pasaran_win4_cmacau_field = 0;
+        pasaran_disc_cmacau_field = 0;
+        pasaran_minbet_cnaga_field = 0;
+        pasaran_maxbet_cnaga_field = 0;
+        pasaran_win3_cnaga_field = 0;
+        pasaran_win4_cnaga_field = 0;
+        pasaran_disc_cnaga_field = 0;
+        pasaran_limitglobal_cnaga_field = 0;
+        pasaran_limittotal_cnaga_field = 0;
+        pasaran_minbet_cjitu_field = 0;
+        pasaran_maxbet_cjitu_field = 0;
+        pasaran_winas_cjitu_field = 0;
+        pasaran_winkop_cjitu_field = 0;
+        pasaran_winkepala_cjitu_field = 0;
+        pasaran_winekor_cjitu_field = 0;
+        pasaran_desc_cjitu_field = 0;
+        pasaran_limitglobal_cjitu_field = 0;
+        pasaran_limittotal_cjitu_field = 0;
+        pasaran_minbet_5050umum_field = 0;
+        pasaran_maxbet_5050umum_field = 0;
+        pasaran_keibesar_5050umum_field = 0;
+        pasaran_keikecil_5050umum_field = 0;
+        pasaran_keigenap_5050umum_field = 0;
+        pasaran_keiganjil_5050umum_field = 0;
+        pasaran_keitengah_5050umum_field = 0;
+        pasaran_keitepi_5050umum_field = 0;
+        pasaran_discbesar_5050umum_field = 0;
+        pasaran_disckecil_5050umum_field = 0;
+        pasaran_discgenap_5050umum_field = 0;
+        pasaran_discganjil_5050umum_field = 0;
+        pasaran_disctengah_5050umum_field = 0;
+        pasaran_disctepi_5050umum_field = 0;
+        pasaran_limitglobal_5050umum_field = 0;
+        pasaran_limittotal_5050umum_field = 0;
+        pasaran_minbet_5050special_field = 0;
+        pasaran_maxbet_5050special_field = 0;
+        pasaran_keiasganjil_5050special_field = 0;
+        pasaran_keiasgenap_5050special_field = 0;
+        pasaran_keiasbesar_5050special_field = 0;
+        pasaran_keiaskecil_5050special_field = 0;
+        pasaran_keikopganjil_5050special_field = 0;
+        pasaran_keikopgenap_5050special_field = 0;
+        pasaran_keikopbesar_5050special_field = 0;
+        pasaran_keikopkecil_5050special_field = 0;
+        pasaran_keikepalaganjil_5050special_field = 0;
+        pasaran_keikepalagenap_5050special_field = 0;
+        pasaran_keikepalabesar_5050special_field = 0;
+        pasaran_keikepalakecil_5050special_field = 0;
+        pasaran_keiekorganjil_5050special_field = 0;
+        pasaran_keiekorgenap_5050special_field = 0;
+        pasaran_keiekorbesar_5050special_field = 0;
+        pasaran_keiekorkecil_5050special_field = 0;
+        pasaran_discasganjil_5050special_field = 0;
+        pasaran_discasgenap_5050special_field = 0;
+        pasaran_discasbesar_5050special_field = 0;
+        pasaran_discaskecil_5050special_field = 0;
+        pasaran_disckopganjil_5050special_field = 0;
+        pasaran_disckopgenap_5050special_field = 0;
+        pasaran_disckopbesar_5050special_field = 0;
+        pasaran_disckopkecil_5050special_field = 0;
+        pasaran_disckepalaganjil_5050special_field = 0;
+        pasaran_disckepalagenap_5050special_field = 0;
+        pasaran_disckepalabesar_5050special_field = 0;
+        pasaran_disckepalakecil_5050special_field = 0;
+        pasaran_discekorganjil_5050special_field = 0;
+        pasaran_discekorgenap_5050special_field = 0;
+        pasaran_discekorbesar_5050special_field = 0;
+        pasaran_discekorkecil_5050special_field = 0;
+        pasaran_limitglobal_5050special_field = 0;
+        pasaran_limittotal_5050special_field = 0;
+        pasaran_minbet_5050kombinasi_field = 0;
+        pasaran_maxbet_5050kombinasi_field = 0;
+        pasaran_belakangkeimono_5050kombinasi_field = 0;
+        pasaran_belakangkeistereo_5050kombinasi_field = 0;
+        pasaran_belakangkeikembang_5050kombinasi_field = 0;
+        pasaran_belakangkeikempis_5050kombinasi_field = 0;
+        pasaran_belakangkeikembar_5050kombinasi_field = 0;
+        pasaran_tengahkeimono_5050kombinasi_field = 0;
+        pasaran_tengahkeistereo_5050kombinasi_field = 0;
+        pasaran_tengahkeikembang_5050kombinasi_field = 0;
+        pasaran_tengahkeikempis_5050kombinasi_field = 0;
+        pasaran_tengahkeikembar_5050kombinasi_field = 0;
+        pasaran_depankeimono_5050kombinasi_field = 0;
+        pasaran_depankeistereo_5050kombinasi_field = 0;
+        pasaran_depankeikembang_5050kombinasi_field = 0;
+        pasaran_depankeikempis_5050kombinasi_field = 0;
+        pasaran_depankeikembar_5050kombinasi_field = 0;
+        pasaran_belakangdiscmono_5050kombinasi_field = 0;
+        pasaran_belakangdiscstereo_5050kombinasi_field = 0;
+        pasaran_belakangdisckembang_5050kombinasi_field = 0;
+        pasaran_belakangdisckempis_5050kombinasi_field = 0;
+        pasaran_belakangdisckembar_5050kombinasi_field = 0;
+        pasaran_tengahdiscmono_5050kombinasi_field = 0;
+        pasaran_tengahdiscstereo_5050kombinasi_field = 0;
+        pasaran_tengahdisckembang_5050kombinasi_field = 0;
+        pasaran_tengahdisckempis_5050kombinasi_field = 0;
+        pasaran_tengahdisckembar_5050kombinasi_field = 0;
+        pasaran_depandiscmono_5050kombinasi_field = 0;
+        pasaran_depandiscstereo_5050kombinasi_field = 0;
+        pasaran_depandisckembang_5050kombinasi_field = 0;
+        pasaran_depandisckempis_5050kombinasi_field = 0;
+        pasaran_depandisckembar_5050kombinasi_field = 0;
+        pasaran_limitglobal_5050kombinasi_field = 0;
+        pasaran_limittotal_5050kombinasi_field = 0;
+        pasaran_minbet_kombinasi_field = 0;
+        pasaran_maxbet_kombinasi_field = 0;
+        pasaran_win_kombinasi_field = 0;
+        pasaran_disc_kombinasi_field = 0;
+        pasaran_limitglobal_kombinasi_field = 0;
+        pasaran_limittotal_kombinasi_field = 0;
+        pasaran_minbet_dasar_field = 0;
+        pasaran_maxbet_dasar_field = 0;
+        pasaran_keibesar_dasar_field = 0;
+        pasaran_keikecil_dasar_field = 0;
+        pasaran_keigenap_dasar_field = 0;
+        pasaran_keiganjil_dasar_field = 0;
+        pasaran_discbesar_dasar_field = 0;
+        pasaran_disckecil_dasar_field = 0;
+        pasaran_discgenap_dasar_field = 0;
+        pasaran_discganjil_dasar_field = 0;
+        pasaran_limitglobal_dasar_field = 0;
+        pasaran_limittotal_dasar_field = 0;
+        pasaran_minbet_shio_field = 0;
+        pasaran_maxbet_shio_field = 0;
+        pasaran_win_shio_field = 0;
+        pasaran_disc_shio_field = 0;
+        pasaran_shioyear_shio_field = "";
+        pasaran_limitglobal_shio_field = 0;
+        pasaran_limittotal_shio_field = 0;
+    }
     $: {
         if (searchHome) {
             filterHome = listHome.filter(
@@ -754,8 +1683,7 @@
                                 <thead class="sticky top-0">
                                     <tr>
                                         <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
-                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top" colspan="2">STATUS</th>
                                         <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PASARAN</th>
                                         <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERIODE</th>
                                         <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WINLOSE</th>
@@ -766,7 +1694,7 @@
                                         {#each listPasaran as rec}
                                             <tr>
                                                 <td class="cursor-pointer" on:click={() => {
-                                                        NewDataAdmin("Edit",rec.company_admin_username,rec.company_admin_nama,rec.company_admin_status);
+                                                        NewDataPasaran(rec.company_pasaran_idcomppasaran,rec.company_pasaran_idpasarantogel,rec.company_pasaran_nmpasarantogel);
                                                     }}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -806,9 +1734,9 @@
     </slot:template>
 </Modal_popup>
 
-<input type="checkbox" id="my-modal-formpasaran" class="modal-toggle" bind:checked={isModal_Form_admin}>
+<input type="checkbox" id="my-modal-formadmin" class="modal-toggle" bind:checked={isModal_Form_admin}>
 <Modal_popup
-    modal_popup_id="my-modal-formpasaran"
+    modal_popup_id="my-modal-formadmin"
     modal_popup_title="Admin Entry/{sDataAdmin}"
     modal_popup_class="select-none w-11/12 {modal_listadmin_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
     <slot:template slot="modalpopup_body">
@@ -871,6 +1799,153 @@
                     handleSaveAdmin();
                 }}  
                 class="{buttonLoading_class} btn-block">Submit</button>
+        </div>
+    </slot:template>
+</Modal_popup>
+
+<input type="checkbox" id="my-modal-formpasaran" class="modal-toggle" bind:checked={isModal_Form_pasaran}>
+<Modal_popup
+    modal_popup_id="my-modal-formpasaran"
+    modal_popup_title="Pasaran : {pasaran_nmpasarantogel_field}"
+    modal_popup_class="select-none w-11/12 {modal_listpasaran_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    <slot:template slot="modalpopup_body">
+        <div class="flex w-full gap-1 mt-2">
+            <div class="grid grid-cols-2 gap-2 w-4/5 ">
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="text"
+                    input_maxlength_text="30"
+                    bind:value={pasaran_urlpasaran_field}
+                    input_id="pasaran_urlpasaran_field"
+                    input_placeholder="Situs"/>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="time"
+                    bind:value={pasaran_jamtutup_field}
+                    input_id="pasaran_jamtutup_field"
+                    input_placeholder="Tutup"/>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="text"
+                    input_maxlength_text="30"
+                    bind:value={pasaran_pasarandiundi_field}
+                    input_id="pasaran_pasarandiundi_field"
+                    input_placeholder="Diundi"/>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="time"
+                    bind:value={pasaran_jamjadwal_field}
+                    input_id="pasaran_jamjadwal_field"
+                    input_placeholder="Jadwal"/>
+                <div></div>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="time"
+                    bind:value={pasaran_jamopen_field}
+                    input_id="pasaran_jamopen_field"
+                    input_placeholder="Open"/>
+                <div></div>
+                <select
+                    bind:value={pasaran_status_field}
+                    class="select select-bordered w-full focus:ring-0 focus:outline-none rounded-md">
+                    <option disabled selected value="">--Pilih Status--</option>
+                    <option value="Y">ACTIVE</option>
+                    <option value="N">DEACTIVE</option>
+                </select>
+                <div class="col-span-2">
+                    <button on:click={() => {
+                        saveupdatepasaran();
+                    }} class="btn btn-primary btn-block">Submit</button>
+                </div>
+            </div>
+            <div class="w-full ">
+                <ul class="flex justify-center items-center gap-2">
+                    <li on:click={() => {
+                            ChangeTabMenuPasaran("menu_listpasaran_limit");
+                        }}
+                        class="items-center {tab_listpasaran_limit} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Limit Line</li>
+                    <li on:click={() => {
+                            ChangeTabMenuPasaran("menu_listpasaran_online");
+                        }}
+                        class="items-center {tab_listpasaran_online} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Online</li>
+                    <li on:click={() => {
+                            ChangeTabMenuPasaran("menu_listpasaran_configure");
+                        }}
+                        class="items-center {tab_listpasaran_configure} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure</li>
+                </ul>
+                {#if panel_listpasaran_limit}
+                    <div class="grid grid-cols-3 gap-2 mt-3">
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number_nolabel"
+                            bind:value={pasaran_bbfs_field}
+                            input_maxlenght="2"
+                            input_id="pasaran_bbfs_field"
+                            input_placeholder="BBFS"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline4d_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline4d_field"
+                            input_placeholder="LimitLine 4D"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2d_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline2d_field"
+                            input_placeholder="LimitLine 2D"/>
+                        <div></div>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline3d_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline3d_field"
+                            input_placeholder="LimitLine 3D"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2dd_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline2dd_field"
+                            input_placeholder="LimitLine 2DD"/>
+                        <div></div>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline3dd_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline3dd_field"
+                            input_placeholder="LimitLine 3DD"/>
+                        <Input_custom
+                            input_enabled={true}
+                            input_tipe="number"
+                            bind:value={pasaran_limitline2dt_field}
+                            input_maxlenght="8"
+                            input_id="pasaran_limitline2dt_field"
+                            input_placeholder="LimitLine 2DT"/>
+                        <div></div>
+                        <button on:click={() => {
+                            fetchlimitline();
+                        }} class="btn btn-warning btn-block">Fetch</button>
+                        <button on:click={() => {
+                            saveupdatepasaranline();
+                        }} class="{buttonLoading_class} btn-block">Submit</button>
+                    </div>
+                {/if}
+            </div>
         </div>
     </slot:template>
 </Modal_popup>
