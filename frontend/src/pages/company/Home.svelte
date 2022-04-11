@@ -1197,6 +1197,12 @@
         pasaran_id_field = z;
         pasaran_nmpasarantogel_field = f
         modal_listpasaran_width = "max-w-5xl"
+        tab_listpasaran_limit = "bg-sky-600 text-white"
+        tab_listpasaran_online = ""
+        tab_listpasaran_configure = ""
+        panel_listpasaran_limit = true
+        panel_listpasaran_online = false
+        panel_listpasaran_configure = false
         call_listpasaranconf()
         call_listpasaranonline()
         isModal_Form_pasaran = true;
