@@ -42,6 +42,16 @@
     let filterHome = [];
     let filterListAdmin = [];
 
+    let admin_username_field = "";
+    let admin_username_enable_field = true;
+    let admin_password_field = "";
+    let admin_name_field = "";
+    let admin_status_field = "";
+    let admin_username_field_error = "";
+    let admin_password_field_error = "";
+    let admin_name_field_error = "";
+    let admin_status_field_error = "";
+
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
         home_id_field: yup
@@ -175,6 +185,7 @@
         }
     }
     async function call_listadmin() {
+        listAdmin = [];
         const res = await fetch(path_api+"api/companylistadmin", {
             method: "POST",
             headers: {
@@ -218,6 +229,95 @@
             }
         } 
     }
+    async function handleSaveAdmin() {
+        let flag = false;
+        msg_error = "";
+        admin_username_field_error = "";
+        admin_password_field_error = "";
+        admin_name_field_error = "";
+        admin_status_field_error = "";
+        const regexExp = /^[a-z0-9]+$/gi;
+        const regexExp2 = /^[A-Za-z0-9 ]+$/gi;
+        let flag_username_pattern = regexExp.test(admin_username_field)
+        let flag_name_pattern = regexExp2.test(admin_name_field)
+        if(admin_username_field == ""){
+            flag = true
+            admin_username_field_error ="Username is required"
+        }
+        if(!flag_username_pattern){
+            flag = true
+            admin_username_field_error ="Format Username tidak sesuai pattern a-z atau 0-9"
+        }
+        if(sDataAdmin == "New"){
+            if(admin_password_field == ""){
+                flag = true
+                admin_password_field_error ="Password is required"
+            }
+        }
+        if(admin_name_field == ""){
+            flag = true
+            admin_name_field_error ="Name is required"
+        }
+        if(!flag_name_pattern){
+            flag = true
+            admin_name_field_error ="Format Name tidak sesuai pattern a-z atau A-Z atau 0-9 atau spasi"
+        }
+        if(admin_status_field == ""){
+            flag = true
+            admin_status_field_error ="Status is required"
+        }
+        if(flag == false){
+            buttonLoading_class = "btn loading"
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/savecompanyadmin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sDataAdmin,
+                    master: master,
+                    company: idcompany,
+                    admin_username: admin_username_field.toLowerCase,
+                    admin_password: admin_password_field,
+                    admin_name: admin_name_field,
+                    admin_status: admin_status_field,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                    if(sDataAdmin == "New"){
+                        admin_username_field = "";
+                        admin_password_field = "";
+                        admin_name_field = "";
+                        admin_status_field = "";
+                        admin_username_field_error = "";
+                        admin_password_field_error = "";
+                        admin_name_field_error = "";
+                        admin_status_field_error = "";
+                    }
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                buttonLoading_class = "btn btn-primary"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listadmin();
+            }
+        }
+    };
     const RefreshHalaman = () => {
         dispatch("handleRefreshData", "call");
     };
@@ -227,12 +327,29 @@
         modal_width = "max-w-xl"
         isModal_Form_New = true;
     };
-    const NewDataAdmin = () => {
-        sDataAdmin = "New";
-        clearField()
+    const NewDataAdmin = (e,usernameadmincomp,nmadmincomp,stausadmincomp) => {
+        sDataAdmin = e;
         modal_listadmin_width = "max-w-xl"
         isModal_Form_admin = true;
+        if(e == "Edit"){
+            admin_username_enable_field = false
+            admin_username_field = usernameadmincomp;
+            admin_password_field = "";
+            admin_name_field = nmadmincomp;
+            admin_status_field = stausadmincomp;
+        }else{
+            admin_username_enable_field = true
+            admin_username_field = "";
+            admin_password_field = "";
+            admin_name_field = "";
+            admin_status_field = "";
+            admin_username_field_error = "";
+            admin_password_field_error = "";
+            admin_name_field_error = "";
+            admin_status_field_error = "";
+        }
     };
+    
     const ChangeTabMenu = (e) => {
         switch(e){
             case "menu_listadmin":
@@ -255,6 +372,9 @@
         $form.home_id_field = "";
         $form.home_name_field = "";
         $form.home_url_field = "";
+        $errors.home_id_field = "";
+        $errors.home_name_field = "";
+        $errors.home_url_field = "";
         home_status_field = "";
         home_create_field = "";
         home_update_field = "";
@@ -429,7 +549,7 @@
         {#if sData=="Edit"}
             <div class="flex justify-between w-full gap-2">
                 <div class="w-1/2">
-                    <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2  ">
+                    <div class="flex flex-auto flex-col overflow-auto gap-2 mt-2  ">
                         <div class="mt-2">
                             <Input_custom
                                 input_autofocus={false}
@@ -442,33 +562,37 @@
                                 input_id="home_id_field"
                                 input_placeholder="ID"/>
                         </div>
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="text"
-                            input_text_class="uppercase"
-                            input_maxlength_text="70"
-                            input_invalid={$errors.home_name_field.length > 0}
-                            bind:value={$form.home_name_field}
-                            input_id="home_name_field"
-                            input_placeholder="Name"/>
-                        {#if $errors.home_name_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
-                        {/if}
-                        <Input_custom
-                            input_onchange="{handleChange}"
-                            input_autofocus={false}
-                            input_required={true}
-                            input_tipe="text"
-                            input_maxlength_text="350"
-                            input_invalid={$errors.home_url_field.length > 0}
-                            bind:value={$form.home_url_field}
-                            input_id="home_url_field"
-                            input_placeholder="URL"/>
-                        {#if $errors.home_url_field}
-                            <small class="text-pink-600 text-[11px]">{$errors.home_url_field}</small>
-                        {/if}
+                        <div>
+                            <Input_custom
+                                input_onchange="{handleChange}"
+                                input_autofocus={false}
+                                input_required={true}
+                                input_tipe="text"
+                                input_text_class="uppercase"
+                                input_maxlength_text="70"
+                                input_invalid={$errors.home_name_field.length > 0}
+                                bind:value={$form.home_name_field}
+                                input_id="home_name_field"
+                                input_placeholder="Name"/>
+                            {#if $errors.home_name_field}
+                                <small class="text-pink-600 text-[11px]">{$errors.home_name_field}</small>
+                            {/if}
+                        </div>
+                        <div>
+                            <Input_custom
+                                input_onchange="{handleChange}"
+                                input_autofocus={false}
+                                input_required={true}
+                                input_tipe="text"
+                                input_maxlength_text="350"
+                                input_invalid={$errors.home_url_field.length > 0}
+                                bind:value={$form.home_url_field}
+                                input_id="home_url_field"
+                                input_placeholder="URL"/>
+                            {#if $errors.home_url_field}
+                                <small class="text-pink-600 text-[11px]">{$errors.home_url_field}</small>
+                            {/if}
+                        </div>
                         <p class="text-[11px]">
                             Create : {home_create_field}
                             {#if home_update_field != ""}
@@ -503,24 +627,32 @@
                                 bind:value={searchListAdmin}
                                 type="text" placeholder="Search by Username" class="input input-bordered w-full  rounded-md  focus:ring-0 focus:outline-none">
                             <button on:click={() => {
-                                NewDataAdmin();
+                                NewDataAdmin("New","","","");
                                 }}  class="btn bg-primary hover:bg-primary  rounded-md shadow-lg shadow-[#6eb5d8] border-none  ">New</button>
                         </div>
                         <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[400px] overflow-y-scroll mt-2">
                             <table class="table table-compact w-full">
                                 <thead class="sticky top-0">
                                     <tr>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">TYPE</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTLOGIN</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTIPADDRESS</th>
-                                        <th class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
+                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">STATUS</th>
+                                        <th width="7%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">TYPE</th>
+                                        <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTLOGIN</th>
+                                        <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">LASTIPADDRESS</th>
+                                        <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">USERNAME</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {#if filterListAdmin != ""}
                                         {#each filterListAdmin as rec}
                                             <tr>
+                                                <td class="cursor-pointer" on:click={() => {
+                                                        NewDataAdmin("Edit",rec.company_admin_username,rec.company_admin_nama,rec.company_admin_status);
+                                                    }}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </td>
                                                 <td class="text-xs text-center align-top">
                                                     <span class="{rec.company_admin_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_admin_status}</span>
                                                 </td>
@@ -559,8 +691,65 @@
     modal_popup_title="Admin Entry/{sDataAdmin}"
     modal_popup_class="select-none w-11/12 {modal_listadmin_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
     <slot:template slot="modalpopup_body">
-        <div class="flex flex-col">
-            
+        <div class="flex flex-col gap-2">
+            <div class="mt-2">
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={admin_username_enable_field}
+                    input_tipe="text"
+                    input_text_class="lowercase"
+                    input_maxlength_text="30"
+                    bind:value={admin_username_field}
+                    input_id="admin_username_field"
+                    input_placeholder="Username"/>
+                {#if admin_username_field_error != ""}
+                    <small class="text-pink-600 text-[11px]">{admin_username_field_error}</small>
+                {/if}
+            </div>
+            <div>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_tipe="password"
+                    input_attr="password"
+                    bind:value={admin_password_field}
+                    input_id="admin_password_field"
+                    input_placeholder="Password"/>
+                    {#if admin_password_field_error != ""}
+                        <small class="text-pink-600 text-[11px]">{admin_password_field_error}</small>
+                    {/if}
+            </div>
+            <div>
+                <Input_custom
+                    input_autofocus={false}
+                    input_required={true}
+                    input_enabled={true}
+                    input_tipe="text"
+                    input_text_class=""
+                    input_maxlength_text="70"
+                    bind:value={admin_name_field}
+                    input_id="admin_name_field"
+                    input_placeholder="Name"/>
+                    {#if admin_name_field_error != ""}
+                        <small class="text-pink-600 text-[11px]">{admin_name_field_error}</small>
+                    {/if}
+            </div>
+            <div>
+                <select class="select select-bordered w-full rounded-md focus:ring-0 focus:outline-none" bind:value="{admin_status_field}">
+                    <option disabled selected value="">--Pilih Status--</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="DEACTIVE">DEACTIVE</option>
+                </select>
+                {#if admin_status_field_error != ""}
+                    <small class="text-pink-600 text-[11px]">{admin_status_field_error}</small>
+                {/if}
+            </div>
+            <button
+                on:click={() => {
+                    handleSaveAdmin();
+                }}  
+                class="{buttonLoading_class} btn-block">Submit</button>
         </div>
     </slot:template>
 </Modal_popup>

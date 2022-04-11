@@ -78,9 +78,7 @@
                     class="{input_class}"> 
             {:else}
                 <input
-                    on:change={input_onchange}
                     bind:value
-                    invalid={input_invalid}
                     type="text" 
                     maxlength="{input_maxlength_text}"
                     id="{input_id}"
