@@ -2,6 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
+    import dayjs from "dayjs";
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Modal_popup from '../../components/Modal_popup.svelte' 
@@ -21,11 +22,13 @@
     let isModal_Form_New = false
     let isModal_Form_admin = false
     let isModal_Form_pasaran = false
+    let isModal_Form_confpasaran = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
     let modal_listadmin_width = "max-w-xl"
     let modal_listpasaran_width = "max-w-xl"
+    let modal_confpasaran_width = "max-w-xl"
     let modalpasaran_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
@@ -58,6 +61,7 @@
     let searchListAdmin = "";
     let filterHome = [];
     let filterListAdmin = [];
+    let permainan = ""; 
 
     let admin_username_field = "";
     let admin_username_enable_field = true;
@@ -552,11 +556,15 @@
         if (json.status === 400) {
         } else {
             for (let i = 0; i < record.length; i++) {
+                let jamtutup = dayjs().format("DD MMM YYYY ")+record[i]["pasaran_jamtutup"];
+                let jamjadwal = dayjs().format("DD MMM YYYY ")+record[i]["pasaran_jamjadwal"];
+                let jamopen = dayjs().format("DD MMM YYYY ")+record[i]["pasaran_jamopen"];
+
                 pasaran_urlpasaran_field = record[i]["pasaran_url"];
                 pasaran_pasarandiundi_field = record[i]["pasaran_diundi"];
-                pasaran_jamtutup_field = record[i]["pasaran_jamtutup"];
-                pasaran_jamjadwal_field = record[i]["pasaran_jamjadwal"];
-                pasaran_jamopen_field = record[i]["pasaran_jamopen"];
+                pasaran_jamtutup_field = dayjs(jamtutup).format("HH:mm");
+                pasaran_jamjadwal_field = dayjs(jamjadwal).format("HH:mm");
+                pasaran_jamopen_field = dayjs(jamopen).format("HH:mm");
                 pasaran_status_field = record[i]["pasaran_statusactive"];
                 pasaran_bbfs_field = record[i]["bbfs"];
                 pasaran_limitline4d_field = record[i]["limitline_4d"];
@@ -1253,12 +1261,11 @@
         }
     }
     const call_configure = (e) => {
-        let permainan = ""; 
         switch(e){
             case "4-3-2":
-                modalpasaran_width = "max-w-5xl ";
+                modal_confpasaran_width = "max-w-5xl ";
                 permainan = "4D/3D/2D"
-                isModal_Form_pasaran = true;
+                isModal_Form_confpasaran = true;
                 panel_432D = true;
                 panel_cbebas = false;
                 panel_cmacau = false
@@ -2305,6 +2312,16 @@
                 {/if}
             </div>
         </div>
+    </slot:template>
+</Modal_popup>
+
+<input type="checkbox" id="my-modal-formconfpasaran" class="modal-toggle" bind:checked={isModal_Form_confpasaran}>
+<Modal_popup
+    modal_popup_id="my-modal-formconfpasaran"
+    modal_popup_title="{pasaran_nmpasarantogel_field} - {permainan}"
+    modal_popup_class="select-none w-11/12 {modal_confpasaran_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    <slot:template slot="modalpopup_body">
+        
     </slot:template>
 </Modal_popup>
 
