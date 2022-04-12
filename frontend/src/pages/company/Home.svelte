@@ -8,7 +8,8 @@
     import Modal_popup from '../../components/Modal_popup.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
-    import Pasaran_basic from './pasaran_basic.svelte'
+    import Panel_432D from './432D.svelte'
+    import Panel_cbebas from './colok_bebas.svelte'
 
     export let path_api = "";
     export let token = "";
@@ -1279,9 +1280,9 @@
                 panel_shio = false
                 break;
             case "colok_bebas":
-                modalpasaran_width = "max-w-3xl ";
-                permainan = "Colok Bebas";
-                isModal_Form_pasaran = true;
+                modal_confpasaran_width = "max-w-5xl ";
+                permainan = "Colok Bebas"
+                isModal_Form_confpasaran = true;
                 panel_cbebas = true;
                 panel_432D = false;
                 panel_cmacau = false
@@ -1667,6 +1668,20 @@
         pasaran_limitglobal_shio_field = 0;
         pasaran_limittotal_shio_field = 0;
     }
+    const LoadingRunning = () => {
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+    };
+    const LoadingRunningFinish = (e) => {
+        loader_msg =e.detail.temp_msg
+        setTimeout(function () {
+            loader_class = "hidden";
+        }, 1000);
+    };
+    const call_notif = (e) => {
+        msg_error = e.detail.temp_msg
+        isModalNotif = true;
+    };   
     $: {
         if (searchHome) {
             filterHome = listHome.filter(
@@ -2321,7 +2336,90 @@
     modal_popup_title="{pasaran_nmpasarantogel_field} - {permainan}"
     modal_popup_class="select-none w-11/12 {modal_confpasaran_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
     <slot:template slot="modalpopup_body">
-        
+        {#if panel_432D}
+            <Panel_432D
+                on:handleLoadingRunning={LoadingRunning}
+                on:handleLoadingRunningFinish={LoadingRunningFinish}
+                on:handleCallNotif={call_notif} 
+                {path_api}
+                {master}
+                {token}
+                {idcompany}
+                {companypasaran_id}
+                {pasaran_id_field}
+                {pasaran_minbet_432d_field}
+                {pasaran_maxbet4d_432d_field}
+                {pasaran_maxbet3d_432d_field}
+                {pasaran_maxbet3dd_432d_field}
+                {pasaran_maxbet2d_432d_field}
+                {pasaran_maxbet2dd_432d_field}
+                {pasaran_maxbet2dt_432d_field}
+                {pasaran_limitotal4d_432d_field}
+                {pasaran_limitotal3d_432d_field}
+                {pasaran_limitotal3dd_432d_field}
+                {pasaran_limitotal2d_432d_field}
+                {pasaran_limitotal2dd_432d_field}
+                {pasaran_limitotal2dt_432d_field}
+                {pasaran_limitglobal4d_432d_field}
+                {pasaran_limitglobal3d_432d_field}
+                {pasaran_limitglobal3dd_432d_field}
+                {pasaran_limitglobal2d_432d_field}
+                {pasaran_limitglobal2dd_432d_field}
+                {pasaran_limitglobal2dt_432d_field}
+                {pasaran_disc4d_432d_field}
+                {pasaran_disc3d_432d_field}
+                {pasaran_disc3dd_432d_field}
+                {pasaran_disc2d_432d_field}
+                {pasaran_disc2dd_432d_field}
+                {pasaran_disc2dt_432d_field}
+                {pasaran_win4d_432d_field}
+                {pasaran_win3d_432d_field}
+                {pasaran_win3dd_432d_field}
+                {pasaran_win2d_432d_field}
+                {pasaran_win2dd_432d_field}
+                {pasaran_win2dt_432d_field}
+                {pasaran_win4d_nodisc_432d_field}
+                {pasaran_win3d_nodisc_432d_field}
+                {pasaran_win3dd_nodisc_432d_field}
+                {pasaran_win2d_nodisc_432d_field}
+                {pasaran_win2dd_nodisc_432d_field}
+                {pasaran_win2dt_nodisc_432d_field}
+                {pasaran_win4d_bb_kena_432d_field}
+                {pasaran_win3d_bb_kena_432d_field}
+                {pasaran_win3dd_bb_kena_432d_field}
+                {pasaran_win2d_bb_kena_432d_field}
+                {pasaran_win2dd_bb_kena_432d_field}
+                {pasaran_win2dt_bb_kena_432d_field}
+                {pasaran_win4d_bb_432d_field}
+                {pasaran_win3d_bb_432d_field}
+                {pasaran_win3dd_bb_432d_field}
+                {pasaran_win2d_bb_432d_field}
+                {pasaran_win2dd_bb_432d_field}
+                {pasaran_win2dt_bb_432d_field}
+                {pasaran_minbet_cbebas_field}
+                {pasaran_maxbet_cbebas_field}
+                {pasaran_limitotal_cbebas_field}
+                {pasaran_limitglobal_cbebas_field}
+             />
+        {/if}
+        {#if panel_cbebas}
+            <Panel_cbebas 
+                on:handleLoadingRunning={LoadingRunning}
+                on:handleLoadingRunningFinish={LoadingRunningFinish}
+                on:handleCallNotif={call_notif} 
+                {path_api}
+                {master}
+                {token}
+                {idcompany}
+                {companypasaran_id}
+                {pasaran_id_field}
+                {pasaran_minbet_cbebas_field}
+                {pasaran_maxbet_cbebas_field}
+                {pasaran_limitotal_cbebas_field}
+                {pasaran_limitglobal_cbebas_field}
+                {pasaran_win_cbebas_field}
+                {pasaran_disc_cbebas_field} />
+        {/if}
     </slot:template>
 </Modal_popup>
 
