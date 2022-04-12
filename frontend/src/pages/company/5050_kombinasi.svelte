@@ -1,10 +1,13 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
+
     export let path_api = "";
     export let master = "";
     export let token = "";
-    export let idpasarantogel = "";
+    export let idcompany = "";
+    export let companypasaran_id = "";
+    export let pasaran_id_field = "";
     export let pasaran_minbet_5050kombinasi_field = 0;
     export let pasaran_maxbet_5050kombinasi_field = 0;
     export let pasaran_belakangkeimono_5050kombinasi_field = 0;
@@ -40,6 +43,7 @@
     export let pasaran_limitglobal_5050kombinasi_field = 0;
     export let pasaran_limittotal_5050kombinasi_field = 0;
     let buttonLoading_class = "btn btn-primary";
+    let buttonLoadingfetch_class = "btn btn-warning";
     let msg_error = "";
     let dispatch = createEventDispatcher();
     async function save432d() {
@@ -184,117 +188,52 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasaran5050kombinasi", {
+            const res = await fetch(path_api+"api/updatecompanypasaran5050kombinasi", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
+                    sdata: "Edit",
                     master: master,
-                    idrecord: idpasarantogel,
-                    pasaran_minbet_5050kombinasi: parseInt(
-                        pasaran_minbet_5050kombinasi_field
-                    ),
-                    pasaran_maxbet_5050kombinasi: parseInt(
-                        pasaran_maxbet_5050kombinasi_field
-                    ),
-                    pasaran_limitglobal_5050kombinasi: parseInt(
-                        pasaran_limitglobal_5050kombinasi_field
-                    ),
-                    pasaran_limittotal_5050kombinasi: parseInt(
-                        pasaran_limittotal_5050kombinasi_field
-                    ),
-                    pasaran_belakangkeimono_5050kombinasi: parseFloat(
-                        pasaran_belakangkeimono_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangkeistereo_5050kombinasi: parseFloat(
-                        pasaran_belakangkeistereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangkeikembang_5050kombinasi: parseFloat(
-                        pasaran_belakangkeikembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangkeikempis_5050kombinasi: parseFloat(
-                        pasaran_belakangkeikempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangkeikembar_5050kombinasi: parseFloat(
-                        pasaran_belakangkeikembar_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahkeimono_5050kombinasi: parseFloat(
-                        pasaran_tengahkeimono_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahkeistereo_5050kombinasi: parseFloat(
-                        pasaran_tengahkeistereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahkeikembang_5050kombinasi: parseFloat(
-                        pasaran_tengahkeikembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahkeikempis_5050kombinasi: parseFloat(
-                        pasaran_tengahkeikempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahkeikembar_5050kombinasi: parseFloat(
-                        pasaran_tengahkeikembar_5050kombinasi_field / 100
-                    ),
-                    pasaran_depankeimono_5050kombinasi: parseFloat(
-                        pasaran_depankeimono_5050kombinasi_field / 100
-                    ),
-                    pasaran_depankeistereo_5050kombinasi: parseFloat(
-                        pasaran_depankeistereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_depankeikembang_5050kombinasi: parseFloat(
-                        pasaran_depankeikembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_depankeikempis_5050kombinasi: parseFloat(
-                        pasaran_depankeikempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_depankeikembar_5050kombinasi: parseFloat(
-                        pasaran_depankeikembar_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangdiscmono_5050kombinasi: parseFloat(
-                        pasaran_belakangdiscmono_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangdiscstereo_5050kombinasi: parseFloat(
-                        pasaran_belakangdiscstereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangdisckembang_5050kombinasi: parseFloat(
-                        pasaran_belakangdisckembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangdisckempis_5050kombinasi: parseFloat(
-                        pasaran_belakangdisckempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_belakangdisckembar_5050kombinasi: parseFloat(
-                        pasaran_belakangdisckembar_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahdiscmono_5050kombinasi: parseFloat(
-                        pasaran_tengahdiscmono_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahdiscstereo_5050kombinasi: parseFloat(
-                        pasaran_tengahdiscstereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahdisckembang_5050kombinasi: parseFloat(
-                        pasaran_tengahdisckembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahdisckempis_5050kombinasi: parseFloat(
-                        pasaran_tengahdisckempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_tengahdisckembar_5050kombinasi: parseFloat(
-                        pasaran_tengahdisckembar_5050kombinasi_field / 100
-                    ),
-                    pasaran_depandiscmono_5050kombinasi: parseFloat(
-                        pasaran_depandiscmono_5050kombinasi_field / 100
-                    ),
-                    pasaran_depandiscstereo_5050kombinasi: parseFloat(
-                        pasaran_depandiscstereo_5050kombinasi_field / 100
-                    ),
-                    pasaran_depandisckembang_5050kombinasi: parseFloat(
-                        pasaran_depandisckembang_5050kombinasi_field / 100
-                    ),
-                    pasaran_depandisckempis_5050kombinasi: parseFloat(
-                        pasaran_depandisckempis_5050kombinasi_field / 100
-                    ),
-                    pasaran_depandisckembar_5050kombinasi: parseFloat(
-                        pasaran_depandisckembar_5050kombinasi_field / 100
-                    ),
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_id: pasaran_id_field,
+                    pasaran_minbet_5050kombinasi: parseInt(pasaran_minbet_5050kombinasi_field),
+                    pasaran_maxbet_5050kombinasi: parseInt(pasaran_maxbet_5050kombinasi_field),
+                    pasaran_limitglobal_5050kombinasi: parseInt(pasaran_limitglobal_5050kombinasi_field),
+                    pasaran_limittotal_5050kombinasi: parseInt(pasaran_limittotal_5050kombinasi_field),
+                    pasaran_belakangkeimono_5050kombinasi: parseFloat(pasaran_belakangkeimono_5050kombinasi_field / 100),
+                    pasaran_belakangkeistereo_5050kombinasi: parseFloat(pasaran_belakangkeistereo_5050kombinasi_field / 100),
+                    pasaran_belakangkeikembang_5050kombinasi: parseFloat(pasaran_belakangkeikembang_5050kombinasi_field / 100),
+                    pasaran_belakangkeikempis_5050kombinasi: parseFloat(pasaran_belakangkeikempis_5050kombinasi_field / 100),
+                    pasaran_belakangkeikembar_5050kombinasi: parseFloat(pasaran_belakangkeikembar_5050kombinasi_field / 100),
+                    pasaran_tengahkeimono_5050kombinasi: parseFloat(pasaran_tengahkeimono_5050kombinasi_field / 100),
+                    pasaran_tengahkeistereo_5050kombinasi: parseFloat(pasaran_tengahkeistereo_5050kombinasi_field / 100),
+                    pasaran_tengahkeikembang_5050kombinasi: parseFloat(pasaran_tengahkeikembang_5050kombinasi_field / 100),
+                    pasaran_tengahkeikempis_5050kombinasi: parseFloat(pasaran_tengahkeikempis_5050kombinasi_field / 100),
+                    pasaran_tengahkeikembar_5050kombinasi: parseFloat(pasaran_tengahkeikembar_5050kombinasi_field / 100),
+                    pasaran_depankeimono_5050kombinasi: parseFloat(pasaran_depankeimono_5050kombinasi_field / 100),
+                    pasaran_depankeistereo_5050kombinasi: parseFloat(pasaran_depankeistereo_5050kombinasi_field / 100),
+                    pasaran_depankeikembang_5050kombinasi: parseFloat(pasaran_depankeikembang_5050kombinasi_field / 100),
+                    pasaran_depankeikempis_5050kombinasi: parseFloat(pasaran_depankeikempis_5050kombinasi_field / 100),
+                    pasaran_depankeikembar_5050kombinasi: parseFloat(pasaran_depankeikembar_5050kombinasi_field / 100),
+                    pasaran_belakangdiscmono_5050kombinasi: parseFloat(pasaran_belakangdiscmono_5050kombinasi_field / 100),
+                    pasaran_belakangdiscstereo_5050kombinasi: parseFloat(pasaran_belakangdiscstereo_5050kombinasi_field / 100),
+                    pasaran_belakangdisckembang_5050kombinasi: parseFloat(pasaran_belakangdisckembang_5050kombinasi_field / 100),
+                    pasaran_belakangdisckempis_5050kombinasi: parseFloat(pasaran_belakangdisckempis_5050kombinasi_field / 100),
+                    pasaran_belakangdisckembar_5050kombinasi: parseFloat(pasaran_belakangdisckembar_5050kombinasi_field / 100),
+                    pasaran_tengahdiscmono_5050kombinasi: parseFloat(pasaran_tengahdiscmono_5050kombinasi_field / 100),
+                    pasaran_tengahdiscstereo_5050kombinasi: parseFloat(pasaran_tengahdiscstereo_5050kombinasi_field / 100),
+                    pasaran_tengahdisckembang_5050kombinasi: parseFloat(pasaran_tengahdisckembang_5050kombinasi_field / 100),
+                    pasaran_tengahdisckempis_5050kombinasi: parseFloat(pasaran_tengahdisckempis_5050kombinasi_field / 100),
+                    pasaran_tengahdisckembar_5050kombinasi: parseFloat(pasaran_tengahdisckembar_5050kombinasi_field / 100),
+                    pasaran_depandiscmono_5050kombinasi: parseFloat(pasaran_depandiscmono_5050kombinasi_field / 100),
+                    pasaran_depandiscstereo_5050kombinasi: parseFloat(pasaran_depandiscstereo_5050kombinasi_field / 100),
+                    pasaran_depandisckembang_5050kombinasi: parseFloat(pasaran_depandisckembang_5050kombinasi_field / 100),
+                    pasaran_depandisckempis_5050kombinasi: parseFloat(pasaran_depandisckempis_5050kombinasi_field / 100),
+                    pasaran_depandisckembar_5050kombinasi: parseFloat(pasaran_depandisckembar_5050kombinasi_field / 100),
                 }),
             });
             const json = await res.json();
@@ -319,7 +258,52 @@
             }
         }
     }
-    
+    async function fetchcolok() {
+        let flag = false;
+        msg_error = "";
+        if (pasaran_id_field == "") {
+            flag = true;
+            msg_error += "The Pasaran is required<br>";
+        }
+        if (flag == false) {
+            buttonLoadingfetch_class = "btn loading"
+            dispatch("handleLoadingRunning", "call");
+            const res = await fetch(path_api+"api/fetchpasaran5050kombinasi", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: "Edit",
+                    master: master,
+                    company: idcompany,
+                    pasaran_id: pasaran_id_field,
+                    Companypasaran_id: companypasaran_id,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                let temp_msg = "System Mengalami Trouble"
+                dispatch("handleLoadingRunningFinish", {
+                        temp_msg
+                });
+            }else{
+                let temp_msg = json.message
+                dispatch("handleLoadingRunningFinish", {
+                        temp_msg
+                });
+            }
+            buttonLoadingfetch_class = "btn btn-warning"
+        } else {
+            if(msg_error != ""){
+                let temp_msg = msg_error
+                dispatch("handleCallNotif", {
+                        temp_msg
+                });
+            }
+        }
+    }
 </script>
 
 <div class="grid grid-cols-5 gap-1 mt-2 mb-5">
@@ -594,6 +578,11 @@
     
   
 </div>
-<button on:click={() => {
-    save432d();
-}} class="{buttonLoading_class} btn-block">Submit</button>
+<div class="grid grid-cols-2 gap-2">
+    <button on:click={() => {
+        fetchcolok();
+    }} class="{buttonLoadingfetch_class} btn-block ">Fetch</button>
+    <button on:click={() => {
+        save432d();
+    }} class="{buttonLoading_class} btn-block ">Submit</button>
+</div>

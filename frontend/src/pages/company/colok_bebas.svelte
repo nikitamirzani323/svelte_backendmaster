@@ -98,6 +98,8 @@
             msg_error += "The Pasaran is required<br>";
         }
         if (flag == false) {
+            buttonLoadingfetch_class = "btn loading"
+            dispatch("handleLoadingRunning", "call");
             const res = await fetch(path_api+"api/fetchpasarancbebas", {
                 method: "POST",
                 headers: {

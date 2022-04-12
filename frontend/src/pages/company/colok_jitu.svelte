@@ -1,10 +1,13 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Input_custom from '../../components/Input.svelte'
+    
     export let path_api = "";
     export let master = "";
     export let token = "";
-    export let idpasarantogel = "";
+    export let idcompany = "";
+    export let companypasaran_id = "";
+    export let pasaran_id_field = "";
     export let pasaran_minbet_cjitu_field = 0;
     export let pasaran_maxbet_cjitu_field = 0;
     export let pasaran_winas_cjitu_field = 0;
@@ -15,6 +18,7 @@
     export let pasaran_limitglobal_cjitu_field = 0;
     export let pasaran_limittotal_cjitu_field = 0;
     let buttonLoading_class = "btn btn-primary";
+    let buttonLoadingfetch_class = "btn btn-warning";
     let msg_error = "";
     let dispatch = createEventDispatcher();
     async function save432d() {
@@ -59,24 +63,26 @@
         if (flag == false) {
             buttonLoading_class = "btn loading"
             dispatch("handleLoadingRunning", "call");
-            const res = await fetch(path_api+"api/savepasarancjitu", {
+            const res = await fetch(path_api+"api/updatecompanypasarancolokmacau", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
                 body: JSON.stringify({
+                    sdata: "Edit",
                     master: master,
-                    idrecord: idpasarantogel,
-                    pasaran_minbet_cjitu: parseInt(pasaran_minbet_cjitu_field),
-                    pasaran_maxbet_cjitu: parseInt(pasaran_maxbet_cjitu_field),
-                    pasaran_limittotal_cjitu: parseInt(pasaran_limittotal_cjitu_field),
-                    pasaran_limitglobal_cjitu: parseInt(pasaran_limitglobal_cjitu_field),
-                    pasaran_winas_cjitu: parseFloat(pasaran_winas_cjitu_field),
-                    pasaran_winkop_cjitu: parseFloat(pasaran_winkop_cjitu_field),
-                    pasaran_winkepala_cjitu: parseFloat(pasaran_winkepala_cjitu_field),
-                    pasaran_winekor_cjitu: parseFloat(pasaran_winekor_cjitu_field),
-                    pasaran_desc_cjitu: parseFloat(pasaran_desc_cjitu_field / 100),
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_id: pasaran_id_field,
+                    pasaran_minbet_cmacau: parseInt(pasaran_minbet_cmacau_field),
+                    pasaran_maxbet_cmacau: parseInt(pasaran_maxbet_cmacau_field),
+                    pasaran_limitotal_cmacau: parseInt(pasaran_limitotal_cmacau_field),
+                    pasaran_limitglobal_cmacau: parseInt(pasaran_limitglobal_cmacau_field),
+                    pasaran_win2_cmacau: parseFloat(pasaran_win2_cmacau_field),
+                    pasaran_win3_cmacau: parseFloat(pasaran_win3_cmacau_field),
+                    pasaran_win4_cmacau: parseFloat(pasaran_win4_cmacau_field),
+                    pasaran_disc_cmacau: parseFloat(pasaran_disc_cmacau_field / 100),
                 }),
             });
             const json = await res.json();
@@ -101,7 +107,52 @@
             }
         }
     }
-    
+    async function fetchcolok() {
+        let flag = false;
+        msg_error = "";
+        if (pasaran_id_field == "") {
+            flag = true;
+            msg_error += "The Pasaran is required<br>";
+        }
+        if (flag == false) {
+            buttonLoadingfetch_class = "btn loading"
+            dispatch("handleLoadingRunning", "call");
+            const res = await fetch(path_api+"api/fetchpasarancnaga", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: "Edit",
+                    master: master,
+                    company: idcompany,
+                    pasaran_id: pasaran_id_field,
+                    Companypasaran_id: companypasaran_id,
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                let temp_msg = "System Mengalami Trouble"
+                dispatch("handleLoadingRunningFinish", {
+                        temp_msg
+                });
+            }else{
+                let temp_msg = json.message
+                dispatch("handleLoadingRunningFinish", {
+                        temp_msg
+                });
+            }
+            buttonLoadingfetch_class = "btn btn-warning"
+        } else {
+            if(msg_error != ""){
+                let temp_msg = msg_error
+                dispatch("handleCallNotif", {
+                        temp_msg
+                });
+            }
+        }
+    }
 </script>
 
 <div class="grid grid-cols-4 gap-1 mt-2 mb-5">
@@ -173,6 +224,11 @@
         input_id="pasaran_winekor_cjitu_field"
         input_placeholder="WIN EKOR(%)"/>
 </div>
-<button on:click={() => {
-    save432d();
-}} class="{buttonLoading_class} btn-block">Submit</button>
+<div class="grid grid-cols-2 gap-2">
+    <button on:click={() => {
+        fetchcolok();
+    }} class="{buttonLoadingfetch_class} btn-block ">Fetch</button>
+    <button on:click={() => {
+        save432d();
+    }} class="{buttonLoading_class} btn-block ">Submit</button>
+</div>
