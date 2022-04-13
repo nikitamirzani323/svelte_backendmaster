@@ -63,9 +63,11 @@
     let tab_listpasaran_limit = "bg-sky-600 text-white"
     let tab_listpasaran_online = ""
     let tab_listpasaran_configure = ""
+    let tab_listpasaran_listkeluaran= ""
     let panel_listpasaran_limit = true
     let panel_listpasaran_online = false
     let panel_listpasaran_configure = false
+    let panel_listpasaran_listkeluaran = false
 
     let searchHome = "";
     let searchListAdmin = "";
@@ -1248,25 +1250,41 @@
                 tab_listpasaran_limit = "bg-sky-600 text-white"
                 tab_listpasaran_online = ""
                 tab_listpasaran_configure = ""
+                tab_listpasaran_listkeluaran = ""
                 panel_listpasaran_limit = true
                 panel_listpasaran_online = false
                 panel_listpasaran_configure = false
+                panel_listpasaran_listkeluaran = false
                 break;
             case "menu_listpasaran_online":
                 tab_listpasaran_limit = ""
                 tab_listpasaran_online = "bg-sky-600 text-white"
                 tab_listpasaran_configure = ""
+                tab_listpasaran_listkeluaran = ""
                 panel_listpasaran_limit = false
                 panel_listpasaran_online = true
                 panel_listpasaran_configure = false
+                panel_listpasaran_listkeluaran = false
                 break;
             case "menu_listpasaran_configure":
                 tab_listpasaran_limit = ""
                 tab_listpasaran_online = ""
                 tab_listpasaran_configure = "bg-sky-600 text-white"
+                tab_listpasaran_listkeluaran = ""
                 panel_listpasaran_limit = false
                 panel_listpasaran_online = false
                 panel_listpasaran_configure = true
+                panel_listpasaran_listkeluaran = false
+                break;
+            case "menu_listpasaran_keluaran":
+                tab_listpasaran_limit = ""
+                tab_listpasaran_online = ""
+                tab_listpasaran_configure = ""
+                tab_listpasaran_listkeluaran = "bg-sky-600 text-white"
+                panel_listpasaran_limit = false
+                panel_listpasaran_online = false
+                panel_listpasaran_configure = false
+                panel_listpasaran_listkeluaran = true
                 break;
         }
     }
@@ -2190,6 +2208,10 @@
                             ChangeTabMenuPasaran("menu_listpasaran_configure");
                         }}
                         class="items-center {tab_listpasaran_configure} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure</li>
+                    <li on:click={() => {
+                            ChangeTabMenuPasaran("menu_listpasaran_keluaran");
+                        }}
+                        class="items-center {tab_listpasaran_listkeluaran} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Keluaran</li>
                 </ul>
                 {#if panel_listpasaran_limit}
                     <div class="grid grid-cols-3 gap-2 mt-3">
@@ -2333,6 +2355,54 @@
                             call_configure("shio");
                         }} class="btn btn-warning">SHIO</button>
                     </div>
+                {/if}
+                {#if panel_listpasaran_listkeluaran}
+                    <div class="form-control mt-3">
+                        <div class="input-group">
+                        <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
+                            <option disabled selected value="">--Pilih Periode--</option>
+                            <option value="01">JANUARY</option>
+                            <option value="02">FEBUARY</option>
+                            <option value="03">MARET</option>
+                            <option value="04">APRIL</option>
+                            <option value="05">MAY</option>
+                            <option value="06">JUNE</option>
+                            <option value="07">JULY</option>
+                            <option value="08">AUGUSTUS</option>
+                            <option value="09">SEPTEMBER</option>
+                            <option value="10">OCTOBER</option>
+                            <option value="11">NOVEMBER</option>
+                            <option value="12">DECEMBER</option>
+                        </select>
+                        <button on:click={() => {
+                                savePasaranOnline();
+                            }} class="{buttonLoading2_class} btn-primary">Save</button>
+                        </div>
+                    </div>
+                    <table class="table table-compact w-full mt-2">
+                        <thead>
+                            <tr>
+                                <th width="1%"></th>
+                                <th width="*">HARI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each listPasaranonline as rec}
+                                <tr>
+                                    <td on:click={() => {
+                                        removeharionline(
+                                            rec.company_pasaranonline_id
+                                        );
+                                    }} class="cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </td>
+                                    <td>{rec.company_pasaranonline_hari}</td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
                 {/if}
             </div>
         </div>
