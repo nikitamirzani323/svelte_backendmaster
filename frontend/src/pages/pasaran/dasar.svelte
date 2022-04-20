@@ -216,4 +216,4 @@
 </div>
 <button on:click={() => {
     save432d();
-}} class="{buttonLoading_class} btn-block">Submit</button>
+}} class="{buttonLoading_class} btn-block m-0 h-1 min-h-[40px] shadow-lg">Submit</button>

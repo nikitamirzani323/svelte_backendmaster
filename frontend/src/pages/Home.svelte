@@ -21,5 +21,5 @@
 		localStorage.clear();
 		window.location.href = "/";
 	}
-    // initapp();
+    initapp();
 </script>

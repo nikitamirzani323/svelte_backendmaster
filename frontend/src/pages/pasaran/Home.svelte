@@ -3,6 +3,7 @@
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
     import dayjs from "dayjs";
+    import Button_custom from '../../components/button_custom.svelte'
     import Input_custom from '../../components/Input.svelte' 
     import Modal_popup from '../../components/Modal_popup.svelte'
     import Modal_alert from '../../components/Modal_alert.svelte' 
@@ -19,8 +20,10 @@
     import Panel_shio from '../pasaran/shio.svelte' 
     import Loader from '../../components/Loader.svelte' 
     import Panel from '../../components/Panel_default.svelte' 
+    import Panel_info from '../../components/Panel_info.svelte'
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let master = "";
     export let listHome = [];
@@ -36,7 +39,8 @@
     let modalpasaran_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
-    let buttonLoading_class = "btn btn-primary"
+    let buttonLoading_flag = false;
+    let buttonLoading_class = "btn-block";
     let msg_error = "";
     let searchHome = "";
     let filterHome = [];
@@ -355,6 +359,7 @@
         let flag = true;
         msg_error = "";
         if (flag) {
+            buttonLoading_flag = true;
             buttonLoading_class = "btn loading"
             loader_class = "inline-block"
             loader_msg = "Sending..."
@@ -385,6 +390,22 @@
                 }, 1000);
             }else{
                 if (json.status == 200) {
+                    if(sData == "New"){
+                        $form.form_pasaran_id_field = "";
+                        $form.form_pasaran_name_field = "";
+                        $form.form_pasaran_situs_field = "";
+                        $form.form_pasaran_diundi_field = "";
+                        $form.form_pasaran_tutup_field = "";
+                        $form.form_pasaran_jadwal_field = "";
+                        $form.form_pasaran_open_field = "";
+                        $errors.form_pasaran_id_field = "";
+                        $errors.form_pasaran_name_field = "";
+                        $errors.form_pasaran_situs_field = "";
+                        $errors.form_pasaran_diundi_field = "";
+                        $errors.form_pasaran_tutup_field = "";
+                        $errors.form_pasaran_jadwal_field = "";
+                        $errors.form_pasaran_open_field = "";
+                    }
                     loader_msg = json.message
                 } else if (json.status == 403) {
                     loader_msg = json.message
@@ -397,6 +418,7 @@
                 }, 1000);
                 RefreshHalaman();
             }
+            buttonLoading_flag = false;
         } else {
             if(msg_error != ""){
                 isModalNotif = true
@@ -972,6 +994,13 @@
         $form.form_pasaran_tutup_field = "";
         $form.form_pasaran_jadwal_field = "";
         $form.form_pasaran_open_field = "";
+        $errors.form_pasaran_id_field = "";
+        $errors.form_pasaran_name_field = "";
+        $errors.form_pasaran_situs_field = "";
+        $errors.form_pasaran_diundi_field = "";
+        $errors.form_pasaran_tutup_field = "";
+        $errors.form_pasaran_jadwal_field = "";
+        $errors.form_pasaran_open_field = "";
 
         pasaran_limitline4d_field = 0;
         pasaran_limitline3d_field = 0;
@@ -1231,15 +1260,15 @@
         <table class="table table-compact w-full">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">ID</th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">TIPE</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PASARAN</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">HARI DIUNDI</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">TUTUP</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">JADWAL</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">OPEN</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left">ID</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-left">TIPE</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">HARI DIUNDI</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">TUTUP</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">JADWAL</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">OPEN</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -1253,14 +1282,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_id}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_tipe}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_nama}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_diundi}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamtutup}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamjadwal}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_jamopen}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_no}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_id}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_tipe}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_nama}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_diundi}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamtutup}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamjadwal}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_jamopen}</td>
                     </tr>
                     {/each}
                 </tbody>
@@ -1285,8 +1314,8 @@
     modal_popup_class="select-none w-11/12 {modal_width} overflow-hidden">
     <slot:template slot="modalpopup_body">
         {#if sData == "New"}
-            <div class="grid grid-cols-2 gap-1 mt-2">
-                <div class="mb-5">
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1303,7 +1332,7 @@
                             <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_id_field}</small>
                         {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1317,7 +1346,7 @@
                         <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
                     {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1334,7 +1363,7 @@
                             <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_name_field}</small>
                         {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1348,7 +1377,7 @@
                         <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_jadwal_field}</small>
                     {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1362,7 +1391,7 @@
                         <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_situs_field}</small>
                     {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1376,7 +1405,7 @@
                         <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_open_field}</small>
                     {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <Input_custom
                         input_onchange="{handleChange}"
                         input_autofocus={false}
@@ -1390,7 +1419,7 @@
                         <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_tutup_field}</small>
                     {/if}
                 </div>
-                <div class="mb-5">
+                <div class="mb-3">
                     <select
                         bind:value={pasaran_tipepasaran_field}
                         class="w-full rounded px-3  border border-gray-300 focus:border-blue-700 focus:ring-1 focus:ring-blue-700 focus:outline-none input active:outline-none">
@@ -1400,9 +1429,14 @@
                     </select>
                 </div>
                 <div class="col-span-2">
-                    <button on:click={() => {
-                        handleSubmit();
-                    }} class="{buttonLoading_class} btn-block">Submit</button>
+                    <Button_custom 
+                        on:click={() => {
+                            handleSubmit();
+                        }}
+                        button_disable={buttonLoading_flag}
+                        button_class="btn-block mt-2"
+                        button_disable_class="{buttonLoading_class}"
+                        button_title="Submit" />
                 </div>
             </div>
         {:else}
@@ -1416,6 +1450,7 @@
                             input_enabled={false}
                             input_tipe="text"
                             input_text_class="uppercase"
+                            input_maxlength_text="6"
                             input_invalid={$errors.form_pasaran_id_field.length > 0}
                             bind:value={$form.form_pasaran_id_field}
                             input_id="form_pasaran_id_field"
@@ -1446,6 +1481,7 @@
                             input_enabled={true}
                             input_tipe="text"
                             input_text_class="uppercase"
+                            input_maxlength_text="70"
                             input_invalid={$errors.form_pasaran_name_field.length > 0}
                             bind:value={$form.form_pasaran_name_field}
                             input_id="form_pasaran_name_field"
@@ -1477,6 +1513,7 @@
                             input_invalid={$errors.form_pasaran_situs_field.length > 0}
                             bind:value={$form.form_pasaran_situs_field}
                             input_id="form_pasaran_situs_field"
+                            input_maxlength_text="350"
                             input_placeholder="Situs"/>
                         {#if $errors.form_pasaran_situs_field}
                             <small class="text-pink-600 text-[11px]">{$errors.form_pasaran_situs_field}</small>
@@ -1502,6 +1539,7 @@
                             input_autofocus={false}
                             input_required={true}
                             input_tipe="text"
+                            input_maxlength_text="70"
                             input_invalid={$errors.form_pasaran_diundi_field.length > 0}
                             bind:value={$form.form_pasaran_diundi_field}
                             input_id="form_pasaran_diundi_field"
@@ -1519,17 +1557,33 @@
                             <option value="WAJIB">WAJIB</option>
                         </select>
                     </div>
-                    <p class="text-[11px] mb-5">
-                        Create : {pasaran_create_field}
-                        {#if pasaran_update_field != ""}
-                            <br>
-                            Update : {pasaran_update_field}
-                        {/if}
-                    </p>
+                    <Panel_info panel_body_class="col-span-2">
+                        <slot:template slot="panel_body">
+                            <table>
+                                <tr>
+                                    <td>Create</td>
+                                    <td>:</td>
+                                    <td>{pasaran_create_field}</td>
+                                </tr>
+                                {#if pasaran_update_field != ""}
+                                <tr>
+                                    <td>Modified</td>
+                                    <td>:</td>
+                                    <td>{pasaran_update_field}</td>
+                                </tr>
+                                {/if}
+                            </table>
+                        </slot:template>
+                    </Panel_info>
                     <div class="col-span-2">
-                        <button on:click={() => {
-                            handleSubmit();
-                        }} class="{buttonLoading_class} btn-block">Submit</button>
+                        <Button_custom 
+                            on:click={() => {
+                                handleSubmit();
+                            }}
+                            button_disable={buttonLoading_flag}
+                            button_class="btn-block mt-2"
+                            button_disable_class="{buttonLoading_class}"
+                            button_title="Submit" />
                     </div>
                 </div>
                 <div class="w-full p-2 -mt-5 ">

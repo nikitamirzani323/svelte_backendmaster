@@ -1,6 +1,7 @@
 <script>
     import Home from "../domain/Home.svelte";
     export let path_api = ""
+    export let font_size = "";
     let listHome = [];
     let record = "";
     let totalrecord = 0;
@@ -51,9 +52,9 @@
                 for (var i = 0; i < record.length; i++) {
                     no = no + 1;
                     if (record[i]["domain_status"] == "RUNNING") {
-                        status_class = "bg-[#8BC34A] "
+                        status_class = "bg-[#ebfbee] text-[#6ec07b]"
                     } else {
-                        status_class = "bg-[#E91E63] text-white"
+                        status_class = "bg-[#fde3e3] text-[#ea7779]"
                     }
                     listHome = [
                         ...listHome,
@@ -95,6 +96,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {master}
         {token}
         {listHome}

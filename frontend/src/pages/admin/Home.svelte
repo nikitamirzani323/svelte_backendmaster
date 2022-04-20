@@ -2,6 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import { createForm } from "svelte-forms-lib";
     import * as yup from "yup";
+    import Button_custom from '../../components/button_custom.svelte'
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
     import Modal_popup from '../../components/Modal_popup.svelte' 
@@ -22,7 +23,8 @@
     let isModalNotif = false
     let loader_class = "hidden"
     let loader_msg = "Sending..."
-    let buttonLoading_class = "btn btn-primary"
+    let buttonLoading_flag = false;
+    let buttonLoading_class = "btn-block";
     let msg_error = "";
     let admin_listip = [];
     let tab_menu_1 = "bg-sky-600 text-white"
@@ -523,11 +525,14 @@
                 {/if}
             </div>
             <div class="flex flex-wrap justify-end align-middle p-[0.75rem] mt-2">
-                <button
+                <Button_custom 
                     on:click={() => {
                         handleSubmit();
-                    }}  
-                    class="{buttonLoading_class}">Submit</button>
+                    }}
+                    button_disable={buttonLoading_flag}
+                    button_class="btn-block mt-2"
+                    button_disable_class="{buttonLoading_class}"
+                    button_title="Submit" />
             </div>
         {/if}
         {#if panel_iplist}

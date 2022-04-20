@@ -1,7 +1,8 @@
 <script>
     import Home from "../pasaran/Home.svelte";
     import Modal_alert from '../../components/Modal_alert.svelte' 
-    export let path_api = ""
+    export let path_api = "";
+    export let font_size = "";
     let listHome = [];
     let record = "";
     let totalrecord = 0;
@@ -118,6 +119,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {master}
         {listHome}
