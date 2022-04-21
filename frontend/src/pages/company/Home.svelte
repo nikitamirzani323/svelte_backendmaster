@@ -21,6 +21,7 @@
     import Panel_shio from './shio.svelte'
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let master = "";
     export let listHome = [];
@@ -461,9 +462,9 @@
                 let company_admin_status_class = "";
                 for (var i = 0; i < record.length; i++) {
                     if(record[i]["company_admin_status"] == "ACTIVE"){
-                        company_admin_status_class = "bg-[#8BC34A] text-black"
+                        company_admin_status_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
-                        company_admin_status_class = "bg-red-600 text-white"
+                        company_admin_status_class = "bg-[#fde3e3] text-[#ea7779]"
                     }
                     listAdmin = [
                         ...listAdmin,
@@ -519,9 +520,9 @@
                         status_class = "bg-red-600 text-white"
                     }
                     if(record[i]["company_pasaran_statuspasaranactive"] == "Y"){
-                        statusactive_class = "bg-[#8BC34A] text-black"
+                        statusactive_class = "bg-[#ebfbee] text-[#6ec07b]"
                     }else{
-                        statusactive_class = "bg-red-600 text-white"
+                        statusactive_class = "bg-[#fde3e3] text-[#ea7779]"
                     }
                     totalpasaran = totalpasaran + parseInt(record[i]["company_pasaran_winlose"])
                     listPasaran = [
@@ -1713,7 +1714,7 @@
         if (searchHome) {
             filterHome = listHome.filter(
                 (item) =>
-                    item.home_nama
+                    item.home_name
                         .toLowerCase()
                         .includes(searchHome.toLowerCase())
             );
@@ -1750,23 +1751,23 @@
         </div>
         <input 
             bind:value={searchHome}
-            type="text" placeholder="Search by Rule" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
+            type="text" placeholder="Search by Company" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
     </slot:template>
     <slot:template slot="panel_body">
         <table class="table table-compact w-full ">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center"></th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">&nbsp;</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">START</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">END</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">ID</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">COMPANY</th>
-                    <th width="10%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PERIODE</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">WINLOSE_TEMP</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-right">SELISIH</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">&nbsp;</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">START</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">END</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">ID</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">COMPANY</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE_TEMP</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-right">SELISIH</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -1780,18 +1781,18 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                             </svg>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">
-                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.home_status}</span>
+                        <td class="{font_size} align-top text-center">{rec.home_no}</td>
+                        <td class="{font_size} align-top text-left">
+                            <span class="{rec.home_status_class} text-center rounded-md p-1 px-2 ">{rec.home_status}</span>
                         </td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_startjoin}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_endjoin}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_idcompany}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_name}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_periode}</td>
-                        <td class="text-xs lg:text-sm align-top text-right {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right {rec.home_winlosetemp_class}">{new Intl.NumberFormat().format(rec.home_winlosetemp)}</td>
-                        <td class="text-xs lg:text-sm align-top text-right {rec.home_selisihwinlose_class}">{new Intl.NumberFormat().format(rec.home_selisihwinlose)}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_startjoin}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_endjoin}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_idcompany}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_name}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_periode}</td>
+                        <td class="{font_size} align-top text-right {rec.home_winlose_class}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
+                        <td class="{font_size} align-top text-right {rec.home_winlosetemp_class}">{new Intl.NumberFormat().format(rec.home_winlosetemp)}</td>
+                        <td class="{font_size} align-top text-right {rec.home_selisihwinlose_class}">{new Intl.NumberFormat().format(rec.home_selisihwinlose)}</td>
                         
                     </tr>
                     {/each}
@@ -1978,7 +1979,7 @@
                                                     </svg>
                                                 </td>
                                                 <td class="text-xs text-center align-top">
-                                                    <span class="{rec.company_admin_status_class} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_admin_status}</span>
+                                                    <span class="{rec.company_admin_status_class} text-center rounded-md p-1 px-2 ">{rec.company_admin_status}</span>
                                                 </td>
                                                 <td class="text-xs text-left align-top">{rec.company_admin_typeadmin}</td>
                                                 <td class="text-xs text-center align-top">{rec.company_admin_lastlogin}</td>
@@ -2027,10 +2028,10 @@
                                                     </svg>
                                                 </td>
                                                 <td class="text-xs text-center align-top">
-                                                    <span class="{rec.company_pasaran_statuscss} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_pasaran_status}</span>
+                                                    <span class="{rec.company_pasaran_statuscss} text-center rounded-md p-1 px-2 ">{rec.company_pasaran_status}</span>
                                                 </td>
                                                 <td class="text-xs text-center align-top">
-                                                    <span class="{rec.company_pasaran_statuspasaranactivecss} text-center rounded-md p-1 px-2 shadow-lg ">{rec.company_pasaran_statuspasaranactive}</span>
+                                                    <span class="{rec.company_pasaran_statuspasaranactivecss} text-center rounded-md p-1 px-2 ">{rec.company_pasaran_statuspasaranactive}</span>
                                                 </td>
                                                 <td class="text-xs text-left align-top">{rec.company_pasaran_nmpasarantogel}</td>
                                                 <td class="text-xs text-left align-top">{rec.company_pasaran_periode}</td>

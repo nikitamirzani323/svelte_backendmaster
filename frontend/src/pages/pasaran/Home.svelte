@@ -397,7 +397,6 @@
         msg_error = "";
         if (flag) {
             buttonLoading_flag = true;
-            buttonLoading_class = "btn loading"
             loader_class = "inline-block"
             loader_msg = "Sending..."
             const res = await fetch(path_api+"api/savepasaran", {
@@ -449,7 +448,6 @@
                 } else {
                     loader_msg = json.message;
                 }
-                buttonLoading_class = "btn btn-primary"
                 setTimeout(function () {
                     loader_class = "hidden";
                 }, 1000);
@@ -813,7 +811,7 @@
             msg_error += "The Limitline 2DT is required<br>";
         }
         if (flag == false) {
-            buttonLoading_class = "btn loading"
+            buttonLoading_flag = true;
             loader_class = "inline-block"
             loader_msg = "Sending..."
             const res = await fetch(path_api+"api/savepasaranlimitline", {
@@ -849,7 +847,7 @@
                 } else {
                     loader_msg = json.message;
                 }
-                buttonLoading_class = "btn btn-primary"
+                buttonLoading_flag = false;
                 setTimeout(function () {
                     loader_class = "hidden";
                 }, 1000);

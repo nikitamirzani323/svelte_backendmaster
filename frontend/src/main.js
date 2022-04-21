@@ -4,7 +4,7 @@ const app = new App({
   target: document.getElementById('app'),
   props: {
 		// path_api: "/",
-		path_api: "http://localhost:5052/",
+		path_api: "http://localhost:5053/",
 		font_size: "text-[12px] lg:text-[13px]"
 	}
 })

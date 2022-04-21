@@ -3,6 +3,7 @@
     import Modal_alert from '../../components/Modal_alert.svelte' 
 
     export let path_api = ""
+    export let font_size = "";
     let listHome = [];
     let record = "";
     let totalrecord = 0;
@@ -64,9 +65,9 @@
                     for (var i = 0; i < record.length; i++) {
                         let selisihwinlose = parseInt(record[i]["company_winlosetemp"]) - parseInt(record[i]["company_winlose"])
                         if(record[i]["company_status"] == "ACTIVE"){
-                            home_status_class = "bg-[#8BC34A] text-black"
+                            home_status_class = "bg-[#ebfbee] text-[#6ec07b]"
                         }else{
-                            home_status_class = "bg-red-600 text-white"
+                            home_status_class = "bg-[#fde3e3] text-[#ea7779]"
                         }
                         if (parseInt(record[i]["company_winlose"]) > 0) {
                             home_winlose_class = "text-blue-700";
@@ -138,6 +139,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {master}
         {listHome}
