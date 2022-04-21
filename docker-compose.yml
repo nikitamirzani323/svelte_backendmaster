@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  frontendmaster:
+    image: toto_frontend_master:0.0.1
+    build: "."
+    ports:
+      - "5052"
+    restart: "always"
+    networks:
+      - "toto_frontend_master.network"
+    deploy:
+      replicas: 3
+      restart_policy:
+        max_attempts: 3
+        condition: on-failure       
+      update_config:
+        parallelism: 3
+        delay: 10s
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontendmaster
+    ports:
+      - "5053:5053"
+    networks:
+      - "toto_frontend_master.network"
+networks:
+  toto_frontend_master.network:
