@@ -7,6 +7,7 @@
     export let idpasarantogel = "";
     export let pasaran_minbet_kombinasi_field = 0;
     export let pasaran_maxbet_kombinasi_field = 0;
+    export let pasaran_maxbuy_kombinasi_field = 0;
     export let pasaran_win_kombinasi_field = 0;
     export let pasaran_disc_kombinasi_field = 0;
     export let pasaran_limitglobal_kombinasi_field = 0;
@@ -24,6 +25,10 @@
         if (pasaran_maxbet_kombinasi_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_kombinasi_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limittotal_kombinasi_field == "") {
             flag = true;
@@ -55,6 +60,7 @@
                     idrecord: idpasarantogel,
                     pasaran_minbet_kombinasi: parseInt(pasaran_minbet_kombinasi_field),
                     pasaran_maxbet_kombinasi: parseInt(pasaran_maxbet_kombinasi_field),
+                    pasaran_maxbuy_kombinasi: parseInt(pasaran_maxbuy_kombinasi_field),
                     pasaran_limittotal_kombinasi: parseInt(pasaran_limittotal_kombinasi_field),
                     pasaran_limitglobal_kombinasi: parseInt(pasaran_limitglobal_kombinasi_field),
                     pasaran_win_kombinasi: parseFloat(pasaran_win_kombinasi_field),
@@ -131,6 +137,14 @@
         bind:value={pasaran_limitglobal_kombinasi_field}
         input_id="pasaran_limitglobal_kombinasi_field"
         input_placeholder="Limit Global"/>
+    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_kombinasi_field}
+        input_id="pasaran_maxbuy_kombinasi_field"
+        input_placeholder="Max Buy"/>
     
 </div>
 <button on:click={() => {

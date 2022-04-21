@@ -7,6 +7,7 @@
     export let idpasarantogel = "";
     export let pasaran_minbet_cbebas_field = 0;
     export let pasaran_maxbet_cbebas_field = 0;
+    export let pasaran_maxbuy_cbebas_field = 0;
     export let pasaran_limitotal_cbebas_field = 0;
     export let pasaran_limitglobal_cbebas_field = 0;
     export let pasaran_win_cbebas_field = 0;
@@ -24,6 +25,10 @@
         if (pasaran_maxbet_cbebas_field == "") {
             flag = true;
             msg_error += "The Max Bet is required\n";
+        }
+        if (pasaran_maxbuy_cbebas_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required\n";
         }
         if (pasaran_limitotal_cbebas_field == "") {
             flag = true;
@@ -55,6 +60,7 @@
                     idrecord: idpasarantogel,
                     pasaran_minbet_cbebas: parseInt(pasaran_minbet_cbebas_field),
                     pasaran_maxbet_cbebas: parseInt(pasaran_maxbet_cbebas_field),
+                    pasaran_maxbuy_cbebas: parseInt(pasaran_maxbuy_cbebas_field),
                     pasaran_limitotal_cbebas: parseInt(pasaran_limitotal_cbebas_field),
                     pasaran_limitglobal_cbebas: parseInt(pasaran_limitglobal_cbebas_field),
                     pasaran_win_cbebas: parseFloat(pasaran_win_cbebas_field),
@@ -129,6 +135,13 @@
         input_precision=2
         input_id="pasaran_disc_cbebas_field"
         input_placeholder="DISC(%)"/>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_cbebas_field}
+        input_id="pasaran_maxbuy_cbebas_field"
+        input_placeholder="Max Buy"/>
 </div>
 <button on:click={() => {
     save432d();

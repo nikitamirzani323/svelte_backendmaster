@@ -7,6 +7,7 @@
     export let idpasarantogel = "";
     export let pasaran_minbet_5050kombinasi_field = 0;
     export let pasaran_maxbet_5050kombinasi_field = 0;
+    export let pasaran_maxbuy_5050kombinasi_field = 0;
     export let pasaran_belakangkeimono_5050kombinasi_field = 0;
     export let pasaran_belakangkeistereo_5050kombinasi_field = 0;
     export let pasaran_belakangkeikembang_5050kombinasi_field = 0;
@@ -193,12 +194,9 @@
                 body: JSON.stringify({
                     master: master,
                     idrecord: idpasarantogel,
-                    pasaran_minbet_5050kombinasi: parseInt(
-                        pasaran_minbet_5050kombinasi_field
-                    ),
-                    pasaran_maxbet_5050kombinasi: parseInt(
-                        pasaran_maxbet_5050kombinasi_field
-                    ),
+                    pasaran_minbet_5050kombinasi: parseInt(pasaran_minbet_5050kombinasi_field),
+                    pasaran_maxbet_5050kombinasi: parseInt(pasaran_maxbet_5050kombinasi_field),
+                    pasaran_maxbuy_5050kombinasi: parseInt(pasaran_maxbuy_5050kombinasi_field),
                     pasaran_limitglobal_5050kombinasi: parseInt(
                         pasaran_limitglobal_5050kombinasi_field
                     ),
@@ -355,6 +353,14 @@
         input_placeholder="Limit Global"/>
     
     <div class="col-span-3"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_5050kombinasi_field}
+        input_id="pasaran_maxbuy_5050kombinasi_field"
+        input_placeholder="Max Buy"/>
+    <div class="col-span-4"></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"

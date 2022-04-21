@@ -7,6 +7,7 @@
     export let idpasarantogel = "";
     export let pasaran_minbet_5050umum_field = 0;
     export let pasaran_maxbet_5050umum_field = 0;
+    export let pasaran_maxbuy_5050umum_field = 0;
     export let pasaran_keibesar_5050umum_field = 0;
     export let pasaran_keikecil_5050umum_field = 0;
     export let pasaran_keigenap_5050umum_field = 0;
@@ -34,6 +35,10 @@
         if (pasaran_maxbet_5050umum_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_5050umum_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limittotal_5050umum_field == "") {
             flag = true;
@@ -105,6 +110,7 @@
                     idrecord: idpasarantogel,
                     pasaran_minbet_5050umum: parseInt(pasaran_minbet_5050umum_field),
                     pasaran_maxbet_5050umum: parseInt(pasaran_maxbet_5050umum_field),
+                    pasaran_maxbuy_5050umum: parseInt(pasaran_maxbuy_5050umum_field),
                     pasaran_limittotal_5050umum: parseInt(pasaran_limittotal_5050umum_field),
                     pasaran_limitglobal_5050umum: parseInt(pasaran_limitglobal_5050umum_field),
                     pasaran_keibesar_5050umum: parseFloat((pasaran_keibesar_5050umum_field / 100).toPrecision(3)),
@@ -204,7 +210,15 @@
         input_precision=2
         input_id="pasaran_disckecil_5050umum_field"
         input_placeholder="DISC KECIL(%)"/>
-    <div class="col-span-2"></div>
+    
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_5050umum_field}
+        input_id="pasaran_maxbuy_5050umum_field"
+        input_placeholder="Max Buy"/>
+    <div></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"

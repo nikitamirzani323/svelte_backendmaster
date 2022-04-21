@@ -7,6 +7,7 @@
     export let idpasarantogel = "";
     export let pasaran_minbet_cjitu_field = 0;
     export let pasaran_maxbet_cjitu_field = 0;
+    export let pasaran_maxbuy_cjitu_field = 0;
     export let pasaran_winas_cjitu_field = 0;
     export let pasaran_winkop_cjitu_field = 0;
     export let pasaran_winkepala_cjitu_field = 0;
@@ -27,6 +28,10 @@
         if (pasaran_maxbet_cjitu_field == "") {
             flag = true;
             msg_error += "The Max Bet is required<br>";
+        }
+        if (pasaran_maxbuy_cjitu_field == "") {
+            flag = true;
+            msg_error += "The Max Buy is required<br>";
         }
         if (pasaran_limittotal_cjitu_field == "") {
             flag = true;
@@ -70,6 +75,7 @@
                     idrecord: idpasarantogel,
                     pasaran_minbet_cjitu: parseInt(pasaran_minbet_cjitu_field),
                     pasaran_maxbet_cjitu: parseInt(pasaran_maxbet_cjitu_field),
+                    pasaran_maxbuy_cjitu: parseInt(pasaran_maxbuy_cjitu_field),
                     pasaran_limittotal_cjitu: parseInt(pasaran_limittotal_cjitu_field),
                     pasaran_limitglobal_cjitu: parseInt(pasaran_limitglobal_cjitu_field),
                     pasaran_winas_cjitu: parseFloat(pasaran_winas_cjitu_field),
@@ -155,7 +161,14 @@
         input_id="pasaran_winkop_cjitu_field"
         input_placeholder="WIN KOP(%)"/>
     <div></div>
-    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_cjitu_field}
+        input_id="pasaran_maxbuy_cjitu_field"
+        input_placeholder="Max Buy"/>
+    <div></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"

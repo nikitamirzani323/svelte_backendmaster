@@ -67,6 +67,19 @@
     let pasaran_maxbet2d_432d_field = 0;
     let pasaran_maxbet2dd_432d_field = 0;
     let pasaran_maxbet2dt_432d_field = 0;
+    let pasaran_maxbet4d_fullbb_432d_field = 0;
+    let pasaran_maxbet3d_fullbb_432d_field = 0;
+    let pasaran_maxbet3dd_fullbb_432d_field = 0;
+    let pasaran_maxbet2d_fullbb_432d_field = 0;
+    let pasaran_maxbet2dd_fullbb_432d_field = 0;
+    let pasaran_maxbet2dt_fullbb_432d_field = 0;
+    let pasaran_maxbuy4d_432d_field = 0;
+    let pasaran_maxbuy3d_432d_field = 0;
+    let pasaran_maxbuy3dd_432d_field = 0;
+    let pasaran_maxbuy2d_432d_field = 0;
+    let pasaran_maxbuy2dd_432d_field = 0;
+    let pasaran_maxbuy2dt_432d_field = 0;
+
     let pasaran_limitotal4d_432d_field = 0;
     let pasaran_limitotal3d_432d_field = 0;
     let pasaran_limitotal3dd_432d_field = 0;
@@ -79,6 +92,20 @@
     let pasaran_limitglobal2d_432d_field = 0;
     let pasaran_limitglobal2dd_432d_field = 0;
     let pasaran_limitglobal2dt_432d_field = 0;
+
+    let pasaran_limitotal4d_fulbb_432d_field = 0;
+    let pasaran_limitotal3d_fulbb_432d_field = 0;
+    let pasaran_limitotal3dd_fulbb_432d_field = 0;
+    let pasaran_limitotal2d_fulbb_432d_field = 0;
+    let pasaran_limitotal2dd_fulbb_432d_field = 0;
+    let pasaran_limitotal2dt_fulbb_432d_field = 0;
+    let pasaran_limitglobal4d_fulbb_432d_field = 0;
+    let pasaran_limitglobal3d_fulbb_432d_field = 0;
+    let pasaran_limitglobal3dd_fulbb_432d_field = 0;
+    let pasaran_limitglobal2d_fulbb_432d_field = 0;
+    let pasaran_limitglobal2dd_fulbb_432d_field = 0;
+    let pasaran_limitglobal2dt_fulbb_432d_field = 0;
+
     let pasaran_disc4d_432d_field = 0;
     let pasaran_disc3d_432d_field = 0;
     let pasaran_disc3dd_432d_field = 0;
@@ -112,6 +139,7 @@
 
     let pasaran_minbet_cbebas_field = 0;
     let pasaran_maxbet_cbebas_field = 0;
+    let pasaran_maxbuy_cbebas_field = 0;
     let pasaran_limitotal_cbebas_field = 0;
     let pasaran_limitglobal_cbebas_field = 0;
     let pasaran_win_cbebas_field = 0;
@@ -119,6 +147,7 @@
 
     let pasaran_minbet_cmacau_field = 0;
     let pasaran_maxbet_cmacau_field = 0;
+    let pasaran_maxbuy_cmacau_field = 0;
     let pasaran_limitotal_cmacau_field = 0;
     let pasaran_limitglobal_cmacau_field = 0;
     let pasaran_win2_cmacau_field = 0;
@@ -128,6 +157,7 @@
 
     let pasaran_minbet_cnaga_field = 0;
     let pasaran_maxbet_cnaga_field = 0;
+    let pasaran_maxbuy_cnaga_field = 0;
     let pasaran_win3_cnaga_field = 0;
     let pasaran_win4_cnaga_field = 0;
     let pasaran_disc_cnaga_field = 0;
@@ -136,6 +166,7 @@
 
     let pasaran_minbet_cjitu_field = 0;
     let pasaran_maxbet_cjitu_field = 0;
+    let pasaran_maxbuy_cjitu_field = 0;
     let pasaran_winas_cjitu_field = 0;
     let pasaran_winkop_cjitu_field = 0;
     let pasaran_winkepala_cjitu_field = 0;
@@ -146,6 +177,7 @@
 
     let pasaran_minbet_5050umum_field = 0;
     let pasaran_maxbet_5050umum_field = 0;
+    let pasaran_maxbuy_5050umum_field = 0;
     let pasaran_keibesar_5050umum_field = 0;
     let pasaran_keikecil_5050umum_field = 0;
     let pasaran_keigenap_5050umum_field = 0;
@@ -163,6 +195,7 @@
 
     let pasaran_minbet_5050special_field = 0;
     let pasaran_maxbet_5050special_field = 0;
+    let pasaran_maxbuy_5050special_field = 0;
     let pasaran_keiasganjil_5050special_field = 0;
     let pasaran_keiasgenap_5050special_field = 0;
     let pasaran_keiasbesar_5050special_field = 0;
@@ -200,6 +233,7 @@
 
     let pasaran_minbet_5050kombinasi_field = 0;
     let pasaran_maxbet_5050kombinasi_field = 0;
+    let pasaran_maxbuy_5050kombinasi_field = 0;
     let pasaran_belakangkeimono_5050kombinasi_field = 0;
     let pasaran_belakangkeistereo_5050kombinasi_field = 0;
     let pasaran_belakangkeikembang_5050kombinasi_field = 0;
@@ -235,6 +269,7 @@
 
     let pasaran_minbet_kombinasi_field = 0;
     let pasaran_maxbet_kombinasi_field = 0;
+    let pasaran_maxbuy_kombinasi_field = 0;
     let pasaran_win_kombinasi_field = 0;
     let pasaran_disc_kombinasi_field = 0;
     let pasaran_limitglobal_kombinasi_field = 0;
@@ -242,6 +277,7 @@
 
     let pasaran_minbet_dasar_field = 0;
     let pasaran_maxbet_dasar_field = 0;
+    let pasaran_maxbuy_dasar_field = 0;
     let pasaran_keibesar_dasar_field = 0;
     let pasaran_keikecil_dasar_field = 0;
     let pasaran_keigenap_dasar_field = 0;
@@ -255,6 +291,7 @@
 
     let pasaran_minbet_shio_field = 0;
     let pasaran_maxbet_shio_field = 0;
+    let pasaran_maxbuy_shio_field = 0;
     let pasaran_win_shio_field = 0;
     let pasaran_disc_shio_field = 0;
     let pasaran_shioyear_shio_field = "";
@@ -517,6 +554,19 @@
                 pasaran_maxbet2d_432d_field = record[i]["maxbet2d_432d"];
                 pasaran_maxbet2dd_432d_field = record[i]["maxbet2dd_432d"];
                 pasaran_maxbet2dt_432d_field = record[i]["maxbet2dt_432d"];
+                pasaran_maxbet4d_fullbb_432d_field = record[i]["maxbet4dfullbb_432d"];
+                pasaran_maxbet3d_fullbb_432d_field = record[i]["maxbet3dfullbb_432d"];
+                pasaran_maxbet3dd_fullbb_432d_field = record[i]["maxbet3ddfullbb_432d"];
+                pasaran_maxbet2d_fullbb_432d_field = record[i]["maxbet2dfullbb_432d"];
+                pasaran_maxbet2dd_fullbb_432d_field = record[i]["maxbet2ddfullbb_432d"];
+                pasaran_maxbet2dt_fullbb_432d_field = record[i]["maxbet2dtfullbb_432d"];
+                pasaran_maxbuy4d_432d_field = record[i]["maxbuy4d_432d"];
+                pasaran_maxbuy3d_432d_field = record[i]["maxbuy3dd_432d"];
+                pasaran_maxbuy3dd_432d_field = record[i]["maxbuy3d_432d"];
+                pasaran_maxbuy2d_432d_field = record[i]["maxbuy2d_432d"];
+                pasaran_maxbuy2dd_432d_field = record[i]["maxbuy2dd_432d"];
+                pasaran_maxbuy2dt_432d_field = record[i]["maxbuy2dt_432d"];
+
                 pasaran_limitotal4d_432d_field = record[i]["limitotal4d_432d"];
                 pasaran_limitotal3d_432d_field = record[i]["limitotal3d_432d"];
                 pasaran_limitotal3dd_432d_field = record[i]["limitotal3dd_432d"];
@@ -529,6 +579,18 @@
                 pasaran_limitglobal2d_432d_field = record[i]["limitglobal2d_432d"];
                 pasaran_limitglobal2dd_432d_field = record[i]["limitglobal2dd_432d"];
                 pasaran_limitglobal2dt_432d_field = record[i]["limitglobal2dt_432d"];
+                pasaran_limitotal4d_fulbb_432d_field = record[i]["limitotal4d_fullbb_432d"];
+                pasaran_limitotal3d_fulbb_432d_field = record[i]["limitotal3d_fullbb_432d"];
+                pasaran_limitotal3dd_fulbb_432d_field = record[i]["limitotal3dd_fullbb_432d"];
+                pasaran_limitotal2d_fulbb_432d_field = record[i]["limitotal2d_fullbb_432d"];
+                pasaran_limitotal2dd_fulbb_432d_field = record[i]["limitotal2dd_fullbb_432d"];
+                pasaran_limitotal2dt_fulbb_432d_field = record[i]["limitotal2dt_fullbb_432d"];
+                pasaran_limitglobal4d_fulbb_432d_field = record[i]["limitglobal4d_fullbb_432d"];
+                pasaran_limitglobal3d_fulbb_432d_field = record[i]["limitglobal3d_fullbb_432d"];
+                pasaran_limitglobal3dd_fulbb_432d_field = record[i]["limitglobal3dd_fullbb_432d"];
+                pasaran_limitglobal2d_fulbb_432d_field = record[i]["limitglobal2d_fullbb_432d"];
+                pasaran_limitglobal2dd_fulbb_432d_field = record[i]["limitglobal2dd_fullbb_432d"];
+                pasaran_limitglobal2dt_fulbb_432d_field = record[i]["limitglobal2dt_fullbb_432d"];
                 pasaran_disc4d_432d_field = (record[i]["disc4d_432d"] * 100).toFixed(2);
                 pasaran_disc3d_432d_field = (record[i]["disc3d_432d"] * 100).toFixed(2);
                 pasaran_disc3dd_432d_field = (record[i]["disc3dd_432d"] * 100).toFixed(2);
@@ -559,29 +621,37 @@
                 pasaran_win2d_bb_432d_field = record[i]["win2dbb_432d"];
                 pasaran_win2dd_bb_432d_field = record[i]["win2ddbb_432d"];
                 pasaran_win2dt_bb_432d_field = record[i]["win2dtbb_432d"];
+
                 pasaran_minbet_cbebas_field = record[i]["minbet_cbebas"];
                 pasaran_maxbet_cbebas_field = record[i]["maxbet_cbebas"];
+                pasaran_maxbuy_cbebas_field = record[i]["maxbuy_cbebas"];
                 pasaran_limitotal_cbebas_field = record[i]["limittotal_cbebas"];
                 pasaran_limitglobal_cbebas_field = record[i]["limitglobal_cbebas"];
                 pasaran_win_cbebas_field = record[i]["win_cbebas"].toFixed(2);
                 pasaran_disc_cbebas_field = (record[i]["disc_cbebas"] * 100).toFixed(2);
+
                 pasaran_minbet_cmacau_field = record[i]["minbet_cmacau"];
                 pasaran_maxbet_cmacau_field = record[i]["maxbet_cmacau"];
+                pasaran_maxbuy_cmacau_field = record[i]["maxbuy_cmacau"];
                 pasaran_limitotal_cmacau_field = record[i]["limitotal_cmacau"];
                 pasaran_limitglobal_cmacau_field = record[i]["limitglobal_cmacau"];
                 pasaran_win2_cmacau_field = record[i]["win2d_cmacau"].toFixed(2);
                 pasaran_win3_cmacau_field = record[i]["win3d_cmacau"].toFixed(2);
                 pasaran_win4_cmacau_field = record[i]["win4d_cmacau"].toFixed(2);
                 pasaran_disc_cmacau_field = (record[i]["disc_cmacau"] * 100).toFixed(2);
+
                 pasaran_minbet_cnaga_field = record[i]["minbet_cnaga"];
                 pasaran_maxbet_cnaga_field = record[i]["maxbet_cnaga"];
+                pasaran_maxbuy_cnaga_field = record[i]["maxbuy_cnaga"];
                 pasaran_win3_cnaga_field = record[i]["win3_cnaga"].toFixed(2);
                 pasaran_win4_cnaga_field = record[i]["win4_cnaga"].toFixed(2);
                 pasaran_disc_cnaga_field = (record[i]["disc_cnaga"] * 100).toFixed(2);
                 pasaran_limitglobal_cnaga_field = record[i]["limitglobal_cnaga"];
                 pasaran_limittotal_cnaga_field = record[i]["limittotal_cnaga"];
+
                 pasaran_minbet_cjitu_field = record[i]["minbet_cjitu"];
                 pasaran_maxbet_cjitu_field = record[i]["maxbet_cjitu"];
+                pasaran_maxbuy_cjitu_field = record[i]["maxbuy_cjitu"];
                 pasaran_winas_cjitu_field = record[i]["winas_cjitu"].toFixed(2);
                 pasaran_winkop_cjitu_field = record[i]["winkop_cjitu"].toFixed(2);
                 pasaran_winkepala_cjitu_field = record[i]["winkepala_cjitu"].toFixed(2);
@@ -589,8 +659,10 @@
                 pasaran_desc_cjitu_field = (record[i]["desc_cjitu"] * 100).toFixed(2);
                 pasaran_limitglobal_cjitu_field = record[i]["limitglobal_cjitu"];
                 pasaran_limittotal_cjitu_field = record[i]["limittotal_cjitu"];
+
                 pasaran_minbet_5050umum_field = record[i]["minbet_5050umum"];
                 pasaran_maxbet_5050umum_field = record[i]["maxbet_5050umum"];
+                pasaran_maxbuy_5050umum_field = record[i]["maxbuy_5050umum"];
                 pasaran_keibesar_5050umum_field = (record[i]["keibesar_5050umum"] * 100).toFixed(2);
                 pasaran_keikecil_5050umum_field = (record[i]["keikecil_5050umum"] * 100).toFixed(2);
                 pasaran_keigenap_5050umum_field = (record[i]["keigenap_5050umum"] * 100).toFixed(2);
@@ -605,8 +677,10 @@
                 pasaran_disctepi_5050umum_field = (record[i]["disctepi_5050umum"] * 100).toFixed(2);
                 pasaran_limitglobal_5050umum_field = record[i]["limitglobal_5050umum"];
                 pasaran_limittotal_5050umum_field = record[i]["limittotal_5050umum"];
+
                 pasaran_minbet_5050special_field = record[i]["minbet_5050special"];
                 pasaran_maxbet_5050special_field = record[i]["maxbet_5050special"];
+                pasaran_maxbuy_5050special_field = record[i]["maxbuy_5050special"];
                 pasaran_keiasganjil_5050special_field = (record[i]["keiasganjil_5050special"] * 100).toFixed(2);
                 pasaran_keiasgenap_5050special_field = (record[i]["keiasgenap_5050special"] * 100).toFixed(2);
                 pasaran_keiasbesar_5050special_field = (record[i]["keiasbesar_5050special"] * 100).toFixed(2);
@@ -641,8 +715,10 @@
                 pasaran_discekorkecil_5050special_field = (record[i]["discekorkecil_5050special"] * 100).toFixed(2);
                 pasaran_limitglobal_5050special_field = record[i]["limitglobal_5050special"];
                 pasaran_limittotal_5050special_field = record[i]["limittotal_5050special"];
+
                 pasaran_minbet_5050kombinasi_field = record[i]["minbet_5050kombinasi"];
                 pasaran_maxbet_5050kombinasi_field = record[i]["maxbet_5050kombinasi"];
+                pasaran_maxbuy_5050kombinasi_field = record[i]["maxbuy_5050kombinasi"];
                 pasaran_belakangkeimono_5050kombinasi_field = (record[i]["belakangkeimono_5050kombinasi"] * 100).toFixed(2);
                 pasaran_belakangkeistereo_5050kombinasi_field = (record[i]["belakangkeistereo_5050kombinasi"] * 100).toFixed(2);
                 pasaran_belakangkeikembang_5050kombinasi_field = (record[i]["belakangkeikembang_5050kombinasi"] * 100).toFixed(2);
@@ -675,8 +751,10 @@
                 pasaran_depandisckembar_5050kombinasi_field = (record[i]["depandisckembar_5050kombinasi"] * 100).toFixed(2);
                 pasaran_limitglobal_5050kombinasi_field = record[i]["limitglobal_5050kombinasi"];
                 pasaran_limittotal_5050kombinasi_field = record[i]["limittotal_5050kombinasi"];
+
                 pasaran_minbet_kombinasi_field = record[i]["minbet_kombinasi"];
                 pasaran_maxbet_kombinasi_field = record[i]["maxbet_kombinasi"];
+                pasaran_maxbuy_kombinasi_field = record[i]["maxbuy_kombinasi"];
                 pasaran_win_kombinasi_field = record[i]["win_kombinasi"].toFixed(2);
                 pasaran_disc_kombinasi_field = (record[i]["disc_kombinasi"] * 100).toFixed(2);
                 pasaran_limitglobal_kombinasi_field = record[i]["limitglobal_kombinasi"];
@@ -684,6 +762,7 @@
                 
                 pasaran_minbet_dasar_field = record[i]["minbet_dasar"];
                 pasaran_maxbet_dasar_field = record[i]["maxbet_dasar"];
+                pasaran_maxbuy_dasar_field = record[i]["maxbuy_dasar"];
                 pasaran_keibesar_dasar_field = (record[i]["keibesar_dasar"] * 100).toFixed(2);
                 pasaran_keikecil_dasar_field = (record[i]["keikecil_dasar"] * 100).toFixed(2);
                 pasaran_keigenap_dasar_field = (record[i]["keigenap_dasar"] * 100).toFixed(2);
@@ -694,8 +773,10 @@
                 pasaran_discganjil_dasar_field = (record[i]["discganjil_dasar"] * 100).toFixed(2);
                 pasaran_limitglobal_dasar_field = record[i]["limitglobal_dasar"];
                 pasaran_limittotal_dasar_field = record[i]["limittotal_dasar"];
+
                 pasaran_minbet_shio_field = record[i]["minbet_shio"];
                 pasaran_maxbet_shio_field = record[i]["maxbet_shio"];
+                pasaran_maxbuy_shio_field = record[i]["maxbuy_shio"];
                 pasaran_win_shio_field = (record[i]["win_shio"]).toFixed(2);
                 pasaran_disc_shio_field = (record[i]["disc_shio"] * 100).toFixed(2);
                 pasaran_shioyear_shio_field = record[i]["shioyear_shio"];
@@ -1010,8 +1091,6 @@
         pasaran_limitline2dt_field = 0;
         pasaran_bbfs_field = 0;
 
-        
-
         pasaran_minbet_432d_field = 0;
         pasaran_maxbet4d_432d_field = 0;
         pasaran_maxbet3d_432d_field = 0;
@@ -1019,6 +1098,20 @@
         pasaran_maxbet2d_432d_field = 0;
         pasaran_maxbet2dd_432d_field = 0;
         pasaran_maxbet2dt_432d_field = 0;
+
+        pasaran_maxbet4d_fullbb_432d_field = 0;
+        pasaran_maxbet3d_fullbb_432d_field = 0;
+        pasaran_maxbet3dd_fullbb_432d_field = 0;
+        pasaran_maxbet2d_fullbb_432d_field = 0;
+        pasaran_maxbet2dd_fullbb_432d_field = 0;
+        pasaran_maxbet2dt_fullbb_432d_field = 0;
+        pasaran_maxbuy4d_432d_field = 0;
+        pasaran_maxbuy3d_432d_field = 0;
+        pasaran_maxbuy3dd_432d_field = 0;
+        pasaran_maxbuy2d_432d_field = 0;
+        pasaran_maxbuy2dd_432d_field = 0;
+        pasaran_maxbuy2dt_432d_field = 0;
+
         pasaran_limitotal4d_432d_field = 0;
         pasaran_limitotal3d_432d_field = 0;
         pasaran_limitotal3dd_432d_field = 0;
@@ -1031,6 +1124,20 @@
         pasaran_limitglobal2d_432d_field = 0;
         pasaran_limitglobal2dd_432d_field = 0;
         pasaran_limitglobal2dt_432d_field = 0;
+
+        pasaran_limitotal4d_fulbb_432d_field = 0;
+        pasaran_limitotal3d_fulbb_432d_field = 0;
+        pasaran_limitotal3dd_fulbb_432d_field = 0;
+        pasaran_limitotal2d_fulbb_432d_field = 0;
+        pasaran_limitotal2dd_fulbb_432d_field = 0;
+        pasaran_limitotal2dt_fulbb_432d_field = 0;
+        pasaran_limitglobal4d_fulbb_432d_field = 0;
+        pasaran_limitglobal3d_fulbb_432d_field = 0;
+        pasaran_limitglobal3dd_fulbb_432d_field = 0;
+        pasaran_limitglobal2d_fulbb_432d_field = 0;
+        pasaran_limitglobal2dd_fulbb_432d_field = 0;
+        pasaran_limitglobal2dt_fulbb_432d_field = 0;
+
         pasaran_disc4d_432d_field = 0;
         pasaran_disc3d_432d_field = 0;
         pasaran_disc3dd_432d_field = 0;
@@ -1064,6 +1171,7 @@
 
         pasaran_minbet_cbebas_field = 0;
         pasaran_maxbet_cbebas_field = 0;
+        pasaran_maxbuy_cbebas_field = 0;
         pasaran_limitotal_cbebas_field = 0;
         pasaran_limitglobal_cbebas_field = 0;
         pasaran_win_cbebas_field = 0;
@@ -1071,6 +1179,7 @@
 
         pasaran_minbet_cmacau_field = 0;
         pasaran_maxbet_cmacau_field = 0;
+        pasaran_maxbuy_cmacau_field = 0;
         pasaran_limitotal_cmacau_field = 0;
         pasaran_limitglobal_cmacau_field = 0;
         pasaran_win2_cmacau_field = 0;
@@ -1080,6 +1189,7 @@
 
         pasaran_minbet_cnaga_field = 0;
         pasaran_maxbet_cnaga_field = 0;
+        pasaran_maxbuy_cnaga_field = 0;
         pasaran_win3_cnaga_field = 0;
         pasaran_win4_cnaga_field = 0;
         pasaran_disc_cnaga_field = 0;
@@ -1088,6 +1198,7 @@
 
         pasaran_minbet_cjitu_field = 0;
         pasaran_maxbet_cjitu_field = 0;
+        pasaran_maxbuy_cjitu_field = 0;
         pasaran_winas_cjitu_field = 0;
         pasaran_winkop_cjitu_field = 0;
         pasaran_winkepala_cjitu_field = 0;
@@ -1098,6 +1209,7 @@
 
         pasaran_minbet_5050umum_field = 0;
         pasaran_maxbet_5050umum_field = 0;
+        pasaran_maxbuy_5050umum_field = 0;
         pasaran_keibesar_5050umum_field = 0;
         pasaran_keikecil_5050umum_field = 0;
         pasaran_keigenap_5050umum_field = 0;
@@ -1112,8 +1224,10 @@
         pasaran_disctepi_5050umum_field = 0;
         pasaran_limitglobal_5050umum_field = 0;
         pasaran_limittotal_5050umum_field = 0;
+
         pasaran_minbet_5050special_field = 0;
         pasaran_maxbet_5050special_field = 0;
+        pasaran_maxbuy_5050special_field = 0;
         pasaran_keiasganjil_5050special_field = 0;
         pasaran_keiasgenap_5050special_field = 0;
         pasaran_keiasbesar_5050special_field = 0;
@@ -1148,8 +1262,10 @@
         pasaran_discekorkecil_5050special_field = 0;
         pasaran_limitglobal_5050special_field = 0;
         pasaran_limittotal_5050special_field = 0;
+
         pasaran_minbet_5050kombinasi_field = 0;
         pasaran_maxbet_5050kombinasi_field = 0;
+        pasaran_maxbuy_5050kombinasi_field = 0;
         pasaran_belakangkeimono_5050kombinasi_field = 0;
         pasaran_belakangkeistereo_5050kombinasi_field = 0;
         pasaran_belakangkeikembang_5050kombinasi_field = 0;
@@ -1182,14 +1298,18 @@
         pasaran_depandisckembar_5050kombinasi_field = 0;
         pasaran_limitglobal_5050kombinasi_field = 0;
         pasaran_limittotal_5050kombinasi_field = 0;
+
         pasaran_minbet_kombinasi_field = 0;
         pasaran_maxbet_kombinasi_field = 0;
+        pasaran_maxbuy_kombinasi_field = 0;
         pasaran_win_kombinasi_field = 0;
         pasaran_disc_kombinasi_field = 0;
         pasaran_limitglobal_kombinasi_field = 0;
         pasaran_limittotal_kombinasi_field = 0;
+
         pasaran_minbet_dasar_field = 0;
         pasaran_maxbet_dasar_field = 0;
+        pasaran_maxbuy_dasar_field = 0;
         pasaran_keibesar_dasar_field = 0;
         pasaran_keikecil_dasar_field = 0;
         pasaran_keigenap_dasar_field = 0;
@@ -1654,9 +1774,14 @@
                                 input_placeholder="LimitLine 2DT"/>
                             {#if pasaran_tipe != "WAJIB"}
                             <div class="col-span-3">
-                                <button on:click={() => {
-                                    SaveLimitline();
-                                }} class="{buttonLoading_class} btn-block">Submit</button>
+                                <Button_custom 
+                                    on:click={() => {
+                                        SaveLimitline();
+                                    }}
+                                    button_disable={buttonLoading_flag}
+                                    button_class="btn-block mt-2"
+                                    button_disable_class="{buttonLoading_class}"
+                                    button_title="Submit" />
                             </div>
                             {/if}
                         </div>
@@ -1728,6 +1853,18 @@
                     {pasaran_maxbet2d_432d_field}
                     {pasaran_maxbet2dd_432d_field}
                     {pasaran_maxbet2dt_432d_field}
+                    {pasaran_maxbet4d_fullbb_432d_field}
+                    {pasaran_maxbet3d_fullbb_432d_field}
+                    {pasaran_maxbet3dd_fullbb_432d_field}
+                    {pasaran_maxbet2d_fullbb_432d_field}
+                    {pasaran_maxbet2dd_fullbb_432d_field}
+                    {pasaran_maxbet2dt_fullbb_432d_field}
+                    {pasaran_maxbuy4d_432d_field}
+                    {pasaran_maxbuy3d_432d_field}
+                    {pasaran_maxbuy3dd_432d_field}
+                    {pasaran_maxbuy2d_432d_field}
+                    {pasaran_maxbuy2dd_432d_field}
+                    {pasaran_maxbuy2dt_432d_field}
                     {pasaran_limitotal4d_432d_field}
                     {pasaran_limitotal3d_432d_field}
                     {pasaran_limitotal3dd_432d_field}
@@ -1740,6 +1877,18 @@
                     {pasaran_limitglobal2d_432d_field}
                     {pasaran_limitglobal2dd_432d_field}
                     {pasaran_limitglobal2dt_432d_field}
+                    {pasaran_limitotal4d_fulbb_432d_field}
+                    {pasaran_limitotal3d_fulbb_432d_field}
+                    {pasaran_limitotal3dd_fulbb_432d_field}
+                    {pasaran_limitotal2d_fulbb_432d_field}
+                    {pasaran_limitotal2dd_fulbb_432d_field}
+                    {pasaran_limitotal2dt_fulbb_432d_field}
+                    {pasaran_limitglobal4d_fulbb_432d_field}
+                    {pasaran_limitglobal3d_fulbb_432d_field}
+                    {pasaran_limitglobal3dd_fulbb_432d_field}
+                    {pasaran_limitglobal2d_fulbb_432d_field}
+                    {pasaran_limitglobal2dd_fulbb_432d_field}
+                    {pasaran_limitglobal2dt_fulbb_432d_field}
                     {pasaran_disc4d_432d_field}
                     {pasaran_disc3d_432d_field}
                     {pasaran_disc3dd_432d_field}
@@ -1783,6 +1932,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_cbebas_field}
                     {pasaran_maxbet_cbebas_field}
+                    {pasaran_maxbuy_cbebas_field}
                     {pasaran_limitotal_cbebas_field}
                     {pasaran_limitglobal_cbebas_field}
                     {pasaran_win_cbebas_field}
@@ -1799,6 +1949,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_cmacau_field}
                     {pasaran_maxbet_cmacau_field}
+                    {pasaran_maxbuy_cmacau_field}
                     {pasaran_limitotal_cmacau_field}
                     {pasaran_limitglobal_cmacau_field}
                     {pasaran_win2_cmacau_field}
@@ -1817,6 +1968,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_cnaga_field}
                     {pasaran_maxbet_cnaga_field}
+                    {pasaran_maxbuy_cnaga_field}
                     {pasaran_win3_cnaga_field}
                     {pasaran_win4_cnaga_field}
                     {pasaran_disc_cnaga_field}
@@ -1834,6 +1986,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_cjitu_field}
                     {pasaran_maxbet_cjitu_field}
+                    {pasaran_maxbuy_cjitu_field}
                     {pasaran_winas_cjitu_field}
                     {pasaran_winkop_cjitu_field}
                     {pasaran_winkepala_cjitu_field}
@@ -1854,6 +2007,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050umum_field}
                     {pasaran_maxbet_5050umum_field}
+                    {pasaran_maxbuy_5050umum_field}
                     {pasaran_keibesar_5050umum_field}
                     {pasaran_keikecil_5050umum_field}
                     {pasaran_keigenap_5050umum_field}
@@ -1881,6 +2035,7 @@
                     {pasaran_idpasarantogel_field}
                     {pasaran_minbet_5050special_field}
                     {pasaran_maxbet_5050special_field}
+                    {pasaran_maxbuy_5050special_field}
                     {pasaran_keiasganjil_5050special_field}
                     {pasaran_keiasgenap_5050special_field}
                     {pasaran_keiasbesar_5050special_field}
@@ -1927,6 +2082,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_5050kombinasi_field}
                     {pasaran_maxbet_5050kombinasi_field}
+                    {pasaran_maxbuy_5050kombinasi_field}
                     {pasaran_belakangkeimono_5050kombinasi_field}
                     {pasaran_belakangkeistereo_5050kombinasi_field}
                     {pasaran_belakangkeikembang_5050kombinasi_field}
@@ -1971,6 +2127,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_kombinasi_field}
                     {pasaran_maxbet_kombinasi_field}
+                    {pasaran_maxbuy_kombinasi_field}
                     {pasaran_win_kombinasi_field}
                     {pasaran_disc_kombinasi_field}
                     {pasaran_limitglobal_kombinasi_field}
@@ -1987,6 +2144,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_dasar_field}
                     {pasaran_maxbet_dasar_field}
+                    {pasaran_maxbuy_dasar_field}
                     {pasaran_keibesar_dasar_field}
                     {pasaran_keikecil_dasar_field}
                     {pasaran_keigenap_dasar_field}
@@ -2009,6 +2167,7 @@
                     {idpasarantogel}
                     {pasaran_minbet_shio_field}
                     {pasaran_maxbet_shio_field}
+                    {pasaran_maxbuy_shio_field}
                     {pasaran_win_shio_field}
                     {pasaran_disc_shio_field}
                     {pasaran_shioyear_shio_field}
