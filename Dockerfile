@@ -27,7 +27,7 @@ RUN apk add tzdata
 COPY --from=totosveltebuilderagen /svelteapp/dist ./frontend/dist
 COPY --from=masterclientbuilds /appbuilds/binary .
 COPY --from=masterclientbuilds /appbuilds/.env /app/.env
-ENV PORT=5052
+ENV PORT=5053
 ENV PATH_API="http://128.199.241.112:7073/"
 ENV TZ=Asia/Jakarta
 

@@ -2,10 +2,10 @@ version: '3.3'
 
 services:
   frontendmaster:
-    image: toto_frontend_master:0.0.1
+    image: toto_frontend_master:0.0.6
     build: "."
     ports:
-      - "5052"
+      - "5053"
     restart: "always"
     networks:
       - "toto_frontend_master.network"
@@ -24,7 +24,7 @@ services:
     depends_on:
       - frontendmaster
     ports:
-      - "5053:5053"
+      - "5052:5052"
     networks:
       - "toto_frontend_master.network"
 networks:
