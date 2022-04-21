@@ -69,14 +69,7 @@
             const json = await res.json();
             let ip_container = json.container_ip
             let ip_real = json.real_ip
-            let ipaddress = "0.0.0.0";
-            if(ip_container == "0.0.0.0"){
-                ipaddress = ip_real
-            }
-            if(ip_real == "0.0.0.0"){
-                ipaddress = ip_container
-            }
-            client_ipaddress = ipaddress;
+            client_ipaddress = json.real_ip;
             client_timezone = "Asia/Jakarta";
         }
     }
