@@ -1823,6 +1823,9 @@
     };
     const LoadingRunningFinish = (e) => {
         loader_msg =e.detail.temp_msg
+        idcompany = e.detail.idcompany;
+        companypasaran_id = e.detail.companypasaran_id
+        call_listpasaranconf()
         setTimeout(function () {
             loader_class = "hidden";
         }, 1000);

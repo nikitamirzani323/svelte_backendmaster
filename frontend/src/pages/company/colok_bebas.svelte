@@ -79,12 +79,12 @@
             if(!res.ok){
                 let temp_msg = "System Mengalami Trouble"
                 dispatch("handleLoadingRunningFinish", {
-                        temp_msg
+                        temp_msg,idcompany,companypasaran_id
                 });
             }else{
                 let temp_msg = json.message
                 dispatch("handleLoadingRunningFinish", {
-                        temp_msg
+                        temp_msg,idcompany,companypasaran_id
                 });
             }
             buttonLoading_flag = false;
@@ -125,12 +125,12 @@
             if(!res.ok){
                 let temp_msg = "System Mengalami Trouble"
                 dispatch("handleLoadingRunningFinish", {
-                        temp_msg
+                        temp_msg,idcompany,companypasaran_id
                 });
             }else{
                 let temp_msg = json.message
                 dispatch("handleLoadingRunningFinish", {
-                        temp_msg
+                        temp_msg,idcompany,companypasaran_id
                 });
             }
             buttonLoading_flag = false;
