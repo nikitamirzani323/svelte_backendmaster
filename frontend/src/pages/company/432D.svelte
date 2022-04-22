@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import Button_custom from '../../components/button_custom.svelte'
     import Input_custom from '../../components/Input.svelte'
 
     export let path_api = "";
@@ -15,6 +16,18 @@
     export let pasaran_maxbet2d_432d_field = 0;
     export let pasaran_maxbet2dd_432d_field = 0;
     export let pasaran_maxbet2dt_432d_field = 0;
+    export let pasaran_maxbet4d_fullbb_432d_field = 0;
+    export let pasaran_maxbet3d_fullbb_432d_field = 0;
+    export let pasaran_maxbet3dd_fullbb_432d_field = 0;
+    export let pasaran_maxbet2d_fullbb_432d_field = 0;
+    export let pasaran_maxbet2dd_fullbb_432d_field = 0;
+    export let pasaran_maxbet2dt_fullbb_432d_field = 0;
+    export let pasaran_maxbuy4d_432d_field = 0;
+    export let pasaran_maxbuy3d_432d_field = 0;
+    export let pasaran_maxbuy3dd_432d_field = 0;
+    export let pasaran_maxbuy2d_432d_field = 0;
+    export let pasaran_maxbuy2dd_432d_field = 0;
+    export let pasaran_maxbuy2dt_432d_field = 0;
     export let pasaran_limitotal4d_432d_field = 0;
     export let pasaran_limitotal3d_432d_field = 0;
     export let pasaran_limitotal3dd_432d_field = 0;
@@ -27,6 +40,18 @@
     export let pasaran_limitglobal2d_432d_field = 0;
     export let pasaran_limitglobal2dd_432d_field = 0;
     export let pasaran_limitglobal2dt_432d_field = 0;
+    export let pasaran_limitotal4d_fullbb_432d_field = 0;
+    export let pasaran_limitotal3d_fullbb_432d_field = 0;
+    export let pasaran_limitotal3dd_fullbb_432d_field = 0;
+    export let pasaran_limitotal2d_fullbb_432d_field = 0;
+    export let pasaran_limitotal2dd_fullbb_432d_field = 0;
+    export let pasaran_limitotal2dt_fullbb_432d_field = 0;
+    export let pasaran_limitglobal4d_fullbb_432d_field = 0;
+    export let pasaran_limitglobal3d_fullbb_432d_field = 0;
+    export let pasaran_limitglobal3dd_fullbb_432d_field = 0;
+    export let pasaran_limitglobal2d_fullbb_432d_field = 0;
+    export let pasaran_limitglobal2dd_fullbb_432d_field = 0;
+    export let pasaran_limitglobal2dt_fullbb_432d_field = 0;
     export let pasaran_disc4d_432d_field = 0;
     export let pasaran_disc3d_432d_field = 0;
     export let pasaran_disc3dd_432d_field = 0;
@@ -57,13 +82,18 @@
     export let pasaran_win2d_bb_432d_field = 0;
     export let pasaran_win2dd_bb_432d_field = 0;
     export let pasaran_win2dt_bb_432d_field = 0;
-    let buttonLoading_class = "btn btn-primary";
+    let buttonLoading_flag = false;
+    let buttonLoading_class = "btn-block";
     let buttonLoadingfetch_class = "btn btn-warning";
     let msg_error = "";
     let tab_config_1 = "bg-sky-600 text-white"
     let tab_config_2 = ""
+    let tab_config_3 = ""
+    let tab_config_4 = ""
     let panel_conf_1 = true
     let panel_conf_2 = false
+    let panel_conf_3 = false
+    let panel_conf_4 = false
     let dispatch = createEventDispatcher();
     async function save432d() {
         let flag = false;
@@ -95,6 +125,30 @@
         if (pasaran_maxbet2dt_432d_field == "") {
             flag = true;
             msg_error += "The Max Bet 2DT is required<br>";
+        }
+        if (pasaran_maxbet4d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 4D FULL/BB is required<br>";
+        }
+        if (pasaran_maxbet3d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 3D FULL/BB is required<br>";
+        }
+        if (pasaran_maxbet3dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 3DD FULL/BB is required<br>";
+        }
+        if (pasaran_maxbet2d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 2D FULL/BB is required<br>";
+        }
+        if (pasaran_maxbet2dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 2DD FULL/BB is required<br>";
+        }
+        if (pasaran_maxbet2dt_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Max Bet 2DT FULL/BB is required<br>";
         }
         if (pasaran_limitotal4d_432d_field == "") {
             flag = true;
@@ -143,6 +197,54 @@
         if (pasaran_limitglobal2dt_432d_field == "") {
             flag = true;
             msg_error += "The Limit Global 2DT is required<br>";
+        }
+        if (pasaran_limitotal4d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 4D FULL/BB is required<br>";
+        }
+        if (pasaran_limitotal3d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 3D FULL/BB is required<br>";
+        }
+        if (pasaran_limitotal3dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 3DD FULL/BB is required<br>";
+        }
+        if (pasaran_limitotal2d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 2D FULL/BB is required<br>";
+        }
+        if (pasaran_limitotal2dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 2DD FULL/BB is required<br>";
+        }
+        if (pasaran_limitotal2dt_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Total 2DT FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal4d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 4D FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal3d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 3D FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal3dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 3DD FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal2d_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 3D FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal2dd_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 2DD FULL/BB is required<br>";
+        }
+        if (pasaran_limitglobal2dt_fullbb_432d_field == "") {
+            flag = true;
+            msg_error += "The Limit Global 2DT FULL/BB is required<br>";
         }
         if (pasaran_win4d_432d_field == "") {
             flag = true;
@@ -265,7 +367,7 @@
             msg_error += "The Disc 2DT is required<br>";
         }
         if (flag == false) {
-            buttonLoading_class = "btn loading"
+            buttonLoading_flag = true;
             dispatch("handleLoadingRunning", "call");
             const res = await fetch(path_api+"api/updatecompanypasaran432", {
                 method: "POST",
@@ -286,6 +388,18 @@
                     pasaran_maxbet2d_432d: parseInt(pasaran_maxbet2d_432d_field),
                     pasaran_maxbet2dd_432d: parseInt(pasaran_maxbet2dd_432d_field),
                     pasaran_maxbet2dt_432d: parseInt(pasaran_maxbet2dt_432d_field),
+                    pasaran_maxbet4d_fullbb_432d: parseInt(pasaran_maxbet4d_fullbb_432d_field),
+                    pasaran_maxbet3d_fullbb_432d: parseInt(pasaran_maxbet3d_fullbb_432d_field),
+                    pasaran_maxbet3dd_fullbb_432d: parseInt(pasaran_maxbet3dd_fullbb_432d_field),
+                    pasaran_maxbet2d_fullbb_432d: parseInt(pasaran_maxbet2d_fullbb_432d_field),
+                    pasaran_maxbet2dd_fullbb_432d: parseInt(pasaran_maxbet2dd_fullbb_432d_field),
+                    pasaran_maxbet2dt_fullbb_432d: parseInt(pasaran_maxbet2dt_fullbb_432d_field),
+                    pasaran_maxbuy4d_432d: parseInt(pasaran_maxbuy4d_432d_field),
+                    pasaran_maxbuy3d_432d: parseInt(pasaran_maxbuy3d_432d_field),
+                    pasaran_maxbuy3dd_432d: parseInt(pasaran_maxbuy3dd_432d_field),
+                    pasaran_maxbuy2d_432d: parseInt(pasaran_maxbuy2d_432d_field),
+                    pasaran_maxbuy2dd_432d: parseInt(pasaran_maxbuy2dd_432d_field),
+                    pasaran_maxbuy2dt_432d: parseInt(pasaran_maxbuy2dt_432d_field),
                     pasaran_limitotal4d_432d: parseInt(pasaran_limitotal4d_432d_field),
                     pasaran_limitotal3d_432d: parseInt(pasaran_limitotal3d_432d_field),
                     pasaran_limitotal3dd_432d: parseInt(pasaran_limitotal3dd_432d_field),
@@ -298,6 +412,18 @@
                     pasaran_limitglobal2d_432d: parseInt(pasaran_limitglobal2d_432d_field),
                     pasaran_limitglobal2dd_432d: parseInt(pasaran_limitglobal2dd_432d_field),
                     pasaran_limitglobal2dt_432d: parseInt(pasaran_limitglobal2dt_432d_field),
+                    pasaran_limitotal4d_fullbb_432d: parseInt(pasaran_limitotal4d_fullbb_432d_field),
+                    pasaran_limitotal3d_fullbb_432d: parseInt(pasaran_limitotal3d_fullbb_432d_field),
+                    pasaran_limitotal3dd_fullbb_432d: parseInt(pasaran_limitotal3dd_fullbb_432d_field),
+                    pasaran_limitotal2d_fullbb_432d: parseInt(pasaran_limitotal2d_fullbb_432d_field),
+                    pasaran_limitotal2dd_fullbb_432d: parseInt(pasaran_limitotal2dd_fullbb_432d_field),
+                    pasaran_limitotal2dt_fullbb_432d: parseInt(pasaran_limitotal2dt_fullbb_432d_field),
+                    pasaran_limitglobal4d_fullbb_432d: parseInt(pasaran_limitglobal4d_fullbb_432d_field),
+                    pasaran_limitglobal3d_fullbb_432d: parseInt(pasaran_limitglobal3d_fullbb_432d_field),
+                    pasaran_limitglobal3dd_fullbb_432d: parseInt(pasaran_limitglobal3dd_fullbb_432d_field),
+                    pasaran_limitglobal2d_fullbb_432d: parseInt(pasaran_limitglobal2d_fullbb_432d_field),
+                    pasaran_limitglobal2dd_fullbb_432d: parseInt(pasaran_limitglobal2dd_fullbb_432d_field),
+                    pasaran_limitglobal2dt_fullbb_432d: parseInt(pasaran_limitglobal2dt_fullbb_432d_field),
                     pasaran_win4d_432d: parseInt(pasaran_win4d_432d_field),
                     pasaran_win3d_432d: parseInt(pasaran_win3d_432d_field),
                     pasaran_win3dd_432d: parseInt(pasaran_win3dd_432d_field),
@@ -342,7 +468,7 @@
                         temp_msg
                 });
             }
-            buttonLoading_class = "btn btn-primary"
+            buttonLoading_flag = false;
         } else {
             if(msg_error != ""){
                 let temp_msg = msg_error
@@ -360,7 +486,7 @@
             msg_error += "The Pasaran is required\n";
         }
         if (flag == false) {
-            buttonLoadingfetch_class = "btn loading"
+            buttonLoading_flag = true;
             dispatch("handleLoadingRunning", "call");
             const res = await fetch(path_api+"api/fetchpasaran432", {
                 method: "POST",
@@ -388,7 +514,7 @@
                         temp_msg
                 });
             }
-            buttonLoadingfetch_class = "btn btn-warning"
+            buttonLoading_flag = false;
         } else {
             if(msg_error != ""){
                 let temp_msg = msg_error
@@ -403,14 +529,42 @@
             case "config_1":
                 tab_config_1 = "bg-sky-600 text-white"
                 tab_config_2 = ""
+                tab_config_3 = ""
+                tab_config_4 = ""
                 panel_conf_1 = true
                 panel_conf_2 = false
+                panel_conf_3 = false
+                panel_conf_4 = false
                 break;
             case "config_2":
                 tab_config_1 = ""
                 tab_config_2 = "bg-sky-600 text-white"
+                tab_config_3 = ""
+                tab_config_4 = ""
                 panel_conf_1 = false
                 panel_conf_2 = true
+                panel_conf_3 = false
+                panel_conf_4 = false
+                break;
+            case "config_3":
+                tab_config_1 = ""
+                tab_config_2 = ""
+                tab_config_3 = "bg-sky-600 text-white"
+                tab_config_4 = ""
+                panel_conf_1 = false
+                panel_conf_2 = false
+                panel_conf_3 = true
+                panel_conf_4 = false
+                break;
+            case "config_4":
+                tab_config_1 = ""
+                tab_config_2 = ""
+                tab_config_3 = ""
+                tab_config_4 = "bg-sky-600 text-white"
+                panel_conf_1 = false
+                panel_conf_2 = false
+                panel_conf_3 = false
+                panel_conf_4 = true
                 break;
         }
     }
@@ -425,6 +579,14 @@
             ChangeTabMenu("config_2");
         }}
         class="items-center {tab_config_2} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure 2</li>
+    <li on:click={() => {
+            ChangeTabMenu("config_3");
+        }}
+        class="items-center {tab_config_3} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure 3</li>
+    <li on:click={() => {
+            ChangeTabMenu("config_4");
+        }}
+        class="items-center {tab_config_4} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure 4</li>
 </ul>
 {#if panel_conf_1}
     <div class="grid grid-cols-3 gap-1 mt-5 mb-5">
@@ -571,6 +733,200 @@
     </div>
 {/if}
 {#if panel_conf_2}
+    <div class="grid grid-cols-3 gap-1 mt-5 mb-5">
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet4d_fullbb_432d_field}
+            input_id="pasaran_maxbet4d_fullbb_432d_field"
+            input_placeholder="Max Bet 4D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal4d_fullbb_432d_field}
+            input_id="pasaran_limitotal4d_fullbb_432d_field"
+            input_placeholder="Limit Total 4D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal4d_fullbb_432d_field}
+            input_id="pasaran_limitglobal4d_fullbb_432d_field"
+            input_placeholder="Limit Global 4D FULL/BB"/>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet3d_fullbb_432d_field}
+            input_id="pasaran_maxbet3d_fullbb_432d_field"
+            input_placeholder="Max Bet 3D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal3d_fullbb_432d_field}
+            input_id="pasaran_limitotal3d_fullbb_432d_field"
+            input_placeholder="Limit Total 3D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal3d_fullbb_432d_field}
+            input_id="pasaran_limitglobal3d_fullbb_432d_field"
+            input_placeholder="Limit Global 3D FULL/BB"/>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet3dd_fullbb_432d_field}
+            input_id="pasaran_maxbet3dd_fullbb_432d_field"
+            input_placeholder="Max Bet 3DD FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal3dd_fullbb_432d_field}
+            input_id="pasaran_limitotal3dd_fullbb_432d_field"
+            input_placeholder="Limit Total 3DD FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal3dd_fullbb_432d_field}
+            input_id="pasaran_limitglobal3dd_fullbb_432d_field"
+            input_placeholder="Limit Global 3DD FULL/BB"/>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet2d_fullbb_432d_field}
+            input_id="pasaran_maxbet2d_fullbb_432d_field"
+            input_placeholder="Max Bet 2D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal2d_fullbb_432d_field}
+            input_id="pasaran_limitotal2d_fullbb_432d_field"
+            input_placeholder="Limit Total 2D FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal2d_fullbb_432d_field}
+            input_id="pasaran_limitglobal2d_fullbb_432d_field"
+            input_placeholder="Limit Global 2D FULL/BB"/>
+        
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet2dd_fullbb_432d_field}
+            input_id="pasaran_maxbet2dd_fullbb_432d_field"
+            input_placeholder="Max Bet 2DD FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal2dd_fullbb_432d_field}
+            input_id="pasaran_limitotal2dd_fullbb_432d_field"
+            input_placeholder="Limit Total 2DD FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal2dd_fullbb_432d_field}
+            input_id="pasaran_limitglobal2dd_fullbb_432d_field"
+            input_placeholder="Limit Global 2DD FULL/BB"/>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbet2dt_fullbb_432d_field}
+            input_id="pasaran_maxbet2dt_fullbb_432d_field"
+            input_placeholder="Max Bet 2DT FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitotal2dt_fullbb_432d_field}
+            input_id="pasaran_limitotal2dt_fullbb_432d_field"
+            input_placeholder="Limit Total 2DT FULL/BB"/>
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_limitglobal2dt_fullbb_432d_field}
+            input_id="pasaran_limitglobal2dt_fullbb_432d_field"
+            input_placeholder="Limit Global 2DT FULL/BB"/>
+    </div>
+{/if}
+{#if panel_conf_3}
+    <div class="grid grid-cols-3 gap-1 mt-5 mb-5">
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy4d_432d_field}
+            input_id="pasaran_maxbuy4d_432d_field"
+            input_placeholder="Max Buy 4D"/>
+        <div class="col-span-2"></div>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy3d_432d_field}
+            input_id="pasaran_maxbuy3d_432d_field"
+            input_placeholder="Max Buy 3D"/>
+        <div class="col-span-2"></div>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy3dd_432d_field}
+            input_id="pasaran_maxbuy3dd_432d_field"
+            input_placeholder="Max Buy 3DD"/>
+        <div class="col-span-2"></div>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy2d_432d_field}
+            input_id="pasaran_maxbuy2d_432d_field"
+            input_placeholder="Max Buy 2D"/>
+        <div class="col-span-2"></div>   
+        
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy2dd_432d_field}
+            input_id="pasaran_maxbuy2dd_432d_field"
+            input_placeholder="Max Buy 2DD"/>
+        <div class="col-span-2"></div>
+        
+        <Input_custom
+            input_enabled={true}
+            input_tipe="number"
+            input_maxlenght="12"
+            bind:value={pasaran_maxbuy2dt_432d_field}
+            input_id="pasaran_maxbuy2dt_432d_field"
+            input_placeholder="Max Buy 2DT"/>
+        <div class="col-span-2"></div>
+    </div>
+{/if}
+{#if panel_conf_4}
     <div class="grid grid-cols-5 gap-1 mt-5 mb-5">
         <Input_custom
             input_enabled={true}
@@ -795,10 +1151,21 @@
     </div>
 {/if}
 <div class="grid grid-cols-2 gap-2">
-    <button on:click={() => {
-        fetch432d();
-    }} class="{buttonLoadingfetch_class} btn-block ">Fetch</button>
-    <button on:click={() => {
-        save432d();
-    }} class="{buttonLoading_class} btn-block ">Submit</button>
+    <Button_custom 
+        on:click={() => {
+            fetch432d();
+        }}
+        button_style="btn-warning"
+        button_disable={buttonLoading_flag}
+        button_class="btn-block mt-2"
+        button_disable_class="{buttonLoading_class}"
+        button_title="Fetch" />
+    <Button_custom 
+        on:click={() => {
+            save432d();
+        }}
+        button_disable={buttonLoading_flag}
+        button_class="btn-block mt-2"
+        button_disable_class="{buttonLoading_class}"
+        button_title="Submit" />
 </div>

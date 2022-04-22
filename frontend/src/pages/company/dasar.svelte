@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import Button_custom from '../../components/button_custom.svelte'
     import Input_custom from '../../components/Input.svelte'
     
     export let path_api = "";
@@ -10,6 +11,7 @@
     export let pasaran_id_field = "";
     export let pasaran_minbet_dasar_field = 0;
     export let pasaran_maxbet_dasar_field = 0;
+    export let pasaran_maxbuy_dasar_field = 0;
     export let pasaran_keibesar_dasar_field = 0;
     export let pasaran_keikecil_dasar_field = 0;
     export let pasaran_keigenap_dasar_field = 0;
@@ -20,8 +22,8 @@
     export let pasaran_discganjil_dasar_field = 0;
     export let pasaran_limitglobal_dasar_field = 0;
     export let pasaran_limittotal_dasar_field = 0;
-    let buttonLoading_class = "btn btn-primary";
-    let buttonLoadingfetch_class = "btn btn-warning";
+    let buttonLoading_flag = false;
+    let buttonLoading_class = "btn-block";
     let msg_error = "";
     let dispatch = createEventDispatcher();
     async function save432d() {
@@ -76,7 +78,7 @@
             msg_error += "The Diskon Ganjil is required<br>";
         }
         if (flag == false) {
-            buttonLoading_class = "btn loading"
+            buttonLoading_flag = true;
             dispatch("handleLoadingRunning", "call");
             const res = await fetch(path_api+"api/updatecompanypasarandasar", {
                 method: "POST",
@@ -92,6 +94,7 @@
                     pasaran_id: pasaran_id_field,
                     pasaran_minbet_dasar: parseInt(pasaran_minbet_dasar_field),
                     pasaran_maxbet_dasar: parseInt(pasaran_maxbet_dasar_field),
+                    pasaran_maxbuy_dasar: parseInt(pasaran_maxbuy_dasar_field),
                     pasaran_limittotal_dasar: parseInt(pasaran_limittotal_dasar_field),
                     pasaran_limitglobal_dasar: parseInt(pasaran_limitglobal_dasar_field),
                     pasaran_keibesar_dasar: parseFloat((pasaran_keibesar_dasar_field / 100).toPrecision(3)),
@@ -116,7 +119,7 @@
                         temp_msg
                 });
             }
-            buttonLoading_class = "btn btn-primary"
+            buttonLoading_flag = false;
         } else {
             if(msg_error != ""){
                 let temp_msg = msg_error
@@ -134,7 +137,7 @@
             msg_error += "The Pasaran is required<br>";
         }
         if (flag == false) {
-            buttonLoadingfetch_class = "btn loading"
+            buttonLoading_flag = true;
             dispatch("handleLoadingRunning", "call");
             const res = await fetch(path_api+"api/fetchpasarandasar", {
                 method: "POST",
@@ -162,7 +165,7 @@
                         temp_msg
                 });
             }
-            buttonLoadingfetch_class = "btn btn-warning"
+            buttonLoading_flag = false;
         } else {
             if(msg_error != ""){
                 let temp_msg = msg_error
@@ -233,8 +236,14 @@
         bind:value={pasaran_disckecil_dasar_field}
         input_id="pasaran_disckecil_dasar_field"
         input_placeholder="DISC KECIL(%)"/>
-    
-    <div class="col-span-2"></div>
+    <Input_custom
+        input_enabled={true}
+        input_tipe="number"
+        input_maxlenght="12"
+        bind:value={pasaran_maxbuy_dasar_field}
+        input_id="pasaran_maxbuy_dasar_field"
+        input_placeholder="Max Buy"/>
+    <div class="col-span-1"></div>
     <Input_custom
         input_enabled={true}
         input_tipe="float"
@@ -267,10 +276,21 @@
         input_placeholder="DISC GANJIL(%)"/>
 </div>
 <div class="grid grid-cols-2 gap-2">
-    <button on:click={() => {
-        fetchcolok();
-    }} class="{buttonLoadingfetch_class} btn-block ">Fetch</button>
-    <button on:click={() => {
-        save432d();
-    }} class="{buttonLoading_class} btn-block ">Submit</button>
+    <Button_custom 
+        on:click={() => {
+            fetchcolok();
+        }}
+        button_style="btn-warning"
+        button_disable={buttonLoading_flag}
+        button_class="btn-block mt-2"
+        button_disable_class="{buttonLoading_class}"
+        button_title="Fetch" />
+    <Button_custom 
+        on:click={() => {
+            save432d();
+        }}
+        button_disable={buttonLoading_flag}
+        button_class="btn-block mt-2"
+        button_disable_class="{buttonLoading_class}"
+        button_title="Submit" />
 </div>
