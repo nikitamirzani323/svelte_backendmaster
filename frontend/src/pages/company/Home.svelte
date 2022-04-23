@@ -20,6 +20,7 @@
     import Panel_kombinasi from './kombinasi.svelte'
     import Panel_dasar from './dasar.svelte'
     import Panel_shio from './shio.svelte'
+    import Panel_Listkeluaran from './listkeluaran.svelte'
 
     export let path_api = "";
     export let font_size = "";
@@ -35,12 +36,14 @@
     let isModal_Form_admin = false
     let isModal_Form_pasaran = false
     let isModal_Form_confpasaran = false
+    let isModal_Form_formlistransaksi = false
     let isModalLoading = false
     let isModalNotif = false
     let modal_width = "max-w-xl"
     let modal_listadmin_width = "max-w-xl"
     let modal_listpasaran_width = "max-w-xl"
     let modal_confpasaran_width = "max-w-xl"
+    let modal_listransaksi_width = "max-w-xl"
     let modalpasaran_width = "max-w-xl"
     let loader_class = "hidden"
     let loader_msg = "Sending..."
@@ -53,6 +56,7 @@
     let home_update_field = "";
     let idcompany = "";
     let listAdmin = [];
+    let listMasterPasaran = [];
     let listPasaran = [];
     let listPasaranonline = [];
     let totalrecordadmin = 0;
@@ -481,6 +485,46 @@
                 msg_error = "Silahkan Hubungi Administrator"
             }
         }
+    }
+    const DetailData = (e) => {
+        isModal_Form_formlistransaksi = true;
+        modal_listransaksi_width = "max-w-7xl"
+        idcompany = e;
+        initPasaran(e)
+    };
+    async function initPasaran(e) {
+        listMasterPasaran = []
+        const res = await fetch(path_api+"api/companylistpasaran", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                company: e,
+                master: master,
+                page: "COMPANY_HOME",
+                sdata: "New",
+            }),
+        });
+        const json = await res.json();
+        let record = json.record;
+        if (json.status == 200) {
+            record = json.record;
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+                    listMasterPasaran = [
+                        ...listMasterPasaran,
+                        {
+                            company_idcomppasaran: record[i]["company_pasaran_idcomppasaran"],
+                            company_nmpasarantogel: record[i]["company_pasaran_nmpasarantogel"],
+                        },
+                    ];
+                }
+            } else {
+                alert("Error");
+            }
+        } 
     }
     async function call_listadmin() {
         listAdmin = [];
@@ -1881,7 +1925,7 @@
         <table class="table table-compact w-full ">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center" colspan="2"></th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">STATUS</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-center">START</th>
@@ -1903,6 +1947,13 @@
                             }} class="text-center text-xs cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </td>
+                        <td on:click={() => {
+                            DetailData(rec.home_idcompany);
+                            }} class="text-center text-xs cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </td>
                         <td class="{font_size} align-top text-center">{rec.home_no}</td>
@@ -2139,11 +2190,11 @@
                             <table class="table table-compact w-full">
                                 <thead class="sticky top-0">
                                     <tr>
-                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top">&nbsp;</th>
-                                        <th width="1%" class="bg-[#6c7ae0] text-white text-xs text-center align-top" colspan="2">STATUS</th>
-                                        <th width="*" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PASARAN</th>
-                                        <th width="10%" class="bg-[#6c7ae0] text-white text-xs text-left align-top">PERIODE</th>
-                                        <th width="20%" class="bg-[#6c7ae0] text-white text-xs text-right align-top">WINLOSE</th>
+                                        <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top">&nbsp;</th>
+                                        <th width="1%" class="bg-[#475289] {font_size} text-white text-center align-top" colspan="2">STATUS</th>
+                                        <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">PASARAN</th>
+                                        <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">PERIODE</th>
+                                        <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">WINLOSE</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2157,15 +2208,15 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>
                                                 </td>
-                                                <td class="text-xs text-center align-top">
+                                                <td class="{font_size} text-center align-top">
                                                     <span class="{rec.company_pasaran_statuscss} text-center rounded-md p-1 px-2 ">{rec.company_pasaran_status}</span>
                                                 </td>
-                                                <td class="text-xs text-center align-top">
+                                                <td class="{font_size} text-center align-top">
                                                     <span class="{rec.company_pasaran_statuspasaranactivecss} text-center rounded-md p-1 px-2 ">{rec.company_pasaran_statuspasaranactive}</span>
                                                 </td>
-                                                <td class="text-xs text-left align-top">{rec.company_pasaran_nmpasarantogel}</td>
-                                                <td class="text-xs text-left align-top">{rec.company_pasaran_periode}</td>
-                                                <td class="text-xs text-right align-top {rec.company_pasaran_csswinlose} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_winlose)}</td>
+                                                <td class="{font_size} text-left align-top">{rec.company_pasaran_nmpasarantogel}</td>
+                                                <td class="{font_size} text-left align-top">{rec.company_pasaran_periode}</td>
+                                                <td class="{font_size} text-right align-top {rec.company_pasaran_csswinlose} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_winlose)}</td>
                                             </tr>
                                         {/each}
                                     {:else}
@@ -2996,6 +3047,26 @@
         {/if}
     </slot:template>
 </Modal_popup>
+
+<input type="checkbox" id="my-modal-formlistransaksi" class="modal-toggle" bind:checked={isModal_Form_formlistransaksi}>
+<Modal_popup
+    modal_popup_id="my-modal-formlistransaksi"
+    modal_popup_title="List Transaction"
+    modal_popup_class="select-none w-11/12 {modal_listransaksi_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    <slot:template slot="modalpopup_body">
+        <div class="p-2">
+            <Panel_Listkeluaran
+                {path_api}
+                {font_size}
+                {token}
+                {idcompany}
+                {companypasaran_id}
+                {listMasterPasaran}
+            />
+        </div>
+    </slot:template>
+</Modal_popup>
+
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
 <Modal_alert 
