@@ -1874,6 +1874,12 @@
             loader_class = "hidden";
         }, 1000);
     };
+    const LoadingRunningFinish2 = (e) => {
+        loader_msg =e.detail.temp_msg
+        setTimeout(function () {
+            loader_class = "hidden";
+        }, 1000);
+    };
     const call_notif = (e) => {
         msg_error = e.detail.temp_msg
         isModalNotif = true;
@@ -3052,10 +3058,13 @@
 <Modal_popup
     modal_popup_id="my-modal-formlistransaksi"
     modal_popup_title="List Transaction"
-    modal_popup_class="select-none w-11/12 {modal_listransaksi_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
+    modal_popup_class=" w-11/12 {modal_listransaksi_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
     <slot:template slot="modalpopup_body">
         <div class="p-2">
             <Panel_Listkeluaran
+                on:handleLoadingRunning={LoadingRunning}
+                on:handleLoadingRunningFinish={LoadingRunningFinish2}
+                on:handleCallNotif={call_notif} 
                 {path_api}
                 {font_size}
                 {token}
