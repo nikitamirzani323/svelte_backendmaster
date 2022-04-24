@@ -52,6 +52,7 @@
         }
     }
     async function initTimezone() {
+        // const res = await fetch("http://ip-api.com/json/");
         const res = await fetch(path_api+"api/healthz");
         if (!res.ok) {
             const message = `An error has occured: ${res.status}`;

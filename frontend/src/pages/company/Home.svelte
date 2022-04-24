@@ -351,7 +351,9 @@
     let panel_macaukombinasi = false
     let panel_dasar = false
     let panel_shio = false
-
+    let listPeriode = [];
+    let select_periode = "";
+    let select_pasaran = "";
     let dispatch = createEventDispatcher();
     const schema = yup.object().shape({
         home_id_field: yup
@@ -487,6 +489,9 @@
         }
     }
     const DetailData = (e) => {
+        listPeriode = [];
+        select_periode = "";
+        select_pasaran = "";
         isModal_Form_formlistransaksi = true;
         modal_listransaksi_width = "max-w-7xl"
         idcompany = e;
@@ -3069,7 +3074,7 @@
                 {font_size}
                 {token}
                 {idcompany}
-                {companypasaran_id}
+                {listPeriode}
                 {listMasterPasaran}
             />
         </div>

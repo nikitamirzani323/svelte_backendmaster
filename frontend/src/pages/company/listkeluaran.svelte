@@ -1,23 +1,23 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import Button_custom from '../../components/button_custom.svelte'
-    import Modal_alert from '../../components/Modal_alert.svelte' 
     import Modal_popup from '../../components/Modal_popup.svelte'
 
     export let path_api = "";
     export let font_size = "";
     export let token = "";
     export let idcompany = "";
+    export let select_periode = "";
+    export let select_pasaran = "";
     export let listMasterPasaran = [];
-    let listPeriode = [];
+    export let listPeriode = [];
+    
     let listInvoiceMember = [];
     let listInvoiceMembertemp = [];
     let listInvoicelistbet = [];
     let listInvoiceGroupPermainan = [];
     let isModal_info_invoice = false
     let modal_infoinvoice_width = "max-w-xl"
-    let select_periode = "";
-    let select_pasaran = "";
     let totalrecord = 0;
     let totalwinlose = 0;
     let totalwinlose_css = "";
@@ -41,6 +41,14 @@
     let searchlistbet = "";
     let filterlistbet = [];
     let invoice_no = ""
+    let tab_member = "bg-sky-600 text-white"
+    let tab_allbet = ""
+    let tab_winner = ""
+    let tab_cancel = ""
+    let panel_member = true
+    let panel_allbet = false
+    let panel_winner = false
+    let panel_cancel = false
     let dispatch = createEventDispatcher();
     async function generate() {
         listPeriode = [];
@@ -373,6 +381,7 @@
                             bet_username: record[i]["bet_username"],
                             bet_typegame: record[i]["bet_typegame"],
                             bet_nomortogel: record[i]["bet_nomortogel"],
+                            bet_posisitogel: record[i]["bet_posisitogel"],
                             bet_bet: record[i]["bet_bet"],
                             bet_diskon: record[i]["bet_diskon"],
                             bet_diskonpercen: record[i]["bet_diskonpercen"],
@@ -458,6 +467,7 @@
                             bet_username: record[i]["bet_username"],
                             bet_typegame: record[i]["bet_typegame"],
                             bet_nomortogel: record[i]["bet_nomortogel"],
+                            bet_posisitogel: record[i]["bet_posisitogel"],
                             bet_bet: record[i]["bet_bet"],
                             bet_diskon: record[i]["bet_diskon"],
                             bet_diskonpercen: record[i]["bet_diskonpercen"],
@@ -478,20 +488,21 @@
         invoice_no = e;
         isModal_info_invoice = true;
         modal_infoinvoice_width = "max-w-7xl"
+        tab_member = "bg-sky-600 text-white"
+        tab_allbet = ""
+        tab_winner = ""
+        tab_cancel = ""
+        panel_member = true
+        panel_allbet = false
+        panel_winner = false
+        panel_cancel = false
         invoice_member(e)
         invoice_membertemp(e)
     };
     const handleSelectPermainan = (event) => {
         invoice_listbet(event.target.value)
     };
-    let tab_member = "bg-sky-600 text-white"
-    let tab_allbet = ""
-    let tab_winner = ""
-    let tab_cancel = ""
-    let panel_member = true
-    let panel_allbet = false
-    let panel_winner = false
-    let panel_cancel = false
+    
     const ChangeTabMenu_Invoice = (e) => {
         switch(e){
             case "menu_member":
@@ -846,6 +857,7 @@
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">IPADDRESS</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">DEVICE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">PERMAINAN</th>
+                                <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">TIPE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">NOMOR</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">BET</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">DISC</th>
@@ -867,12 +879,13 @@
                                 <td class="text-[11px] align-top text-left">{rec.bet_ipaddress}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_device}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_typegame}</td>
+                                <td class="text-[11px] align-top text-left">{rec.bet_posisitogel}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_nomortogel}</td>
                                 <td class="text-[11px] align-top text-right">{rec.bet_bet}</td>
                                 <td class="text-[11px] align-top text-right text-red-500">{rec.bet_diskon}&nbsp;({rec.bet_diskonpercen}%)</td>
                                 <td class="text-[11px] align-top text-right text-blue-700">{rec.bet_kei}&nbsp;({rec.bet_keipercen}%)</td>
                                 <td class="text-[11px] align-top text-right text-blue-700">{new Intl.NumberFormat().format(rec.bet_bayar)}</td>
-                                <td class="text-[11px] align-top text-right text-blue-700">{new Intl.NumberFormat().format(rec.bet_win)}</td>
+                                <td class="text-[11px] align-top text-right ">x{new Intl.NumberFormat().format(rec.bet_win)}</td>
                                 <td class="text-[11px] align-top text-right text-blue-700">{new Intl.NumberFormat().format(rec.bet_totalwin)}</td>
                             </tr>
                             {/each}
@@ -899,6 +912,7 @@
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">IPADDRESS</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">DEVICE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">PERMAINAN</th>
+                                <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">TIPE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">NOMOR</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">BET</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">DISC</th>
@@ -920,6 +934,7 @@
                                 <td class="text-[11px] align-top text-left">{rec.bet_ipaddress}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_device}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_typegame}</td>
+                                <td class="text-[11px] align-top text-left">{rec.bet_posisitogel}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_nomortogel}</td>
                                 <td class="text-[11px] align-top text-right">{rec.bet_bet}</td>
                                 <td class="text-[11px] align-top text-right text-red-500">{rec.bet_diskon}&nbsp;({rec.bet_diskonpercen}%)</td>
@@ -952,6 +967,7 @@
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">IPADDRESS</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">DEVICE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">PERMAINAN</th>
+                                <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">TIPE</th>
                                 <th width="7%" class="bg-[#475289] text-[11px] text-white text-left">NOMOR</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">BET</th>
                                 <th width="10%" class="bg-[#475289] text-[11px] text-white text-right">DISC</th>
@@ -974,6 +990,7 @@
                                 <td class="text-[11px] align-top text-left">{rec.bet_device}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_typegame}</td>
                                 <td class="text-[11px] align-top text-left">{rec.bet_nomortogel}</td>
+                                <td class="text-[11px] align-top text-left">{rec.bet_posisitogel}</td>
                                 <td class="text-[11px] align-top text-right">{rec.bet_bet}</td>
                                 <td class="text-[11px] align-top text-right text-red-500">{rec.bet_diskon}&nbsp;({rec.bet_diskonpercen}%)</td>
                                 <td class="text-[11px] align-top text-right text-blue-700">{rec.bet_kei}&nbsp;({rec.bet_keipercen}%)</td>

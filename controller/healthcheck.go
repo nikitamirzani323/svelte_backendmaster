@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -9,6 +11,7 @@ func HealthCheck(c *fiber.Ctx) error {
 	realip := "0.0.0.0"
 
 	if c.IPs() != nil {
+		log.Println(c.IPs())
 		realip = c.IPs()[0]
 	}
 
