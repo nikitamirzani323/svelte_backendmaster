@@ -45,6 +45,7 @@
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal p-0">
             <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" href="/">DASHBOARD</a></li>
+            <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" use:link href="/invoice">INVOICE</a></li>
             <li tabindex="0">
               <a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">
                 COMPANY
