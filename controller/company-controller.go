@@ -230,6 +230,7 @@ func Companylistkeluaran(c *fiber.Ctx) error {
 		Page    string `json:"page" `
 		Company string `json:"company"`
 		Periode string `json:"periode"`
+		Year    string `json:"year"`
 		Pasaran int    `json:"pasaran"`
 	}
 	hostname := c.Hostname()
@@ -257,6 +258,7 @@ func Companylistkeluaran(c *fiber.Ctx) error {
 			"page":            client.Page,
 			"company":         client.Company,
 			"periode":         client.Periode,
+			"year":            client.Year,
 			"pasaran":         client.Pasaran,
 		}).
 		Post(PATH + "api/companylistkeluaran")
@@ -289,6 +291,9 @@ func Companyinvoicemember(c *fiber.Ctx) error {
 		Company  string `json:"company"`
 		Username string `json:"username" `
 		Invoice  int    `json:"invoice" `
+		Month    string `json:"month" `
+		Year     string `json:"year"`
+		Pasaran  string `json:"pasaran" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -316,12 +321,24 @@ func Companyinvoicemember(c *fiber.Ctx) error {
 			"company":         client.Company,
 			"username":        client.Username,
 			"invoice":         client.Invoice,
+			"month":           client.Month,
+			"year":            client.Year,
+			"pasaran":         client.Pasaran,
 		}).
 		Post(PATH + "api/companyinvoicemember")
 	if err != nil {
 		log.Println(err.Error())
 	}
 	result := resp.Result().(*responsedefault_listinvoice)
+	log.Println("Response Info:")
+	log.Println("  Error      :", err)
+	log.Println("  Status Code:", resp.StatusCode())
+	log.Println("  Status     :", resp.Status())
+	log.Println("  Proto      :", resp.Proto())
+	log.Println("  Time       :", resp.Time())
+	log.Println("  Received At:", resp.ReceivedAt())
+	log.Println("  Body       :\n", resp)
+	log.Println()
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
 			"status":       result.Status,
@@ -346,6 +363,9 @@ func Companyinvoicemembertemp(c *fiber.Ctx) error {
 		Company  string `json:"company"`
 		Username string `json:"username" `
 		Invoice  int    `json:"invoice" `
+		Month    string `json:"month" `
+		Year     string `json:"year" `
+		Pasaran  string `json:"pasaran" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -373,11 +393,23 @@ func Companyinvoicemembertemp(c *fiber.Ctx) error {
 			"company":         client.Company,
 			"username":        client.Username,
 			"invoice":         client.Invoice,
+			"month":           client.Month,
+			"year":            client.Year,
+			"pasaran":         client.Pasaran,
 		}).
 		Post(PATH + "api/companyinvoicemembertemp")
 	if err != nil {
 		log.Println(err.Error())
 	}
+	log.Println("Response Info:")
+	log.Println("  Error      :", err)
+	log.Println("  Status Code:", resp.StatusCode())
+	log.Println("  Status     :", resp.Status())
+	log.Println("  Proto      :", resp.Proto())
+	log.Println("  Time       :", resp.Time())
+	log.Println("  Received At:", resp.ReceivedAt())
+	log.Println("  Body       :\n", resp)
+	log.Println()
 	result := resp.Result().(*responsedefault_listinvoice)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -403,6 +435,9 @@ func Companyinvoicemembersync(c *fiber.Ctx) error {
 		Company  string `json:"company"`
 		Username string `json:"username" `
 		Invoice  int    `json:"invoice" `
+		Month    string `json:"month" `
+		Year     string `json:"year" `
+		Pasaran  string `json:"pasaran" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -430,6 +465,9 @@ func Companyinvoicemembersync(c *fiber.Ctx) error {
 			"company":         client.Company,
 			"username":        client.Username,
 			"invoice":         client.Invoice,
+			"month":           client.Month,
+			"year":            client.Year,
+			"pasaran":         client.Pasaran,
 		}).
 		Post(PATH + "api/companyinvoicemembersync")
 	if err != nil {

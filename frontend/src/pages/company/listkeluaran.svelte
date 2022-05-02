@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import dayjs from "dayjs";
     import Button_custom from '../../components/button_custom.svelte'
     import Modal_popup from '../../components/Modal_popup.svelte'
 
@@ -7,11 +8,11 @@
     export let font_size = "";
     export let token = "";
     export let idcompany = "";
-    export let select_periode = "";
-    export let select_pasaran = "";
     export let listMasterPasaran = [];
     export let listPeriode = [];
-    
+    let select_periode = "";
+    let select_year = "";
+    let select_pasaran = "";
     let listInvoiceMember = [];
     let listInvoiceMembertemp = [];
     let listInvoicelistbet = [];
@@ -61,6 +62,10 @@
             flag = true;
             msg_error += "The Pilih Periode is required<br>";
         }
+        if (select_year == "") {
+            flag = true;
+            msg_error += "The Year Periode is required<br>";
+        }
         if (select_pasaran == "") {
             flag = true;
             msg_error += "The Pilih Pasaran is required<br>";
@@ -76,7 +81,8 @@
                 body: JSON.stringify({
                     page: "COMPANY_HOME",
                     company: idcompany,
-                    periode: select_periode,
+                    periode: select_periode.toString(),
+                    year: select_year.toString(),
                     pasaran: parseInt(select_pasaran),
                 }),
             });
@@ -102,6 +108,7 @@
                     totalrecord = record.length;
                     for (var i = 0; i < record.length; i++) {
                         let selisih = parseInt(record[i]["company_pasaran_winlose"]) - parseInt(record[i]["company_pasaran_winlosetemp"])
+                        // let selisih = -25
                         if(record[i]["company_pasaran_status"] == "DONE"){
                             periode_status_class = "bg-[#ebfbee] text-[#6ec07b]"
                         }else{
@@ -199,58 +206,79 @@
         subtotal_cancel = 0;
         subtotal_win = 0;
         subtotal_winlose = 0;
-        const res = await fetch(path_api+"api/companyinvoicemember", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify({
-                company: idcompany,
-                invoice: parseInt(e),
-            }),
-        });
-        const json = await res.json();
-        if (json.status == 200) {
-            let record = json.record;
-            if (record != null) {
-                let css_totalwin = "";
-               
-                for (var i = 0; i < record.length; i++) {
-                    if (parseInt(record[i]["totalwin"]) > 0) {
-                        css_totalwin = "text-blue-700";
-                    } else {
-                        css_totalwin = "text-red-500";
+        let flag = true;
+        if(select_periode == ""){
+            msg_error = "The Field Periode is required";
+            flag = false;
+        }
+        if(select_year == ""){
+            msg_error = "The Field Year is required";
+            flag = false;
+        }
+        if(flag){
+            const res = await fetch(path_api+"api/companyinvoicemember", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    company: idcompany,
+                    invoice: parseInt(e),
+                    month:select_periode.toString(),
+                    year:select_year.toString(),
+                    pasaran:select_pasaran.toString(),
+                }),
+            });
+            const json = await res.json();
+            if (json.status == 200) {
+                let record = json.record;
+                if (record != null) {
+                    let css_totalwin = "";
+                
+                    for (var i = 0; i < record.length; i++) {
+                        if (parseInt(record[i]["totalwin"]) > 0) {
+                            css_totalwin = "text-blue-700";
+                        } else {
+                            css_totalwin = "text-red-500";
+                        }
+                        subtotal_bet = subtotal_bet + parseInt(record[i]["totalbet"])
+                        subtotal_bayar = subtotal_bayar + parseInt(record[i]["totalbayar"])
+                        subtotal_cancel = subtotal_cancel + parseInt(record[i]["totalcancelbet"])
+                        subtotal_win = subtotal_win + parseInt(record[i]["totalwin"])
+                        if(subtotal_win > 0){
+                            subtotal_win_css = "text-red-500";
+                        }else{
+                            subtotal_win_css = "text-blue-700";
+                        }
+                        listInvoiceMember = [
+                            ...listInvoiceMember,
+                            {
+                                member: record[i]["member"],
+                                totalbet: record[i]["totalbet"],
+                                totalbayar: record[i]["totalbayar"],
+                                totalcancelbet: record[i]["totalcancelbet"],
+                                totalwin: record[i]["totalwin"],
+                                totalwin_css: css_totalwin,
+                            },
+                        ];
                     }
-                    subtotal_bet = subtotal_bet + parseInt(record[i]["totalbet"])
-                    subtotal_bayar = subtotal_bayar + parseInt(record[i]["totalbayar"])
-                    subtotal_cancel = subtotal_cancel + parseInt(record[i]["totalcancelbet"])
-                    subtotal_win = subtotal_win + parseInt(record[i]["totalwin"])
-                    if(subtotal_win > 0){
-                        subtotal_win_css = "text-red-500";
+                    subtotal_winlose = parseInt(subtotal_bayar) - parseInt(subtotal_cancel) - parseInt(subtotal_win)
+                    if(subtotal_winlose > 0){
+                        subtotal_winlose_css = "text-blue-700";
                     }else{
-                        subtotal_win_css = "text-blue-700";
+                        subtotal_winlose_css = "text-red-500";
                     }
-                    listInvoiceMember = [
-                        ...listInvoiceMember,
-                        {
-                            member: record[i]["member"],
-                            totalbet: record[i]["totalbet"],
-                            totalbayar: record[i]["totalbayar"],
-                            totalcancelbet: record[i]["totalcancelbet"],
-                            totalwin: record[i]["totalwin"],
-                            totalwin_css: css_totalwin,
-                        },
-                    ];
                 }
-                subtotal_winlose = parseInt(subtotal_bayar) - parseInt(subtotal_cancel) - parseInt(subtotal_win)
-                if(subtotal_winlose > 0){
-                    subtotal_winlose_css = "text-blue-700";
-                }else{
-                    subtotal_winlose_css = "text-red-500";
-                }
+            } 
+        }else{
+            if(msg_error != ""){
+                let temp_msg = msg_error
+                dispatch("handleCallNotif", {
+                        temp_msg
+                });
             }
-        } 
+        }
     }
     async function invoice_membertemp(e) {
         listInvoiceMembertemp = []
@@ -268,6 +296,9 @@
             body: JSON.stringify({
                 company: idcompany,
                 invoice: parseInt(e),
+                month:select_periode.toString(),
+                year:select_year.toString(),
+                pasaran:select_pasaran.toString(),
             }),
         });
         const json = await res.json();
@@ -327,6 +358,9 @@
             body: JSON.stringify({
                 company: idcompany,
                 invoice: parseInt(invoice_no),
+                month:select_periode.toString(),
+                year: select_year.toString(),
+                pasaran:select_pasaran.toString(),
             }),
         });
         const json = await res.json();
@@ -342,6 +376,60 @@
             });
             invoice_membertemp(invoice_no)
         }
+    }
+    async function invoice_membersync_home(e) {
+        let flag = false;
+        msg_error = "";
+        if (select_periode == "") {
+            flag = true;
+            msg_error += "The Pilih Periode is required<br>";
+        }
+        if (select_year == "") {
+            flag = true;
+            msg_error += "The Year Periode is required<br>";
+        }
+        if (select_pasaran == "") {
+            flag = true;
+            msg_error += "The Pilih Pasaran is required<br>";
+        }
+        if(!flag){
+            dispatch("handleLoadingRunning", "call");
+            const res = await fetch(path_api+"api/companyinvoicemembersync", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    company: idcompany,
+                    invoice: parseInt(e),
+                    month:select_periode.toString(),
+                    year: select_year.toString(),
+                    pasaran:select_pasaran.toString(),
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                let temp_msg = "System Mengalami Trouble"
+                dispatch("handleLoadingRunningFinish", {
+                        temp_msg
+                });
+            }else{
+                let temp_msg = json.message
+                dispatch("handleLoadingRunningFinish", {
+                    temp_msg
+                });
+                generate()
+            }
+        }else{
+            if(msg_error != ""){
+                let temp_msg = msg_error
+                dispatch("handleCallNotif", {
+                        temp_msg
+                });
+            }
+        }
+        
     }
     async function invoice_listbet(e) {
         listInvoicelistbet = [];
@@ -572,6 +660,10 @@
             filterlistbet = [...listInvoicelistbet];
         }
     }
+    let year_now = dayjs().format("YYYY")
+    let year_now_1 = parseInt(year_now) - 1
+    console.log(year_now)
+    console.log(year_now_1)
 </script>
 <div class="flex flex-col w-full">
     <div class="flex justify-center items-center w-full gap-2">
@@ -592,6 +684,15 @@
                 <option value="10">OCTOBER</option>
                 <option value="11">NOVEMBER</option>
                 <option value="12">DECEMBER</option>
+            </select>
+        </div>
+        <div class="w-full">
+            <select
+                bind:value="{select_year}" 
+                class="select select-bordered w-full rounded-sm focus:ring-0 focus:outline-none">
+                <option disabled selected value="">--Pilih Year--</option>
+                <option value="{year_now}">{year_now}</option>
+                <option value="{year_now_1}">{year_now_1}</option>
             </select>
         </div>
         <div class="w-full">
@@ -620,18 +721,19 @@
         <table class="table table-compact w-full ">
             <thead class="sticky top-0">
                 <tr>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">&nbsp;</th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">STATUS</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-center">DATE</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-center">DATE</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-left">INVOICE</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
                     <th width="*" class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-left">KELUARAN</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">REVISI</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">MEMBER</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-right">REVISI</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-right">MEMBER</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-right">BET</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-right">BAYAR</th>
-                    <th width="10%" class="bg-[#475289] {font_size} text-white text-right">CANCEL</th>
+                    <th width="5%" class="bg-[#475289] {font_size} text-white text-right">CANCEL</th>
                     <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
                     <th width="20%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE TEMP</th>
                     <th width="20%" class="bg-[#475289] {font_size} text-white text-right">SELISIH</th>
@@ -641,6 +743,17 @@
                     <tbody>
                         {#each listPeriode as rec}
                         <tr>
+                            <td 
+                                title="Sinkronisasi" class="{font_size} align-top text-center cursor-pointer">
+                               
+                                {#if rec.company_pasaran_selisih != 0}
+                                <svg on:click={() => {
+                                    invoice_membersync_home(rec.company_pasaran_invoice);
+                                    }} xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                               {/if}
+                            </td>
                             <td class="{font_size} align-top text-center">{rec.no}</td>
                             <td class="{font_size} align-top text-center">
                                 <span class="{rec.company_pasaran_status_css} text-center rounded-md p-1 px-2 ">{rec.company_pasaran_status}</span>
