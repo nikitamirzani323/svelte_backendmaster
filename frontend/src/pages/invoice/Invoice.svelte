@@ -49,6 +49,7 @@
             let no = 0
             let status_class = "";
             let winlose_class = "";
+            let totalpasaran_class = "";
             if (record != null) {
                 for (var i = 0; i < record.length; i++) {
                     no = no + 1;
@@ -62,6 +63,11 @@
                     } else {
                         winlose_class = "text-red-700"
                     }
+                    if (record[i]["invoice_totalpasaran"] > 0) {
+                        totalpasaran_class = "text-blue-700"
+                    } else {
+                        totalpasaran_class = "text-red-700"
+                    }
                     listHome = [
                         ...listHome,
                         {
@@ -72,6 +78,8 @@
                             home_name: record[i]["invoice_name"],
                             home_winlose: record[i]["invoice_winlose"],
                             home_winloseclass: winlose_class,
+                            home_totalpasaran: record[i]["invoice_totalpasaran"],
+                            home_totalpasaranclass: totalpasaran_class,
                             home_status: record[i]["invoice_status"],
                             home_statusclass: status_class,
                         },

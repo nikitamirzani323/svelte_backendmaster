@@ -1,7 +1,5 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { createForm } from "svelte-forms-lib";
-    import * as yup from "yup";
     import Button_custom from '../../components/button_custom.svelte'
     import Input_custom from '../../components/Input.svelte' 
     import Modal_alert from '../../components/Modal_alert.svelte' 
@@ -19,6 +17,7 @@
     let page = "Invoice";
     let sData = "New";
     let isModal_Form_New = false
+    let isModal_Show_Pasaran = false
     let isModalLoading = false
     let isModalNotif = false
     let loader_class = "hidden"
@@ -26,60 +25,29 @@
     let buttonLoading_flag = false;
     let buttonLoading_class = "btn-block";
     let msg_error = "";
+    let select_periode = "";
     let searchHome = "";
     let filterHome = [];
-    let idrecord = "";
-    let domain_tipe_field = "";
-    let domain_status_field = "";
+    let idinvoice = "";
+    let listinvoicedetail = [];
+    let data_company = "";
+    let data_periode = "";
+    let total_winlose = 0;
+    let total_winlose_class = "";
     let dispatch = createEventDispatcher();
-    const schema = yup.object().shape({
-        domain_name_field: yup
-            .string()
-            .required("Domain is Required")
-            .min(4, "Domain must be at least 4 Character")
-            .max(250, "Domain must be at most 20 Character"),
-    });
-    const { form, errors, handleChange, handleSubmit } = createForm({
-        initialValues: {
-            domain_name_field: "",
-        },
-        validationSchema: schema,
-        onSubmit: (values) => {
-            SaveTransaksi(values.domain_name_field);
-        },
-    });
-    async function SaveTransaksi(domain) {
+   
+    async function SaveTransaksi() {
         let flag = true;
         msg_error = "";
-        
-        if(sData == "New"){
-            if(domain_tipe_field == ""){
-                flag = false
-                msg_error += "The Tipe is required<br>"
-            }
-            if(domain_status_field == ""){
-                flag = false
-                msg_error += "The Status is required<br>"
-            }
-        }else{
-            if(idrecord == ""){
-                flag = false
-                msg_error += "The ID is required<br>"
-            }
-            if(domain_tipe_field == ""){
-                flag = false
-                msg_error += "The Tipe is required<br>"
-            }
-            if(domain_status_field == ""){
-                flag = false
-                msg_error += "The Status is required<br>"
-            }
+        if (select_periode == "") {
+            flag = false
+            msg_error += "The Periode is required<br>"
         }
         if (flag) {
             buttonLoading_flag = true;
             loader_class = "inline-block"
             loader_msg = "Sending..."
-            const res = await fetch(path_api+"api/savedomain", {
+            const res = await fetch(path_api+"api/saveinvoice", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,12 +55,9 @@
                 },
                 body: JSON.stringify({
                     sdata: sData,
+                    tipe: "",
                     master: master,
-                    page:"DOMAIN-SAVE",
-                    domain_id: parseInt(idrecord),
-                    domain_name: $form.domain_name_field,
-                    domain_tipe: domain_tipe_field,
-                    domain_status: domain_status_field,
+                    periode: select_periode,
                 }),
             });
             const json = await res.json();
@@ -104,9 +69,6 @@
             }else{
                 if (json.status == 200) {
                     loader_msg = json.message
-                    if(sData == "New"){
-                        clearField();
-                    }
                 } else if (json.status == 403) {
                     loader_msg = json.message
                 } else {
@@ -125,20 +87,155 @@
         }
     }
    
-    async function EditData(id,name,tipe,status) {
-        msg_error = "";
-        if(id != ""){
-            sData = "Edit";
-            clearField();
-            
-            idrecord = parseInt(id)
-            $form.domain_name_field = name;
-            domain_tipe_field = tipe;
-            domain_status_field = status;
-            isModal_Form_New = true;
+   
+    async function UpdateWinlose(e) {
+        buttonLoading_flag = true;
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+        const res = await fetch(path_api+"api/saveinvoicewinlose", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                tipe: "UPDATE-WINLOSE",
+                invoice: e,
+                master: master,
+            }),
+        });
+        const json = await res.json();
+        if(!res.ok){
+            loader_msg = "System Mengalami Trouble"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
         }else{
-            isModalNotif = true;
-            msg_error = "Silahkan Hubungi Administrator"
+            if (json.status == 200) {
+                loader_msg = json.message
+            } else if (json.status == 403) {
+                loader_msg = json.message
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading_flag = false;
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            RefreshHalaman();
+        }
+    }
+    async function UpdateStatus(e) {
+        buttonLoading_flag = true;
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+        const res = await fetch(path_api+"api/saveinvoicewinlose", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                tipe: "UPDATE-STATUS",
+                invoice: e,
+                master: master,
+            }),
+        });
+        const json = await res.json();
+        if(!res.ok){
+            loader_msg = "System Mengalami Trouble"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+        }else{
+            if (json.status == 200) {
+                loader_msg = json.message
+            } else if (json.status == 403) {
+                loader_msg = json.message
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading_flag = false;
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            RefreshHalaman();
+        }
+    }
+    async function UpdateFetchPasaran() {
+        buttonLoading_flag = true;
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+        const res = await fetch(path_api+"api/saveinvoicewinlosepasaran", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                tipe: "UPDATE-STATUS",
+                invoice: idinvoice,
+                master: master,
+            }),
+        });
+        const json = await res.json();
+        if(!res.ok){
+            loader_msg = "System Mengalami Trouble"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+        }else{
+            if (json.status == 200) {
+                loader_msg = json.message
+            } else if (json.status == 403) {
+                loader_msg = json.message
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading_flag = false;
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            call_invoicedetail(idinvoice);
+            RefreshHalaman();
+        }
+    }
+    async function DeleteFetchPasaran() {
+        buttonLoading_flag = true;
+        loader_class = "inline-block"
+        loader_msg = "Sending..."
+        const res = await fetch(path_api+"api/deleteinvoicewinlosepasaran", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                tipe: "UPDATE-STATUS",
+                invoice: idinvoice,
+                master: master,
+            }),
+        });
+        const json = await res.json();
+        if(!res.ok){
+            loader_msg = "System Mengalami Trouble"
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+        }else{
+            if (json.status == 200) {
+                loader_msg = json.message
+            } else if (json.status == 403) {
+                loader_msg = json.message
+            } else {
+                loader_msg = json.message;
+            }
+            buttonLoading_flag = false;
+            setTimeout(function () {
+                loader_class = "hidden";
+            }, 1000);
+            call_invoicedetail(idinvoice);
+            RefreshHalaman();
         }
     }
     const RefreshHalaman = () => {
@@ -146,19 +243,71 @@
     };
     const NewData = () => {
         sData = "New";
-        clearField()
         isModal_Form_New = true;
     };
-    function clearField(){
-        $form.domain_name_field = "";
-        $errors.domain_name_field = "";
+    const ShowPasaran = (e,f,d) => {
+        isModal_Show_Pasaran = true;
+        idinvoice = e
+        data_company = d
+        data_periode = f
+        call_invoicedetail(e)
+        
+    };
+    async function call_invoicedetail(e) {
+        listinvoicedetail = [];
+        total_winlose = 0;
+        const res = await fetch(path_api+"api/invoicedetail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                master: master,
+                invoice: e,
+            }),
+        });
+        const json = await res.json();
+        if (json.status == 200) {
+            let record = json.record;
+            let winlose_class = "";
+            if (record != null) {
+                for (var i = 0; i < record.length; i++) {
+                    total_winlose = total_winlose + record[i]["invoicedetail_winlose"]
+                    if (record[i]["invoicedetail_winlose"] > 0) {
+                        winlose_class = "text-blue-700"
+                    } else {
+                        winlose_class = "text-red-700"
+                    }
+                    if (total_winlose > 0) {
+                        total_winlose_class = "text-blue-700"
+                    } else {
+                        total_winlose_class = "text-red-700"
+                    }
+                    listinvoicedetail = [
+                        ...listinvoicedetail,
+                        {
+                            invoicedetail_id: record[i]["invoicedetail_id"],
+                            invoicedetail_pasaran: record[i]["invoicedetail_pasaran"],
+                            invoicedetail_winlose: record[i]["invoicedetail_winlose"],
+                            invoicedetail_create: record[i]["invoicedetail_create"],
+                            invoicedetail_update: record[i]["invoicedetail_update"],
+                            invoicedetail_winloseclass: winlose_class,
+                        },
+                    ];
+                }
+            }
+        }
     }
     
     $: {
         if (searchHome) {
             filterHome = listHome.filter(
                 (item) =>
-                    item.home_nama
+                    item.home_company
+                        .toLowerCase()
+                        .includes(searchHome.toLowerCase()) || 
+                    item.home_name
                         .toLowerCase()
                         .includes(searchHome.toLowerCase())
             );
@@ -184,18 +333,20 @@
         </div>
         <input 
             bind:value={searchHome}
-            type="text" placeholder="Search by Domain" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
+            type="text" placeholder="Search by Company, Periode" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
     </slot:template>
     <slot:template slot="panel_body">
         <table class="table table-compact w-full">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center" colspan="2"></th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center" colspan="3"></th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
                     <th width="1%" class="bg-[#475289] {font_size} text-white text-center">STATUS</th>
                     <th width="10%" class="bg-[#475289] {font_size} text-white text-center">CREATED</th>
+                    <th width="10%" class="bg-[#475289] {font_size} text-white text-left">INVOICE</th>
                     <th width="*" class="bg-[#475289] {font_size} text-white text-left">COMPANY</th>
                     <th width="20%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
+                    <th width="15%" class="bg-[#475289] {font_size} text-white text-right">TOTAL PASARAN</th>
                     <th width="15%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
                 </tr>
             </thead>
@@ -204,33 +355,49 @@
                     {#each filterHome as rec}
                     <tr>
                         <td 
-                            title="Update winlose"
-                            on:click={() => {
-                            EditData(rec.home_id,rec.home_nama,rec.home_tipe ,rec.home_status);
-                            }} class="text-center text-xs cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                              </svg>
+                            title="Update Status"
+                            class="text-center text-xs cursor-pointer">
+                            {#if rec.home_status == "PROGRESS"}
+                                <svg on:click={() => {
+                                    UpdateStatus(rec.home_id);
+                                    }} xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            {/if}
                         </td>
                         <td 
-                            title="Update Status"
-                            on:click={() => {
-                            EditData(rec.home_id,rec.home_nama,rec.home_tipe ,rec.home_status);
-                            }} class="text-center text-xs cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
+                            title="Update winlose"
+                            class="text-center text-xs cursor-pointer">
+                            {#if rec.home_status == "PROGRESS"}
+                                <svg 
+                                    on:click={() => {
+                                        UpdateWinlose(rec.home_id);
+                                    }} xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            {/if}
+                        </td>
+                        <td 
+                            title="Show List Pasaran"
+                            class="text-center text-xs cursor-pointer">
+                            {#if rec.home_status == "PROGRESS"}
+                                <svg on:click={() => {
+                                        ShowPasaran(rec.home_id,rec.home_name,rec.home_company);
+                                    }}  xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            {/if}
                         </td>
                         <td class="{font_size} align-top text-center">{rec.home_no}</td>
                         <td class="{font_size} align-top text-center">
                             <span class="{rec.home_statusclass} text-center rounded-md p-1 px-2 ">{rec.home_status}</span>
                         </td>
                         <td class="{font_size} align-top text-center">{rec.home_create}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_id}</td>
                         <td class="{font_size} align-top text-left">{rec.home_company}</td>
                         <td class="{font_size} align-top text-left">{rec.home_name}</td>
-                        <td class="{font_size} align-top text-right {rec.home_winloseclass}">
-                            {new Intl.NumberFormat().format(rec.home_winlose)}
-                        </td>
+                        <td class="{font_size} align-top text-right {rec.home_totalpasaranclass}">{new Intl.NumberFormat().format(rec.home_totalpasaran)}</td>
+                        <td class="{font_size} align-top text-right {rec.home_winloseclass}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
                     </tr>
                     {/each}
                 </tbody>
@@ -255,43 +422,28 @@
     modal_popup_class="select-none max-w-full lg:max-w-xl overflow-hidden">
     <slot:template slot="modalpopup_body">
             <div class="flex flex-auto flex-col overflow-auto gap-5 mt-2 ">
-                <div class="relative form-control mt-2">
-                    <Input_custom
-                        input_onchange="{handleChange}"
-                        input_autofocus={false}
-                        input_required={true}
-                        input_tipe="text"
-                        input_invalid={$errors.domain_name_field.length > 0}
-                        bind:value={$form.domain_name_field}
-                        input_id="domain_name_field"
-                        input_placeholder="Domain"/>
-                    {#if $errors.domain_name_field}
-                        <small class="text-pink-600 text-[11px]">{$errors.domain_name_field}</small>
-                    {/if}
-                </div>
-                <div class="relative form-control">
-                    <select 
-                        class="select select-bordered w-full rounded-sm" 
-                        bind:value="{domain_tipe_field}">
-                        <option disabled selected value="">--Pilih Tipe--</option>
-                        <option value="FRONTEND">FRONTEND</option>
-                        <option value="AGEN">AGEN</option>
-                    </select>
-                </div>
-                <div class="relative form-control">
-                    <select 
-                        class="select select-bordered w-full rounded-sm" 
-                        bind:value="{domain_status_field}">
-                        <option disabled selected value="">--Pilih Status--</option>
-                        <option value="RUNNING">RUNNING</option>
-                        <option value="BANNED">BANNED</option>
-                    </select>
-                </div>
+                <select
+                    bind:value="{select_periode}" 
+                    class="select select-bordered w-full rounded-sm focus:ring-0 focus:outline-none">
+                    <option disabled selected value="">--Pilih Periode--</option>
+                    <option value="01">JANUARY</option>
+                    <option value="02">FEBUARY</option>
+                    <option value="03">MARET</option>
+                    <option value="04">APRIL</option>
+                    <option value="05">MAY</option>
+                    <option value="06">JUNE</option>
+                    <option value="07">JULY</option>
+                    <option value="08">AUGUSTUS</option>
+                    <option value="09">SEPTEMBER</option>
+                    <option value="10">OCTOBER</option>
+                    <option value="11">NOVEMBER</option>
+                    <option value="12">DECEMBER</option>
+                </select>
             </div>
             <div class="flex flex-wrap justify-end align-middle mt-2">
                 <Button_custom 
                     on:click={() => {
-                        handleSubmit();
+                        SaveTransaksi();
                     }}
                     button_disable={buttonLoading_flag}
                     button_class="btn-block mt-2"
@@ -301,6 +453,78 @@
     </slot:template>
 </Modal_popup>
 
+<input type="checkbox" id="my-modal-showpasaran" class="modal-toggle" bind:checked={isModal_Show_Pasaran}>
+<Modal_popup
+    modal_popup_id="my-modal-showpasaran"
+    modal_popup_title="{data_company} / {data_periode}"
+    modal_popup_class="select-none max-w-full lg:max-w-xl overflow-hidden">
+    <slot:template slot="modalpopup_body">
+        <div class="flex flex-col w-full mt-2">
+            <div class="w-full  scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100 h-[450px] overflow-y-scroll mt-2">
+                <table class="table table-compact w-full">
+                    <thead class="sticky top-0">
+                        <tr>
+                            <th class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
+                            <th class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
+                        </tr>
+                    </thead>
+                    {#if listinvoicedetail != ""}
+                    <tbody>
+                        {#each listinvoicedetail as rec}
+                        <tr>
+                            <td class="{font_size} align-top text-left">{rec.invoicedetail_pasaran}</td>
+                            <td class="{font_size} align-top text-right {rec.invoicedetail_winloseclass}">
+                                {new Intl.NumberFormat().format(rec.invoicedetail_winlose)}
+                            </td>
+                        </tr>
+                        {/each}
+                    </tbody>
+                {:else}
+                    <tbody>
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                <progress class="self-start progress progress-primary w-56"></progress>
+                            </td>
+                        </tr>
+                    </tbody>
+                {/if}
+                </table>
+            </div>
+            <div class="bg-[#eef4fb] rounded-sm h-10 p-2">
+                <table class="w-full">
+                    <tr>
+                        <td class="text-xs text-left">TOTAL WINLOSE</td>
+                        <td class="text-xs text-right {total_winlose_class}">{new Intl.NumberFormat().format(total_winlose)}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-center gap-2 w-full">
+                <div class="w-full">
+                    <Button_custom 
+                        on:click={() => {
+                            UpdateFetchPasaran();
+                        }}
+                        button_style="btn-warning"
+                        button_disable={buttonLoading_flag}
+                        button_class="btn-block mt-2"
+                        button_disable_class="{buttonLoading_class}"
+                        button_title="Fetch" />
+                </div>
+                <div class="w-full">
+                    <Button_custom 
+                        on:click={() => {
+                            DeleteFetchPasaran();
+                        }}
+                        button_disable={buttonLoading_flag}
+                        button_class="btn-block mt-2"
+                        button_disable_class="{buttonLoading_class}"
+                        button_title="Delete" />
+                </div>
+                
+            </div>
+        </div>
+    </slot:template>
+</Modal_popup>
 
 
 <input type="checkbox" id="my-modal-notif" class="modal-toggle" bind:checked={isModalNotif}>
