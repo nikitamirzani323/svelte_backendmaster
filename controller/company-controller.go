@@ -853,15 +853,7 @@ func Companypasaranonline(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	log.Println("Response Info:")
-	log.Println("  Error      :", err)
-	log.Println("  Status Code:", resp.StatusCode())
-	log.Println("  Status     :", resp.Status())
-	log.Println("  Proto      :", resp.Proto())
-	log.Println("  Time       :", resp.Time())
-	log.Println("  Received At:", resp.ReceivedAt())
-	log.Println("  Body       :\n", resp)
-	log.Println()
+
 	result := resp.Result().(*responsedefault)
 	if result.Status == 200 {
 		return c.JSON(fiber.Map{
@@ -1119,6 +1111,73 @@ func Companysaveupdatepasaran(c *fiber.Ctx) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
+	result := resp.Result().(*responsedefault)
+
+	if result.Status == 200 {
+		return c.JSON(fiber.Map{
+			"status":  result.Status,
+			"message": result.Message,
+			"record":  result.Record,
+			"time":    time.Since(render_page).String(),
+		})
+	} else {
+		result_error := resp.Error().(*responseerror)
+		return c.JSON(fiber.Map{
+			"status":  result_error.Status,
+			"message": result_error.Message,
+			"time":    time.Since(render_page).String(),
+		})
+	}
+}
+func Companysaveupdatepasaranroyaltyfee(c *fiber.Ctx) error {
+	type payload_updatepasaranroyalty struct {
+		Sdata              string  `json:"sdata" `
+		Company            string  `json:"company" `
+		Master             string  `json:"master" `
+		Companypasaran_id  int     `json:"companypasaran_id" `
+		Pasaran_royaltyfee float32 `json:"pasaran_royaltyfee"`
+	}
+	hostname := c.Hostname()
+	bearToken := c.Get("Authorization")
+	token := strings.Split(bearToken, " ")
+	log.Println("Hostname: ", hostname)
+	client := new(payload_updatepasaranroyalty)
+	if err := c.BodyParser(client); err != nil {
+		c.Status(fiber.StatusBadRequest)
+		return c.JSON(fiber.Map{
+			"status":  fiber.StatusBadRequest,
+			"message": err.Error(),
+			"record":  nil,
+		})
+	}
+
+	render_page := time.Now()
+	axios := resty.New()
+	resp, err := axios.R().
+		SetResult(responsedefault{}).
+		SetAuthToken(token[1]).
+		SetError(responseerror{}).
+		SetHeader("Content-Type", "application/json").
+		SetBody(map[string]interface{}{
+			"client_hostname":   hostname,
+			"master":            client.Master,
+			"company":           client.Company,
+			"companypasaran_id": client.Companypasaran_id,
+			"royaltyfee":        client.Pasaran_royaltyfee,
+		}).
+		Post(PATH + "api/savecompanyupdatepasaranroyaltyfee")
+	if err != nil {
+		log.Println(err.Error())
+	}
+	log.Println("Response Info:")
+	log.Println("  Error      :", err)
+	log.Println("  Status Code:", resp.StatusCode())
+	log.Println("  Status     :", resp.Status())
+	log.Println("  Proto      :", resp.Proto())
+	log.Println("  Time       :", resp.Time())
+	log.Println("  Received At:", resp.ReceivedAt())
+	log.Println("  Body       :\n", resp)
+	log.Println()
 	result := resp.Result().(*responsedefault)
 
 	if result.Status == 200 {

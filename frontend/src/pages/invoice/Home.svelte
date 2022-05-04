@@ -34,6 +34,14 @@
     let data_periode = "";
     let total_winlose = 0;
     let total_winlose_class = "";
+    let profitpasaran = 0;
+    let profitpasaran_agen = 0;
+    let totalprofitpasaran_all = 0;
+    let totalprofitpasaran_agen_all = 0;
+    let profitpasaran_class = "";
+    let profitpasaran_agen_class = "";
+    let totalprofitpasaran_all_class = "";
+    let totalprofitpasaran_agen_all_class = "";
     let dispatch = createEventDispatcher();
    
     async function SaveTransaksi() {
@@ -271,6 +279,14 @@
         if (json.status == 200) {
             let record = json.record;
             let winlose_class = "";
+            profitpasaran = 0;
+            profitpasaran_agen = 0;
+            totalprofitpasaran_all = 0;
+            totalprofitpasaran_agen_all = 0;
+            profitpasaran_class = "";
+            profitpasaran_agen_class = "";
+            totalprofitpasaran_all_class = "";
+            totalprofitpasaran_agen_all_class = "";
             if (record != null) {
                 for (var i = 0; i < record.length; i++) {
                     total_winlose = total_winlose + record[i]["invoicedetail_winlose"]
@@ -284,17 +300,48 @@
                     } else {
                         total_winlose_class = "text-red-700"
                     }
+                    let profitpasaran_temp = record[i]["invoicedetail_royaltyfee"] * record[i]["invoicedetail_winlose"]
+                    
+                    profitpasaran = profitpasaran_temp;
+                    profitpasaran_agen = record[i]["invoicedetail_winlose"] - profitpasaran_temp;
+                    totalprofitpasaran_all = totalprofitpasaran_all + profitpasaran
+                    totalprofitpasaran_agen_all = totalprofitpasaran_agen_all + profitpasaran_agen
+
+                    if (profitpasaran > 0) {
+                        profitpasaran_class = "text-blue-700"
+                    } else {
+                        profitpasaran_class = "text-red-700"
+                    }
+                    if (profitpasaran_agen > 0) {
+                        profitpasaran_agen_class = "text-blue-700"
+                    } else {
+                        profitpasaran_agen_class = "text-red-700"
+                    }
                     listinvoicedetail = [
                         ...listinvoicedetail,
                         {
                             invoicedetail_id: record[i]["invoicedetail_id"],
                             invoicedetail_pasaran: record[i]["invoicedetail_pasaran"],
                             invoicedetail_winlose: record[i]["invoicedetail_winlose"],
+                            invoicedetail_royaltyfee: (record[i]["invoicedetail_royaltyfee"]*100),
+                            invoicedetail_profitcompany: profitpasaran,
+                            invoicedetail_profitcompany_class: profitpasaran_class,
+                            invoicedetail_profitagen: profitpasaran_agen,
+                            invoicedetail_profitagen_class: profitpasaran_agen_class,
                             invoicedetail_create: record[i]["invoicedetail_create"],
                             invoicedetail_update: record[i]["invoicedetail_update"],
                             invoicedetail_winloseclass: winlose_class,
                         },
                     ];
+                }
+                totalprofitpasaran_agen_all_class = "text-red-600 font-semibold"
+                totalprofitpasaran_all_class = "text-red-600 font-semibold"
+                
+                if(totalprofitpasaran_all > 0){
+                    totalprofitpasaran_all_class = "text-blue-700 font-semibold"
+                }
+                if(totalprofitpasaran_agen_all > 0){
+                    totalprofitpasaran_agen_all_class = "text-blue-700 font-semibold"
                 }
             }
         }
@@ -466,6 +513,9 @@
                         <tr>
                             <th class="bg-[#475289] {font_size} text-white text-left">PASARAN</th>
                             <th class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
+                            <th class="bg-[#475289] {font_size} text-white text-right">FEE(%)</th>
+                            <th class="bg-[#475289] {font_size} text-white text-right">COMPANY</th>
+                            <th class="bg-[#475289] {font_size} text-white text-right">AGEN</th>
                         </tr>
                     </thead>
                     {#if listinvoicedetail != ""}
@@ -473,9 +523,11 @@
                         {#each listinvoicedetail as rec}
                         <tr>
                             <td class="{font_size} align-top text-left">{rec.invoicedetail_pasaran}</td>
-                            <td class="{font_size} align-top text-right {rec.invoicedetail_winloseclass}">
-                                {new Intl.NumberFormat().format(rec.invoicedetail_winlose)}
-                            </td>
+                            <td class="{font_size} align-top text-right {rec.invoicedetail_winloseclass}">{new Intl.NumberFormat().format(rec.invoicedetail_winlose)}</td>
+                            <td class="{font_size} align-top text-right {rec.invoicedetail_winloseclass}">{rec.invoicedetail_royaltyfee}</td>
+                            <td class="{font_size} align-top text-right {rec.invoicedetail_profitcompany_class}">{new Intl.NumberFormat().format(rec.invoicedetail_profitcompany)}</td>
+                            <td class="{font_size} align-top text-right {rec.invoicedetail_profitagen_class}">{new Intl.NumberFormat().format(rec.invoicedetail_profitagen)}</td>
+                            
                         </tr>
                         {/each}
                     </tbody>
@@ -490,11 +542,19 @@
                 {/if}
                 </table>
             </div>
-            <div class="bg-[#eef4fb] rounded-sm h-10 p-2">
+            <div class="bg-[#eef4fb] rounded-sm h-16 p-2">
                 <table class="w-full">
                     <tr>
                         <td class="text-xs text-left">TOTAL WINLOSE</td>
                         <td class="text-xs text-right {total_winlose_class}">{new Intl.NumberFormat().format(total_winlose)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-xs text-left">TOTAL PROFIT COMPANY</td>
+                        <td class="text-xs text-right {totalprofitpasaran_all_class}">{new Intl.NumberFormat().format(totalprofitpasaran_all)}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-xs text-left">TOTAL PROFIT AGEN</td>
+                        <td class="text-xs text-right {totalprofitpasaran_agen_all_class}">{new Intl.NumberFormat().format(totalprofitpasaran_agen_all)}</td>
                     </tr>
                 </table>
             </div>

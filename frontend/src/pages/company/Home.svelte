@@ -61,7 +61,11 @@
     let listPasaranonline = [];
     let totalrecordadmin = 0;
     let totalpasaran = 0;
+    let totalprofitpasaran_all = 0;
+    let totalprofitpasaran_agen_all = 0;
     let totalpasaran_class = "";
+    let totalprofitpasaran_all_class = "";
+    let totalprofitpasaran_agen_all_class = "";
     let tab_listadmin = "bg-sky-600 text-white"
     let tab_listpasaran = ""
     let panel_listadmin = true
@@ -75,6 +79,11 @@
     let panel_listpasaran_online = false
     let panel_listpasaran_configure = false
     let panel_listpasaran_listkeluaran = false
+
+    let tab_menudetail = "bg-sky-600 text-white"
+    let tab_menuroyaltyfee = ""
+    let panel_menudetail = true
+    let panel_menuroyaltyfee = false
 
     let searchHome = "";
     let searchListAdmin = "";
@@ -102,6 +111,7 @@
     let pasaran_jamopen_field = "";
     let pasaran_status_field = "";
     let select_pasaranonline = "";
+    let pasaran_royalyfee_field = 0;
 
     let pasaran_limitline4d_field = 0;
     let pasaran_limitline3d_field = 0;
@@ -597,10 +607,16 @@
             if (record != null) {
                 totalrecordadmin = record.length;
                 totalpasaran = 0;
+                totalprofitpasaran_all = 0;
+                totalprofitpasaran_agen_all = 0;
                 for (var i = 0; i < record.length; i++) {
                     let selisihwinlose_class = ""
                     let status_class = ""
                     let statusactive_class = ""
+                    let profitpasaran = 0;
+                    let profitpasaran_class = "";
+                    let profitpasaran_agen = 0;
+                    let profitpasaran_agen_class = "";
                     if (record[i]["company_pasaran_winlose"] > 0) {
                         selisihwinlose_class = "text-blue-700";
                     } else {
@@ -616,7 +632,24 @@
                     }else{
                         statusactive_class = "bg-[#fde3e3] text-[#ea7779]"
                     }
+                    let profitpasaran_temp = record[i]["company_pasaran_royaltyfee"] * record[i]["company_pasaran_winlose"]
+                    
+                    profitpasaran = profitpasaran_temp;
+                    profitpasaran_agen = record[i]["company_pasaran_winlose"] - profitpasaran_temp;
+                    totalprofitpasaran_all = totalprofitpasaran_all + profitpasaran
+                    totalprofitpasaran_agen_all = totalprofitpasaran_agen_all + profitpasaran_agen
                     totalpasaran = totalpasaran + parseInt(record[i]["company_pasaran_winlose"])
+
+                    if (profitpasaran > 0) {
+                        profitpasaran_class = "text-blue-700";
+                    } else {
+                        profitpasaran_class = "text-red-500";
+                    }
+                    if (profitpasaran_agen > 0) {
+                        profitpasaran_agen_class = "text-blue-700";
+                    } else {
+                        profitpasaran_agen_class = "text-red-500";
+                    }
                     listPasaran = [
                         ...listPasaran,
                         {
@@ -624,7 +657,12 @@
                             company_pasaran_idpasarantogel:record[i]["company_pasaran_idpasarantogel"],
                             company_pasaran_nmpasarantogel:record[i]["company_pasaran_nmpasarantogel"],
                             company_pasaran_periode:record[i]["company_pasaran_periode"],
+                            company_pasaran_royaltyfee:(record[i]["company_pasaran_royaltyfee"]*100),
                             company_pasaran_winlose:record[i]["company_pasaran_winlose"],
+                            company_pasaran_profit:profitpasaran,
+                            company_pasaran_profit_class:profitpasaran_class,
+                            company_pasaran_profitagen:profitpasaran_agen,
+                            company_pasaran_profitagen_class:profitpasaran_agen_class,
                             company_pasaran_csswinlose:selisihwinlose_class,
                             company_pasaran_displaypasaran:record[i]["company_pasaran_displaypasaran"],
                             company_pasaran_status:record[i]["company_pasaran_status"],
@@ -635,8 +673,15 @@
                     ];
                 }
                 totalpasaran_class = "text-red-600 font-semibold"
+                totalprofitpasaran_all_class = "text-red-600 font-semibold"
                 if(totalpasaran > 0){
                     totalpasaran_class = "text-blue-700 font-semibold"
+                }
+                if(totalprofitpasaran_all > 0){
+                    totalprofitpasaran_all_class = "text-blue-700 font-semibold"
+                }
+                if(totalprofitpasaran_agen_all > 0){
+                    totalprofitpasaran_agen_all_class = "text-blue-700 font-semibold"
                 }
             }
         }
@@ -673,6 +718,7 @@
                     pasaran_jamopen_field = dayjs(jamopen).format("HH:mm");
                     pasaran_status_field = record[i]["pasaran_statusactive"];
                     pasaran_bbfs_field = record[i]["bbfs"];
+                    pasaran_royalyfee_field = (record[i]["royaltyfee"] * 100)
                     pasaran_limitline4d_field = record[i]["limitline_4d"];
                     pasaran_limitline3d_field = record[i]["limitline_3d"];
                     pasaran_limitline3dd_field = record[i]["limitline_3dd"];
@@ -1164,6 +1210,55 @@
             }
         }
     }
+    async function saveupdatepasaran_royaltyfee() {
+        let flag = false;
+        msg_error = "";
+        
+        if (flag == false) {
+            buttonLoading_flag = true;
+            loader_class = "inline-block"
+            loader_msg = "Sending..."
+            const res = await fetch(path_api+"api/savecompanyupdatepasaranroyaltyfee", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    sdata: sData,
+                    master: master,
+                    company: idcompany,
+                    companypasaran_id: companypasaran_id,
+                    pasaran_royaltyfee: parseFloat(pasaran_royalyfee_field/100),
+                }),
+            });
+            const json = await res.json();
+            if(!res.ok){
+                loader_msg = "System Mengalami Trouble"
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+            }else{
+                if (json.status == 200) {
+                    loader_msg = json.message
+                } else if (json.status == 403) {
+                    loader_msg = json.message
+                } else {
+                    loader_msg = json.message;
+                }
+                setTimeout(function () {
+                    loader_class = "hidden";
+                }, 1000);
+                call_listpasaran()
+                call_listpasaranonline()
+            }
+            buttonLoading_flag = false;
+        } else {
+            if(msg_error != ""){
+                isModalNotif = true;
+            }
+        }
+    }
     async function saveupdatepasaranline() {
         let flag = false;
         msg_error = "";
@@ -1420,6 +1515,23 @@
                 panel_listpasaran_online = false
                 panel_listpasaran_configure = false
                 panel_listpasaran_listkeluaran = true
+                break;
+        }
+    }
+    
+    const ChangeTabMenuEdit = (e) => {
+        switch(e){
+            case "menu_detailinformasi":
+                tab_menudetail = "bg-sky-600 text-white"
+                tab_menuroyaltyfee = ""
+                panel_menudetail = true
+                panel_menuroyaltyfee = false
+                break;
+            case "menu_royaltyfee":
+                tab_menudetail = ""
+                tab_menuroyaltyfee = "bg-sky-600 text-white"
+                panel_menudetail = false
+                panel_menuroyaltyfee = true
                 break;
         }
     }
@@ -2206,6 +2318,9 @@
                                         <th width="*" class="bg-[#475289] {font_size} text-white text-left align-top">PASARAN</th>
                                         <th width="10%" class="bg-[#475289] {font_size} text-white text-left align-top">PERIODE</th>
                                         <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">WINLOSE</th>
+                                        <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">FEE(%)</th>
+                                        <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">PROFIT</th>
+                                        <th width="20%" class="bg-[#475289] {font_size} text-white text-right align-top">AGEN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2228,6 +2343,9 @@
                                                 <td class="{font_size} text-left align-top">{rec.company_pasaran_nmpasarantogel}</td>
                                                 <td class="{font_size} text-left align-top">{rec.company_pasaran_periode}</td>
                                                 <td class="{font_size} text-right align-top {rec.company_pasaran_csswinlose} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_winlose)}</td>
+                                                <td class="{font_size} text-right align-top {rec.company_pasaran_csswinlose} font-semibold">{rec.company_pasaran_royaltyfee}</td>
+                                                <td class="{font_size} text-right align-top {rec.company_pasaran_profit_class} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_profit)}</td>
+                                                <td class="{font_size} text-right align-top {rec.company_pasaran_profitagen_class} font-semibold">{new Intl.NumberFormat().format(rec.company_pasaran_profitagen)}</td>
                                             </tr>
                                         {/each}
                                     {:else}
@@ -2238,11 +2356,19 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="bg-[#F7F7F7] rounded-sm h-10 p-2">
+                        <div class="bg-[#F7F7F7] rounded-sm h-15 p-2">
                             <table class=" w-full">
                                 <tr>
                                     <td class="text-xs font-semibold text-left align-top">TOTAL WINLOSE</td>
                                     <td class="text-xs font-semibold text-right align-top {totalpasaran_class}">{new Intl.NumberFormat().format(totalpasaran)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL PROFIT AGEN</td>
+                                    <td class="text-xs font-semibold text-right align-top {totalprofitpasaran_agen_all_class}">{new Intl.NumberFormat().format(totalprofitpasaran_agen_all)}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-xs font-semibold text-left align-top">TOTAL PROFIT COMPANY</td>
+                                    <td class="text-xs font-semibold text-right align-top {totalprofitpasaran_all_class}">{new Intl.NumberFormat().format(totalprofitpasaran_all)}</td>
                                 </tr>
                             </table>
                         </div>
@@ -2332,69 +2458,106 @@
     modal_popup_class="select-none w-11/12 {modal_listpasaran_width} scrollbar-thin scrollbar-thumb-sky-300 scrollbar-track-sky-100">
     <slot:template slot="modalpopup_body">
         <div class="flex w-full gap-1 mt-2">
-            <div class="grid grid-cols-2 gap-2 w-4/5 ">
-                <Input_custom
-                    input_autofocus={false}
-                    input_required={true}
-                    input_enabled={true}
-                    input_tipe="text"
-                    input_maxlength_text="30"
-                    bind:value={pasaran_urlpasaran_field}
-                    input_id="pasaran_urlpasaran_field"
-                    input_placeholder="Situs"/>
-                <Input_custom
-                    input_autofocus={false}
-                    input_required={true}
-                    input_enabled={true}
-                    input_tipe="time"
-                    bind:value={pasaran_jamtutup_field}
-                    input_id="pasaran_jamtutup_field"
-                    input_placeholder="Tutup"/>
-                <Input_custom
-                    input_autofocus={false}
-                    input_required={true}
-                    input_enabled={true}
-                    input_tipe="text"
-                    input_maxlength_text="30"
-                    bind:value={pasaran_pasarandiundi_field}
-                    input_id="pasaran_pasarandiundi_field"
-                    input_placeholder="Diundi"/>
-                <Input_custom
-                    input_autofocus={false}
-                    input_required={true}
-                    input_enabled={true}
-                    input_tipe="time"
-                    bind:value={pasaran_jamjadwal_field}
-                    input_id="pasaran_jamjadwal_field"
-                    input_placeholder="Jadwal"/>
-                <div></div>
-                <Input_custom
-                    input_autofocus={false}
-                    input_required={true}
-                    input_enabled={true}
-                    input_tipe="time"
-                    bind:value={pasaran_jamopen_field}
-                    input_id="pasaran_jamopen_field"
-                    input_placeholder="Open"/>
-                <div></div>
-                <select
-                    bind:value={pasaran_status_field}
-                    class="select select-bordered w-full focus:ring-0 focus:outline-none rounded-md">
-                    <option disabled selected value="">--Pilih Status--</option>
-                    <option value="Y">ACTIVE</option>
-                    <option value="N">DEACTIVE</option>
-                </select>
-                <div class="col-span-2">
-                    <Button_custom 
-                        on:click={() => {
-                            saveupdatepasaran();
+            <div class="flex flex-col w-full gap-3">
+                <ul class="flex justify-center items-center gap-2 col-span-2">
+                    <li on:click={() => {
+                            ChangeTabMenuEdit("menu_detailinformasi");
                         }}
-                        button_disable={buttonLoading_flag}
-                        button_class="btn-block mt-2"
-                        button_disable_class="{buttonLoading_class}"
-                        button_title="Submit" />
+                        class="items-center {tab_menudetail} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Detail</li>
+                    <li on:click={() => {
+                            ChangeTabMenuEdit("menu_royaltyfee");
+                        }}
+                        class="items-center {tab_menuroyaltyfee} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Royalty Fee</li>
+                    
+                </ul>
+                {#if panel_menudetail}
+                    <div class="grid grid-cols-2 gap-2 w-full">
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_enabled={true}
+                            input_tipe="text"
+                            input_maxlength_text="30"
+                            bind:value={pasaran_urlpasaran_field}
+                            input_id="pasaran_urlpasaran_field"
+                            input_placeholder="Situs"/>
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_enabled={true}
+                            input_tipe="time"
+                            bind:value={pasaran_jamtutup_field}
+                            input_id="pasaran_jamtutup_field"
+                            input_placeholder="Tutup"/>
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_enabled={true}
+                            input_tipe="text"
+                            input_maxlength_text="30"
+                            bind:value={pasaran_pasarandiundi_field}
+                            input_id="pasaran_pasarandiundi_field"
+                            input_placeholder="Diundi"/>
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_enabled={true}
+                            input_tipe="time"
+                            bind:value={pasaran_jamjadwal_field}
+                            input_id="pasaran_jamjadwal_field"
+                            input_placeholder="Jadwal"/>
+                        <div></div>
+                        <Input_custom
+                            input_autofocus={false}
+                            input_required={true}
+                            input_enabled={true}
+                            input_tipe="time"
+                            bind:value={pasaran_jamopen_field}
+                            input_id="pasaran_jamopen_field"
+                            input_placeholder="Open"/>
+                        <div></div>
+                        <select
+                            bind:value={pasaran_status_field}
+                            class="select select-bordered w-full focus:ring-0 focus:outline-none rounded-md">
+                            <option disabled selected value="">--Pilih Status--</option>
+                            <option value="Y">ACTIVE</option>
+                            <option value="N">DEACTIVE</option>
+                        </select>
+                        <div class="col-span-2">
+                            <Button_custom 
+                                on:click={() => {
+                                    saveupdatepasaran();
+                                }}
+                                button_disable={buttonLoading_flag}
+                                button_class="btn-block mt-2"
+                                button_disable_class="{buttonLoading_class}"
+                                button_title="Submit" />
+                        </div>
+                    </div>
+                {/if}
+                {#if panel_menuroyaltyfee}
+                <div class="grid grid-cols-1 gap-2 w-full">
+                    <Input_custom
+                        input_enabled={true}
+                        input_tipe="number_nolabel"
+                        bind:value={pasaran_royalyfee_field}
+                        input_maxlenght="2"
+                        input_id="pasaran_royalyfee_field"
+                        input_placeholder="Royaly Fee (%)"/>
+                    <div class="w-full">
+                        <Button_custom 
+                            on:click={() => {
+                                saveupdatepasaran_royaltyfee();
+                            }}
+                            button_disable={buttonLoading_flag}
+                            button_class="btn-block mt-2"
+                            button_disable_class="{buttonLoading_class}"
+                            button_title="Submit" />
+                    </div>
                 </div>
+                {/if}
             </div>
+            
             <div class="w-full ">
                 <ul class="flex justify-center items-center gap-2">
                     <li on:click={() => {
@@ -2409,10 +2572,6 @@
                             ChangeTabMenuPasaran("menu_listpasaran_configure");
                         }}
                         class="items-center {tab_listpasaran_configure} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">Configure</li>
-                    <li on:click={() => {
-                            ChangeTabMenuPasaran("menu_listpasaran_keluaran");
-                        }}
-                        class="items-center {tab_listpasaran_listkeluaran} px-2 py-1.5 text-xs lg:text-sm cursor-pointer rounded-md outline outline-1 outline-offset-1 outline-sky-600">List Keluaran</li>
                 </ul>
                 {#if panel_listpasaran_limit}
                     <div class="grid grid-cols-3 gap-2 mt-3">
@@ -2634,54 +2793,7 @@
                             button_title="SHIO" />
                     </div>
                 {/if}
-                {#if panel_listpasaran_listkeluaran}
-                    <div class="form-control mt-3">
-                        <div class="input-group">
-                        <select bind:value={select_pasaranonline} class="select select-bordered w-[80%]">
-                            <option disabled selected value="">--Pilih Periode--</option>
-                            <option value="01">JANUARY</option>
-                            <option value="02">FEBUARY</option>
-                            <option value="03">MARET</option>
-                            <option value="04">APRIL</option>
-                            <option value="05">MAY</option>
-                            <option value="06">JUNE</option>
-                            <option value="07">JULY</option>
-                            <option value="08">AUGUSTUS</option>
-                            <option value="09">SEPTEMBER</option>
-                            <option value="10">OCTOBER</option>
-                            <option value="11">NOVEMBER</option>
-                            <option value="12">DECEMBER</option>
-                        </select>
-                        <button on:click={() => {
-                                savePasaranOnline();
-                            }} class="{buttonLoading2_class} btn-primary">Save</button>
-                        </div>
-                    </div>
-                    <table class="table table-compact w-full mt-2">
-                        <thead>
-                            <tr>
-                                <th width="1%"></th>
-                                <th width="*">HARI</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#each listPasaranonline as rec}
-                                <tr>
-                                    <td on:click={() => {
-                                        removeharionline(
-                                            rec.company_pasaranonline_id
-                                        );
-                                    }} class="cursor-pointer">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </td>
-                                    <td>{rec.company_pasaranonline_hari}</td>
-                                </tr>
-                            {/each}
-                        </tbody>
-                    </table>
-                {/if}
+                
             </div>
         </div>
     </slot:template>
