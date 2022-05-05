@@ -23,6 +23,10 @@ func Init() *fiber.App {
 	app.Get("api/healthz", controller.HealthCheck)
 	app.Post("/api/init", controller.Init)
 	app.Post("/api/login", controller.CheckLogin)
+	app.Post("/api/dashboardwinlose", controller.DashboardComp_winlose)
+	app.Post("/api/dashboardwinlosecompany", controller.DashboardComp_winlosecompany)
+	app.Post("/api/dashboardlistcompany", controller.DashboardComp_listcompany)
+
 	app.Post("/api/company", controller.Company)
 	app.Post("/api/companydetail", controller.Companydetail)
 	app.Post("/api/companylistadmin", controller.Companylistadmin)

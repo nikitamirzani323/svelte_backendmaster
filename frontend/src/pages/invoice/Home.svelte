@@ -32,6 +32,7 @@
     let listinvoicedetail = [];
     let data_company = "";
     let data_periode = "";
+    let data_status = "";
     let total_winlose = 0;
     let total_winlose_class = "";
     let profitpasaran = 0;
@@ -253,11 +254,13 @@
         sData = "New";
         isModal_Form_New = true;
     };
-    const ShowPasaran = (e,f,d) => {
+    const ShowPasaran = (e,f,d,x) => {
         isModal_Show_Pasaran = true;
         idinvoice = e
         data_company = d
         data_periode = f
+        data_status = x
+       
         call_invoicedetail(e)
         
     };
@@ -427,13 +430,11 @@
                         <td 
                             title="Show List Pasaran"
                             class="text-center text-xs cursor-pointer">
-                            {#if rec.home_status == "PROGRESS"}
-                                <svg on:click={() => {
-                                        ShowPasaran(rec.home_id,rec.home_name,rec.home_company);
-                                    }}  xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            {/if}
+                            <svg on:click={() => {
+                                ShowPasaran(rec.home_id,rec.home_name,rec.home_company,rec.home_status);
+                                }}  xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
                         </td>
                         <td class="{font_size} align-top text-center">{rec.home_no}</td>
                         <td class="{font_size} align-top text-center">
@@ -558,6 +559,7 @@
                     </tr>
                 </table>
             </div>
+            {#if data_status == "PROGRESS"}
             <div class="flex justify-center gap-2 w-full">
                 <div class="w-full">
                     <Button_custom 
@@ -580,8 +582,8 @@
                         button_disable_class="{buttonLoading_class}"
                         button_title="Delete" />
                 </div>
-                
             </div>
+            {/if}
         </div>
     </slot:template>
 </Modal_popup>

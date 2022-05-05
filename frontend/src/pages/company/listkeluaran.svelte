@@ -500,6 +500,9 @@
                 company: idcompany,
                 invoice: parseInt(invoice_no),
                 username: e,
+                month:select_periode.toString(),
+                year:select_year.toString(),
+                pasaran:select_pasaran.toString(),
             }),
         });
         const json = await res.json();

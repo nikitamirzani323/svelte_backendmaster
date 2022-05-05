@@ -498,6 +498,9 @@ func Companyinvoicegrouppermainan(c *fiber.Ctx) error {
 		Company  string `json:"company"`
 		Username string `json:"username" `
 		Invoice  int    `json:"invoice" `
+		Month    string `json:"month" `
+		Year     string `json:"year"`
+		Pasaran  string `json:"pasaran" `
 	}
 	hostname := c.Hostname()
 	bearToken := c.Get("Authorization")
@@ -525,6 +528,9 @@ func Companyinvoicegrouppermainan(c *fiber.Ctx) error {
 			"company":         client.Company,
 			"username":        client.Username,
 			"invoice":         client.Invoice,
+			"month":           client.Month,
+			"year":            client.Year,
+			"pasaran":         client.Pasaran,
 		}).
 		Post(PATH + "api/companyinvoicegrouppermainan")
 	if err != nil {
