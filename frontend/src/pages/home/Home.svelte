@@ -15,6 +15,7 @@
 	let winlose_year = dayjs().format("YYYY")
 	let winlose_year_1 = parseInt(winlose_year)-1;
 	let text_chart = "WINLOSE "+winlose_year;
+	let text_chart_company = "";
 	let select_year = winlose_year;
 	let select_company = "";
     async function initapp() {
@@ -178,7 +179,7 @@
 	const handleSelectCompany = (event) => {
 		// alert(event.target.value)
         winlosecompany("2022",event.target.value);
-		text_chart = "WINLOSE "+event.target.value;
+		text_chart_company = event.target.value;
     };
 	async function createChart() {
 		Highcharts.chart("container", {
@@ -318,7 +319,7 @@
 		<div class="bg-white shadow-lg p-5 w-1/2">
 			<div class="flex flex-col gap-2">
 				<div class="flex">
-					<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">PASARAN : {text_chart}</h1>
+					<h1 class="text-slate-600 font-bold text-sm lg:text-2xl uppercase w-full">PASARAN : {text_chart_company}</h1>
 					<div class="hidden sm:flex md:flex justify-end w-60">
 						<select
 							on:change={handleSelectCompany}
