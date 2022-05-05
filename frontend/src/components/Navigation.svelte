@@ -46,26 +46,18 @@
           <ul class="menu menu-horizontal p-0">
             <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" href="/">DASHBOARD</a></li>
             <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" use:link href="/invoice">INVOICE</a></li>
-            <li tabindex="0">
-              <a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">
-                COMPANY
-                <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-              </a>
-              <ul class="p-2 bg-white">
-                <li><a use:link href="/company" class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">COMPANY</a></li>
-              </ul>
-            </li>
+            <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" use:link href="/company">COMPANY</a></li>
             <li tabindex="0">
                 <a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">
                   MASTER
                   <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
                 </a>
                 <ul class="p-2 bg-white">
-                  <li><a use:link href="/pasaran"  class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">PASARAN</a></li>
-                  <li><a use:link href="/domain"  class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">DOMAIN</a></li>
-                  <li><a use:link href="/log"  class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">LOG MANAGEMENT</a></li>
-                  <li><a use:link href="/admin"  class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">ADMIN MANAGEMENT</a></li>
-                  <li><a use:link href="/adminrule"  class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">ADMIN RULE</a></li>
+                  <li><a use:link href="/pasaran"  class="text-xs hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">PASARAN</a></li>
+                  <li><a use:link href="/domain"  class="text-xs hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">DOMAIN</a></li>
+                  <li><a use:link href="/log"  class="text-xs hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">LOG MANAGEMENT</a></li>
+                  <li><a use:link href="/admin"  class="text-xs hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">ADMIN MANAGEMENT</a></li>
+                  <li><a use:link href="/adminrule"  class="text-xs hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]">ADMIN RULE</a></li>
                 </ul>
             </li>
             <li><a class="text-sm hover:bg-[#e6f7ff] focus:bg-[#e6f7ff]" use:link href="/setting">SETTING</a></li>

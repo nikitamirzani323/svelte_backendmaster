@@ -1,21 +1,23 @@
 <script>
     import Home from "../log/Home.svelte";
     export let path_api = ""
+    export let font_size = "";
     let listHome = [];
     let record = "";
     let totalrecord = 0;
-    let admin_username = "";
     let token = localStorage.getItem("token");
+    let master = localStorage.getItem("master")
     let akses_page = false;
     async function initapp() {
-        const res = await fetch(path_api+"api/home", {
+        const res = await fetch(path_api+"api/init", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                page: "ADMIN-VIEW",
+                master: master,
+                page: "LOG_HOME",
             }),
         });
         const json = await res.json();
@@ -37,6 +39,7 @@
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
+                master: master,
             }),
         });
         const json = await res.json();
@@ -55,6 +58,7 @@
                             home_no: no,
                             home_id: record[i]["log_id"],
                             home_datetime: record[i]["log_datetime"],
+                            home_company: record[i]["log_company"],
                             home_username: record[i]["log_username"],
                             home_page: record[i]["log_page"],
                             home_tipe: record[i]["log_tipe"],
@@ -88,6 +92,7 @@
         on:handleRefreshData={handleRefreshData}
         on:handleLogout={handleLogout}
         {path_api}
+        {font_size}
         {token}
         {listHome}
         {totalrecord}/>

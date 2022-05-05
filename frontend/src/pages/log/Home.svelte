@@ -5,6 +5,7 @@
     import Modal_alert from '../../components/Modal_alert.svelte' 
 
     export let path_api = "";
+    export let font_size = "";
     export let token = "";
     export let listHome = [];
     export let totalrecord = 0;
@@ -29,6 +30,9 @@
         if (searchHome) {
             filterHome = listHome.filter(
                 (item) =>
+                    item.home_company
+                        .toLowerCase()
+                        .includes(searchHome.toLowerCase()) ||
                     item.home_username
                         .toLowerCase()
                         .includes(searchHome.toLowerCase()) ||
@@ -57,38 +61,40 @@
             </div>
             <input 
                 bind:value={searchHome}
-                type="text" placeholder="Search by Username, Page" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
+                type="text" placeholder="Search by Company, Username, Page" class="input input-bordered w-full max-w-full rounded-md pl-8 pr-4 focus:ring-0 focus:outline-none">
         </div>
     </slot:template>
     <slot:template slot="panel_body">
         <table class="table table-compact w-full">
             <thead class="sticky top-0">
                 <tr>
-                    <th width="1%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">NO</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-center">DATETIME</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">USERNAME</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">PAGE</th>
-                    <th width="20%" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">ACTION</th>
-                    <th width="*" class="bg-[#6c7ae0] text-xs lg:text-sm text-white text-left">NOTE</th>
+                    <th width="1%" class="bg-[#475289] {font_size} text-white text-center">NO</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-center">DATETIME</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">COMPANY</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">USERNAME</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">PAGE</th>
+                    <th width="20%" class="bg-[#475289] {font_size} text-white text-left">ACTION</th>
+                    <th width="*" class="bg-[#475289] {font_size} text-white text-left">NOTE</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
                 <tbody>
                     {#each filterHome as rec}
                     <tr>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_no}</td>
-                        <td class="text-xs lg:text-sm align-top text-center">{rec.home_datetime}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_username}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_page}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{rec.home_tipe}</td>
-                        <td class="text-xs lg:text-sm align-top text-left">{@html rec.home_note}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_no}</td>
+                        <td class="{font_size} align-top text-center">{rec.home_datetime}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_company}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_username}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_page}</td>
+                        <td class="{font_size} align-top text-left">{rec.home_tipe}</td>
+                        <td class="{font_size} align-top text-left">{@html rec.home_note}</td>
                     </tr>
                     {/each}
                 </tbody>
             {:else}
                 <tbody>
                     <tr>
-                        <td colspan="6" class="text-center">
+                        <td colspan="7" class="text-center">
                             <progress class="self-start progress progress-primary w-56"></progress>
                         </td>
                     </tr>
