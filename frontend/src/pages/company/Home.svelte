@@ -51,6 +51,7 @@
     let buttonLoading_class = "btn-block";
     let buttonLoading2_class  = "btn btn-primary"
     let msg_error = "";
+    let home_fee_field = 0;
     let home_status_field = "";
     let home_create_field = "";
     let home_update_field = "";
@@ -422,6 +423,7 @@
                     company: idcomp,
                     name: namecomp,
                     urldomain: urlcomp,
+                    minfee: parseInt(home_fee_field),
                     status: "ACTIVE",
                 }),
             });
@@ -486,6 +488,7 @@
                 for (let i = 0; i < record.length; i++) {
                     $form.home_name_field = record[i]["company_name"];
                     $form.home_url_field = record[i]["company_url"];
+                    home_fee_field = record[i]["company_minfee"];
                     home_status_field = record[i]["company_status"];
                     home_create_field = record[i]["company_create"];
                     home_update_field = record[i]["company_update"];
@@ -2218,6 +2221,15 @@
                             {#if $errors.home_url_field}
                                 <small class="text-pink-600 text-[11px]">{$errors.home_url_field}</small>
                             {/if}
+                        </div>
+                        <div>
+                            <Input_custom
+                                input_enabled={true}
+                                input_tipe="number"
+                                input_maxlenght="12"
+                                bind:value={home_fee_field}
+                                input_id="home_fee_field"
+                                input_placeholder="Minimal Fee"/>
                         </div>
                         <p class="text-[11px]">
                             Create : {home_create_field}

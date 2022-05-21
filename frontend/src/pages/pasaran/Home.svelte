@@ -930,7 +930,7 @@
                 break;
             case "colok_naga":
                 modalpasaran_width = "max-w-3xl ";
-                permainan = "Colok Macau";
+                permainan = "Colok Naga";
                 isModal_Form_pasaran = true;
                 panel_432D = false;
                 panel_cbebas = false;

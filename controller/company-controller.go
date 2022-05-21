@@ -884,6 +884,7 @@ func Companysave(c *fiber.Ctx) error {
 		Master    string `json:"master"`
 		Name      string `json:"name"`
 		Urldomain string `json:"urldomain"`
+		Minfee    int    `json:"minfee"`
 		Status    string `json:"status"`
 	}
 	hostname := c.Hostname()
@@ -914,6 +915,7 @@ func Companysave(c *fiber.Ctx) error {
 			"sdata":           client.Sdata,
 			"name":            client.Name,
 			"urldomain":       client.Urldomain,
+			"minfee":          client.Minfee,
 			"status":          client.Status,
 		}).
 		Post(PATH + "api/savecompany")

@@ -398,6 +398,7 @@
                     <th width="20%" class="bg-[#475289] {font_size} text-white text-left">PERIODE</th>
                     <th width="15%" class="bg-[#475289] {font_size} text-white text-right">TOTAL PASARAN</th>
                     <th width="15%" class="bg-[#475289] {font_size} text-white text-right">WINLOSE</th>
+                    <th width="15%" class="bg-[#475289] {font_size} text-white text-right">COMPANY FEE</th>
                 </tr>
             </thead>
             {#if filterHome != ""}
@@ -446,13 +447,14 @@
                         <td class="{font_size} align-top text-left">{rec.home_name}</td>
                         <td class="{font_size} align-top text-right {rec.home_totalpasaranclass}">{new Intl.NumberFormat().format(rec.home_totalpasaran)}</td>
                         <td class="{font_size} align-top text-right {rec.home_winloseclass}">{new Intl.NumberFormat().format(rec.home_winlose)}</td>
+                        <td class="{font_size} align-top text-right {rec.home_pembayaranfee_class}">{new Intl.NumberFormat().format(rec.home_pembayaranfee)}</td>
                     </tr>
                     {/each}
                 </tbody>
             {:else}
                 <tbody>
                     <tr>
-                        <td colspan="10" class="text-center">
+                        <td colspan="15" class="text-center">
                             <progress class="self-start progress progress-primary w-56"></progress>
                         </td>
                     </tr>
